@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="文本分类，SVM," />
 
 
 
@@ -123,17 +123,22 @@
 
 
 
-<meta name="description" content="博主很懒，很垃圾，什么也没有留下博主很懒，很垃圾，什么也没有留下个人简介：哈尔滨工业大学 计算机科学与技术专业 邮箱：zg_hit2015@163.com —2017.1.15—">
-<meta property="og:type" content="website">
-<meta property="og:title" content="算云烟">
-<meta property="og:url" content="http://gzhang.org/about/index.html">
+<meta name="description" content="一、简介SVM 是 Cortes 和 Vapnik 于1995年首先提出的，它在解决小样本 、非线性及高维模式识别问题中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。支持向量机方法是建立在统计学习理论的 VC 维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性和学习能力之间寻求最佳">
+<meta name="keywords" content="文本分类，SVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记 -- 基于libsvm的中文文本分类">
+<meta property="og:url" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/index.html">
 <meta property="og:site_name" content="算云烟">
-<meta property="og:description" content="博主很懒，很垃圾，什么也没有留下博主很懒，很垃圾，什么也没有留下个人简介：哈尔滨工业大学 计算机科学与技术专业 邮箱：zg_hit2015@163.com —2017.1.15—">
+<meta property="og:description" content="一、简介SVM 是 Cortes 和 Vapnik 于1995年首先提出的，它在解决小样本 、非线性及高维模式识别问题中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。支持向量机方法是建立在统计学习理论的 VC 维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性和学习能力之间寻求最佳折衷，以期获得最好的泛化能力。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-02-25T10:40:24.000Z">
+<meta property="og:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/2.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/3.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/1.jpg">
+<meta property="og:updated_time" content="2017-12-02T11:02:21.762Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算云烟">
-<meta name="twitter:description" content="博主很懒，很垃圾，什么也没有留下博主很懒，很垃圾，什么也没有留下个人简介：哈尔滨工业大学 计算机科学与技术专业 邮箱：zg_hit2015@163.com —2017.1.15—">
+<meta name="twitter:title" content="机器学习笔记 -- 基于libsvm的中文文本分类">
+<meta name="twitter:description" content="一、简介SVM 是 Cortes 和 Vapnik 于1995年首先提出的，它在解决小样本 、非线性及高维模式识别问题中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。支持向量机方法是建立在统计学习理论的 VC 维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性和学习能力之间寻求最佳折衷，以期获得最好的泛化能力。">
+<meta name="twitter:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/2.jpg">
 
 
 
@@ -163,13 +168,13 @@
 
 
 
-  <link rel="canonical" href="http://gzhang.org/about/"/>
+  <link rel="canonical" href="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/"/>
 
 
 
 
 
-  <title> | 算云烟</title>
+  <title>机器学习笔记 -- 基于libsvm的中文文本分类 | 算云烟</title>
   
 
 
@@ -338,34 +343,294 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <html><br><head><meta charset="utf-8"><title>博主很懒，很垃圾，什么也没有留下</title></head><br><body><div id="wmd-preview" class="wmd-preview"><div class="md-section-divider"></div><div class="md-section-divider"></div><h1 data-anchor-id="nt0g" id="博主很懒很垃圾什么也没有留下">博主很懒，很垃圾，什么也没有留下</h1><p data-anchor-id="rf6s"></p><hr><p data-anchor-id="gqmm"><br>个人简介：哈尔滨工业大学 计算机科学与技术专业 <br><br>邮箱：zg_hit2015@163.com <br><br>—2017.1.15—</p></div><br></body><br></html>
-
+          <h1 class="post-title" itemprop="name headline">机器学习笔记 -- 基于libsvm的中文文本分类</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-02T14:40:54+08:00">
+                2017-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>SVM 是 Cortes 和 Vapnik 于1995年首先提出的，它在解决小样本 、非线性及高维模式识别问题中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。支持向量机方法是建立在统计学习理论的 VC 维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性和学习能力之间寻求最佳折衷，以期获得最好的泛化能力。<a id="more"></a></p>
+<p>libsvm 是台湾大学林智仁博士等开发设计的一个操作简单、易于使用、快速有效的通用 SVM 软件包，可以解决分类问题(C−SVC、ν−SVC)，回归问题(ε−SVR、v−SVR)以及分布估计(one−class-SVM)等问题，提供了线性、多项式、径向基和 S 形函数四种常用的核函数供选择，可以有效地解决多类问题、交叉验证选择参数、对不平衡样本加权、多类问题的概率估计等。libsvm 是一个开源的软件包，不仅提供了 libsvm 的 C++语言的算法源代码，还提供了 Python、Java、R、MATLAB、Perl、Ruby、LabVIEW以及 C#.net 等各种语言的接口，可以方便的在 Windows 或 UNIX 平台下使用，也便于科研工作者根据自己的需要进行改进。</p>
+<h2 id="二、预处理"><a href="#二、预处理" class="headerlink" title="二、预处理"></a>二、预处理</h2><h3 id="1-语料准备"><a href="#1-语料准备" class="headerlink" title="1.语料准备"></a>1.语料准备</h3><p>我是使用搜狗实验室的 <strong><a href="http://www.sogou.com/labs/resource/cs.php" target="_blank" rel="noopener">新闻数据</a></strong> 作为学习语料的，这份语料来自搜狐新闻2012年6月—7月期间国内、国际、体育、社会、娱乐等18个频道的新闻数据，提供URL和正文信息，适用于文本分类、事件检测跟踪、新词发现、命令实体识别等任务的学习。</p>
+<h3 id="2-分词处理"><a href="#2-分词处理" class="headerlink" title="2.分词处理"></a>2.分词处理</h3><p>分词相关的算法不少，这也是一个可以深入研究的课题，而分词结果的好坏也直接影响后续任务的效果。如果自己没有现成的模型，可以使用公开的分词工具，如 <strong><a href="https://github.com/fxsjy/jieba" target="_blank" rel="noopener">结巴分词</a></strong>，该工具提供了Python、Java、C++等多种安装方式，可自行选择。<strong><a href="https://github.com/fxsjy/jieba" target="_blank" rel="noopener">Github</a></strong> 上有详细的教程，我这里不再重复演示。</p>
+<h3 id="3-特征提取"><a href="#3-特征提取" class="headerlink" title="3.特征提取"></a>3.特征提取</h3><p>特征提取是整个文本分类中最关键的一步。虽然 SVM 在高维模式识别上具有优势，但对于文本分类的词库来说，有十几万的词量是很常见的，我们需要把 <strong>对类别区分度高的词</strong> 挑选出来，简单来说，如果一个词语在大多数类别的文章中都频繁出现，那么这个词语对于类别是没有区分度的，相反，如果一个词语仅在少数类别的文本中出现，那么这个词语就是有用的。</p>
+<p>特征选择的方式有很多，下面仅对<strong>卡方检验（chi）</strong>做简单介绍，卡方检验的核心思想就是 <strong>利用概率论中的χ²分布来衡量实际值与理论值的差异程度</strong>。举个例子，假设我们有一堆文本，需要判断文本包含某个词语（如吴亦凡）是否与该文本的类别（如娱乐)有关，我们通过简单统计可以得到下面的四格表：</p>
+<table>
+<thead>
+<tr>
+<th>组别</th>
+<th>属于娱乐</th>
+<th>不属于娱乐</th>
+<th>合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不包含吴亦凡</td>
+<td>19</td>
+<td>24</td>
+<td>43</td>
+</tr>
+<tr>
+<td>包含吴亦凡</td>
+<td>34</td>
+<td>10</td>
+<td>44</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>53</td>
+<td>34</td>
+<td>87</td>
+</tr>
+</tbody>
+</table>
+<p>观察这个表格，直观上我们可以得到这样一个信息：<strong>包含吴亦凡的文本属于娱乐类别的比例高于对立面</strong>。<br>下面我们首先假设 <strong>文本是否包含吴亦凡</strong> 与 <strong>文本是否属于娱乐类</strong> 是独立的，可以计算随机抽取一个文本，属于<strong>娱乐</strong>类别的概率是 $ （19 + 24） / （19 + 34 + 24 + 10） = 60.9 \% $。那么根据无关假设，我们可计算上述表格中各项数据的理论值，得到下面的四格表：</p>
+<table>
+<thead>
+<tr>
+<th>组别</th>
+<th>属于娱乐</th>
+<th>不属于娱乐</th>
+<th>合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不包含吴亦凡</td>
+<td>$43 * 0.609 = 26.2$</td>
+<td>$43 * 0.391 = 16.8$</td>
+<td>43</td>
+</tr>
+<tr>
+<td>包含吴亦凡</td>
+<td>$44 * 0.609 = 26.8$</td>
+<td>$44 * 0.391 = 17.2$</td>
+<td>44</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>53</td>
+<td>34</td>
+<td>87</td>
+</tr>
+</tbody>
+</table>
+<p>下面我们可以通过卡方检验来验证区别其差异有无统计学意义，检验的基本公式如下</p>
+<p><center> $ χ² = \sum\frac{(A - T)^2}{T} $ 或 $ χ² = \frac{(ad-bc)^2 n}{(a+b)(a+c)(b+d)(c+d)}$</center><br>其中A为四格表中的实际值，T为对应的理论值，a、b为第一行两个数据，c、d为第二行两个数据。通过计算我们可以得到上述表格的χ²值为10.01。得到χ²值之后，我们可以通过查询卡方分布的临界值表（见附录）判断该值是否合理。自由度计算公式 <strong> V =（行数 -1）* （列数-1）</strong>，显然上述四格表的自由度 V = 1。通过查表得到 P = 0.01 的临界值为 6.63，而10.01 &gt; 6.63，也就是说 <strong>文本是否包含吴亦凡</strong> 与 <strong>文本是否属于娱乐类</strong> 无关的可能性小于$1\% $，独立性假设不成立。 </p>
+<p>χ²分布的介绍就到这里，下面回到正题。对应到文本分类中，我们需要计算每个词的 a、b、c、d值：</p>
+<ul>
+<li>在这个分类下包含这个词的文档数量</li>
+<li>不在该分类下包含这个词的文档数量</li>
+<li>在这个分类下不包含这个词的文档数量</li>
+<li>不在该分类下且不包含这个词的文档数量</li>
+</ul>
+<p>计算之后，我们可以得到每个分类下每个词的卡方分布值，除去 <strong><a href="https://github.com/zg-diligence/Small_Python/blob/master/code_of_ML/SVM/stop_words.txt" target="_blank" rel="noopener">停用词</a></strong> (对于分类没有帮助的词语)，每个类别取前1000个词（可根据实际情况调整）作为该类别的特征词，然后合并所有类别的特征词，去重，生成特征的唯一id。如下例：</p>
+<ul>
+<li>1       逐项</li>
+<li>2       深市</li>
+<li>3       九寨沟</li>
+<li>4       岛内</li>
+<li>5       期望</li>
+<li>…</li>
+</ul>
+<p>注意，序号从1开始标注，这是libsvm的数据格式要求。</p>
+<h3 id="4-生成训练数据"><a href="#4-生成训练数据" class="headerlink" title="4.生成训练数据"></a>4.生成训练数据</h3><p>首先直接给出 libsvm 的数据格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lable1 index1:featureValue1 index2:featureValue2 index3:featureValue3 ... </span><br><span class="line">lable2 index1:featureValue1 index2:featureValue2 index3:featureValue3 ...</span><br></pre></td></tr></table></figure></p>
+<p>对应到文本分类上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类别ID 特征序号1:特征值1 特征序号2:特征值2 特征序号3:特征值3...</span><br></pre></td></tr></table></figure></p>
+<p>其中特征序号必须是严格升序。那么，这里的特征值是什么呢？可以采用TF-IDF值，详细的介绍看 <strong><a href="http://www.ruanyifeng.com/blog/2013/03/tf-idf.html" target="_blank" rel="noopener">这里</a></strong>。这里仅给出计算公式：</p>
+<ul>
+<li><p>$ 词频(TF)= \frac{某个词在文章中的出现次数}{文章的总词数}$</p>
+</li>
+<li><p>$ 逆文档频率(IDF)= log（\frac{语料文本总数}{包含该词的文档数+1}）$</p>
+</li>
+<li><p>$ TF-IDF = 词频(TF)* 逆文档频率(IDF) $</p>
+</li>
+</ul>
+<p>这样，我们就将文本数据转换为了可训练的 libsvm 数据格式，下面给出一个数据示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+1 1:0.708333 2:1 3:1 4:-0.320755 5:-0.105023 6:-1 7:1 8:-0.419847 9:-1 10:-0.225806 12:1 13:-1 </span><br><span class="line">-1 1:0.583333 2:-1 3:0.333333 4:-0.603774 5:1 6:-1 7:1 8:0.358779 9:-1 10:-0.483871 12:-1 13:1</span><br></pre></td></tr></table></figure></p>
+<h2 id="三、libsvm-安装"><a href="#三、libsvm-安装" class="headerlink" title="三、libsvm 安装"></a>三、libsvm 安装</h2><p>这里主要讲一下 windows 下 python 版本的 libsvm 安装，环境如下：</p>
+<blockquote>
+<ul>
+<li>Windows 10 64位</li>
+<li>Python 3.5 64位</li>
+<li>Visual C++ 14</li>
+</ul>
+</blockquote>
+<p>首先到官网下载 <strong><a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/" target="_blank" rel="noopener">libsvm 源码</a></strong>，windows目录下已经有编译好的32位动态链接库，如下图</p>
+<p><img src="2.jpg" alt=""></p>
+<p>但如果你使用的是 <strong>64位</strong> python，就需要自己进行编译了。windows下编译工具 <strong> Visual C++ Tools 2015 </strong>，对应 <strong>python 3.5</strong>。 打开终端 <strong> VS2015 x86 x64 Cross Tools Command Prompt </strong>，进入到下载好的 libsvm 根目录，输入命令：</p>
+<blockquote>
+<p>nmake -f Makefile.win clean all</p>
+</blockquote>
+<p>编译之后，得到下图，注意日期：</p>
+<p><img src="3.jpg" alt=""></p>
+<p>剩下的步骤很简单了，首先将动态链接文件 libsvm.dll 拷贝到系统目录，C:\windows\system32\，然后将python目录下 svm.py 和 svmutil.py 拷贝到你的 python 包目录下。好的，大功告成。</p>
+<p><strong>注意</strong>，如果你无法编译64位动态链接文件，<strong><a href="https://github.com/zg-diligence/Small_Python/blob/master/code_of_ML/SVM/libsvm/libsvm.dll" target="_blank" rel="noopener">这里</a></strong> 我已经编译好了，亲自验证 python3.4 和 python3.5 均可以使用，虽然 python3.4 对应的编译环境是 Visual C++ 10。</p>
+<h2 id="四、libsvm-使用示例"><a href="#四、libsvm-使用示例" class="headerlink" title="四、libsvm 使用示例"></a>四、libsvm 使用示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(data_path, model_path, param_str=<span class="string">''</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    function: train model and save it into file</span></span><br><span class="line"><span class="string">    data_path: path of training data</span></span><br><span class="line"><span class="string">    model_path: file path to save the model</span></span><br><span class="line"><span class="string">    param_str: parameter string for training model</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> param_str:</span><br><span class="line">        param_str = <span class="string">'-c 200 -g 9.0e-6 -q'</span></span><br><span class="line"></span><br><span class="line">    y, x = svm_read_problem(data_path)</span><br><span class="line">    svm_prob = svm_problem(y, x)</span><br><span class="line">    svm_param = svm_parameter(param_str)</span><br><span class="line">    model = svm_train(svm_prob, svm_param)</span><br><span class="line">    svm_save_model(model_path, model)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(data_path, modal_path)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    predict label for unlabel data</span></span><br><span class="line"><span class="string">    data_path: path of testing data</span></span><br><span class="line"><span class="string">    model_path: file_path of the model</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    y, x = svm_read_problem(data_path)</span><br><span class="line">    svm_model = svm_load_model(modal_path)</span><br><span class="line">    p_label, p_acc, p_val = svm_predict(y, x, svm_model)</span><br><span class="line">    <span class="keyword">return</span> p_label, p_acc, p_val</span><br></pre></td></tr></table></figure>
+<p>上面仅仅是一个代码示例，详细用法请参考文档说明，根目录和 python 目录下都有 README 文件。</p>
+<p>此外，对 tools 目录下的 grid.py 文件用法进行简单说明，这个文件依赖于 svm-train.exe 文件，帮助我们更加快捷的找到最佳训练参数，python 环境下运行:</p>
+<blockquote>
+<p>python grid.py training_file</p>
+</blockquote>
+<p>输出结果中最后一行即为最佳参数，当然你可以根据实际情况对 grid.py 代码进行修改。</p>
+<p>另外，windows目录下有一个 svm-scale.exe 可执行文件，用于规范化特征值到指定范围，如：</p>
+<blockquote>
+<p>svm-scale -l 0 -u 10 -s range_file training_file &gt; training_scale<br>svm-scale -r range_file testing_file &gt; testing_scale</p>
+</blockquote>
+<p>上述两条命令将数据的特征值规范到 0-10 之间，-l、-u 参数是特征值上下界，-s range_file 是将范围存到文件中，便于规范测试数据时使用，-r range_file 即读取范围文件。更详细的用法请查看 libsvm 根目录下 README 文件。 </p>
+<h2 id="五、附录"><a href="#五、附录" class="headerlink" title="五、附录"></a>五、附录</h2><h3 id="1-相关代码实现"><a href="#1-相关代码实现" class="headerlink" title="1. 相关代码实现 "></a>1.<strong> <a href="https://github.com/zg-diligence/Small_Python/blob/master/code_of_ML/SVM/svm.py" target="_blank" rel="noopener">相关代码实现</a> </strong></h3><h3 id="2-卡方分布临界值表"><a href="#2-卡方分布临界值表" class="headerlink" title="2. 卡方分布临界值表"></a>2.<strong> 卡方分布临界值表</strong></h3><p><img src="1.jpg" alt="卡方分布临界值表"></p>
+<h2 id="六、参考链接"><a href="#六、参考链接" class="headerlink" title="六、参考链接"></a>六、参考链接</h2><h3 id="1-卡方检验原理及应用"><a href="#1-卡方检验原理及应用" class="headerlink" title="1.卡方检验原理及应用"></a>1.<strong><a href="http://guoze.me/2015/09/07/chi-square/" target="_blank" rel="noopener">卡方检验原理及应用</a></strong></h3><h3 id="2-x2检验（chi-square-test）或称卡方检验"><a href="#2-x2检验（chi-square-test）或称卡方检验" class="headerlink" title="2.x2检验（chi-square test）或称卡方检验"></a>2.<strong><a href="http://www.cnblogs.com/emanlee/archive/2008/10/25/1319569.html" target="_blank" rel="noopener">x2检验（chi-square test）或称卡方检验</a></strong></h3><h3 id="3-基于libsvm的中文文本分类原型"><a href="#3-基于libsvm的中文文本分类原型" class="headerlink" title="3.基于libsvm的中文文本分类原型"></a>3.<strong><a href="http://blog.csdn.net/marising/article/details/5844063" target="_blank" rel="noopener">基于libsvm的中文文本分类原型</a></strong></h3><h3 id="4-TF-IDF与余弦相似性的应用"><a href="#4-TF-IDF与余弦相似性的应用" class="headerlink" title="4.TF-IDF与余弦相似性的应用"></a>4.<strong><a href="http://www.ruanyifeng.com/blog/2013/03/tf-idf.html" target="_blank" rel="noopener">TF-IDF与余弦相似性的应用</a></strong></h3>
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文本分类，SVM/" rel="tag"># 文本分类，SVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/14/快速排序及其优化/" rel="next" title="快速排序及其优化">
+                <i class="fa fa-chevron-left"></i> 快速排序及其优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -374,6 +639,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -544,7 +813,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#博主很懒很垃圾什么也没有留下"><span class="nav-number">1.</span> <span class="nav-text">博主很懒，很垃圾，什么也没有留下</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、预处理"><span class="nav-number">2.</span> <span class="nav-text">二、预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-语料准备"><span class="nav-number">2.1.</span> <span class="nav-text">1.语料准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-分词处理"><span class="nav-number">2.2.</span> <span class="nav-text">2.分词处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-特征提取"><span class="nav-number">2.3.</span> <span class="nav-text">3.特征提取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-生成训练数据"><span class="nav-number">2.4.</span> <span class="nav-text">4.生成训练数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、libsvm-安装"><span class="nav-number">3.</span> <span class="nav-text">三、libsvm 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、libsvm-使用示例"><span class="nav-number">4.</span> <span class="nav-text">四、libsvm 使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、附录"><span class="nav-number">5.</span> <span class="nav-text">五、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-相关代码实现"><span class="nav-number">5.1.</span> <span class="nav-text">1. 相关代码实现 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-卡方分布临界值表"><span class="nav-number">5.2.</span> <span class="nav-text">2. 卡方分布临界值表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、参考链接"><span class="nav-number">6.</span> <span class="nav-text">六、参考链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-卡方检验原理及应用"><span class="nav-number">6.1.</span> <span class="nav-text">1.卡方检验原理及应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-x2检验（chi-square-test）或称卡方检验"><span class="nav-number">6.2.</span> <span class="nav-text">2.x2检验（chi-square test）或称卡方检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-基于libsvm的中文文本分类原型"><span class="nav-number">6.3.</span> <span class="nav-text">3.基于libsvm的中文文本分类原型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-TF-IDF与余弦相似性的应用"><span class="nav-number">6.4.</span> <span class="nav-text">4.TF-IDF与余弦相似性的应用</span></a></li></ol></li></ol></div>
             
 
           </div>
