@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="文件压缩算法," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、算法提出由前一篇博客我们可以知道，使用基于静态Huffman编码树的压缩算法对符号流进行编码，必须进行两遍扫描。第一遍扫描统计被编码对象中符号出现的频率，并创建Huffman树，获取具有前缀性质的Huffman编码，第二遍扫描按照已获得的Huffman编码对输入符号进行编码。并且，在存储正文编码结果之前，必须将Hu">
+<meta name="keywords" content="文件压缩算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态哈夫曼编码压缩">
+<meta property="og:url" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="一、算法提出由前一篇博客我们可以知道，使用基于静态Huffman编码树的压缩算法对符号流进行编码，必须进行两遍扫描。第一遍扫描统计被编码对象中符号出现的频率，并创建Huffman树，获取具有前缀性质的Huffman编码，第二遍扫描按照已获得的Huffman编码对输入符号进行编码。并且，在存储正文编码结果之前，必须将Huffman树的信息存入压缩文件，上文中我们采用的策略是保存Huffman编码。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/1.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/2.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/3.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/4.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/5.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/6.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/7.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/8.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/9.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/10.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/11.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/12.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/13.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/14.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v1.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v2.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v3.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v4.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v5.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v6.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v7.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v8.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v9.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v10.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v11.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/v12.jpg">
+<meta property="og:updated_time" content="2017-12-02T04:00:31.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态哈夫曼编码压缩">
+<meta name="twitter:description" content="一、算法提出由前一篇博客我们可以知道，使用基于静态Huffman编码树的压缩算法对符号流进行编码，必须进行两遍扫描。第一遍扫描统计被编码对象中符号出现的频率，并创建Huffman树，获取具有前缀性质的Huffman编码，第二遍扫描按照已获得的Huffman编码对输入符号进行编码。并且，在存储正文编码结果之前，必须将Huffman树的信息存入压缩文件，上文中我们采用的策略是保存Huffman编码。">
+<meta name="twitter:image" content="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/"/>
+
+
+
+
+
+  <title>动态哈夫曼编码压缩 | 算云烟</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/04/01/动态哈夫曼编码压缩/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动态哈夫曼编码压缩</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00+08:00">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、算法提出"><a href="#一、算法提出" class="headerlink" title="一、算法提出"></a>一、算法提出</h2><p>由前一篇博客我们可以知道，使用基于静态Huffman编码树的压缩算法对符号流进行编码，必须进行两遍扫描。第一遍扫描统计被编码对象中符号出现的频率，并创建Huffman树，获取具有前缀性质的Huffman编码，第二遍扫描按照已获得的Huffman编码对输入符号进行编码。并且，在存储正文编码结果之前，必须将Huffman树的信息存入压缩文件，上文中我们采用的策略是保存Huffman编码。<a id="more"></a><br>这样的做法，存在一些问题。第一，对于短小的符号流来说，加上Huffman编码信息之后，在尺寸上可能变大，这使得Huffman编码的应用受到限制。第二，静态Huffman编码压缩采用两遍扫描的方式，如果将这种方式用于网络通信中，必然会引起较大的延时，如果用于压缩中，额外的磁盘访问会降低该算法的压缩速度。第三，静态Huffman编码压缩自始至终都采用同一套编码，不能对符号流局部统计变化规律做出反应，压缩效率仍然有提升空间。<br>针对以上问题，有人提出动态Huffman编码方案，又称自适应Huffman。这种方案不需要事先构造Huffman树，而是随着编码的进行，逐步构造Huffman树。同时，这种方法对符号的统计也是动态进行的，意味着能够对符号流局部统计变化规律做出及时的反应，所以说动态Huffman也是一种贪心算法。</p>
+<h2 id="二、FGK算法"><a href="#二、FGK算法" class="headerlink" title="二、FGK算法"></a>二、FGK算法</h2><h3 id="1、算法概述"><a href="#1、算法概述" class="headerlink" title="1、算法概述"></a>1、算法概述</h3><p>动态Huffman算法最初由Faller和Galler分别提出，Knuth在1985年改进了这个算法，所以这个标准的动态哈夫曼算法又称做FGK算法。1987年，Vitter提出了一种新的改进算法，并且证明FGK算法编码后的位数T满足：S - n + 1 &lt;= T &lt;= 2S + t -4n +2，而Vitter提出的改进算法编码后的位数T满足：S - n + 1 &lt;= T &lt;= 2S + t -2n +1，其中S是静态哈夫曼算法的编码位数，t是编码文本的长度，n是文本中不相同符号的个数。可见动态哈夫曼编码的最坏情况也不会达到最优化编码的二倍。<br>下面介绍一个定义，一棵二叉树满足兄弟性质当且仅当其满足：</p>
+<blockquote>
+<p>1、所有叶结点有非负权值，所有内部结点除根结点外都有两个儿子，并且父节点的权值是儿子结点权值之和。<br> 2、对所有结点进行编号，父结点编号比儿子大，并且编号大的结点权值不小于编号小的结点。</p>
+</blockquote>
+<p>最理想的情况是每一层结点编号从左到右、由下到上满足非递减顺序，但在FGK算法中不总是满足层序性质。实际上只要兄弟结点满足连续编号并且父节点编号大于儿子结点，就能够保证huffman树是正确的。<br>Galler已经证明满足兄弟性质的二叉树即huffman树。<br>上面我们已经提到动态Huffman算法是随着编码进行，逐步构造Huffman树，每读取第t+1个字符时，都是在前t个字符所构造的Huffman树的基础上去更新Huffman树。现在的问题是怎么更新Huffman树才能使其始终满足兄弟性质呢？<br>为了标记一个新符号的出现并且快速添加新的结点，FGK算法设置了一个0-node，即权值为0的结点，我们把它叫做NYT（Not Yet Transmitted）结点。NYT结点编号始终是最小的。初始时刻，二叉树只有一个NYT结点。<br>读取一个字符，如果字符不在Huffman树中，为原来的NYT结点分配两个儿子结点，左儿子作为新的NYT结点，右儿子存储新的符号（权值为1）。然后从旧的NYT结点开始，更新结点以及其所有祖先结点的权值。但是如果直接更新结点权值，会破坏兄弟性质。因此，在更新权值之前，需要进行一个交换操作，找到和当前结点权值相同且编号最大的结点，如果就是当前结点，则当前结点权值直接加1，如果不是，则与当前结点交换，交换后的结点作为当前结点，然后结点权值加1。注意，交换操作是交换以目标节点作为根结点的两棵子树，但是结点编号不变。然后更新当前结点的父结点，重复操作，直到当前结点为根结点。<br>如果符号已经在Huffman树中，则直接更新，方法同上。</p>
+<h3 id="2、文件压缩"><a href="#2、文件压缩" class="headerlink" title="2、文件压缩"></a>2、文件压缩</h3><p>编码过程中，每读取一个符号，如果它已经在Huffman树中，直接输出现有编码，然后更新Huffman树；如果不在树中，我们首先把NYT结点编码输出，标记遇到一个未出现过的新符号，紧接着把新符号的二进制编码输出，然后更新Huffman树。算法流程图如下：</p>
+<center><img src="1.jpg" alt=""></center>
+
+<p>下面以字符串abcddbb为例，展示每一步的具体操作：<br>1、初始状态，仅有唯一的NYT结点，NYT结点权值为0：</p>
+<center><img src="2.jpg" alt=""></center>
+
+<p>2、输入符号a，NYT编码为空，则直接输出a的二进制编码0110 0001，然后新建NYT结点和符号结点，对51号结点进行加一操作：</p>
+<center><img src="3.jpg" alt=""></center>
+
+<p>3、输入符号b，NYT编码为0，输出编码0 0110 0010，然后新建NYT结点和符号结点，对49、51号结点进行加一操作：</p>
+<center><img src="4.jpg" alt=""></center>
+
+<p>4、输入符号c，NYT编码为00，输出编码00 0110 0011，然后新建NYT结点和符号结点，对47号结点进行加一操作，然后对49号结点进行加一操作，但是49号结点不是块内编号最大的结点，因此需要先与50号结点进行交换操作：</p>
+<center><img src="5.jpg" alt=""></center>
+
+<p>5、当前结点更新为50号结点，对50、51号结点进行加一操作：</p>
+<center><img src="6.jpg" alt=""></center>
+
+<p>6、输入符号d，NYT编码100，输出编码100 0110 0100，然后新建NYT结点和符号结点，对45号结点进行加一操作，然后对47号结点进行加一操作，但是47号结点不是块内编号最大的结点，因此需要先和49号结点进行交换操作：</p>
+<center><img src="7.jpg" alt=""></center>
+
+<p>7、当前结点更新为49号结点，对49、51号结点进行加一操作：</p>
+<center><img src="8.jpg" alt=""></center>
+
+<p>8、输入符号d，已经存在，输出编码001，对44号结点进行加一操作，同样需要先与48号结点进行交换操作：</p>
+<center><img src="9.jpg" alt=""></center>
+
+<p>9、更新当前结点为48号结点，对48、50、51号结点进行加一操作：</p>
+<center><img src="10.jpg" alt=""></center>
+
+<p>10、输入符号b，已经存在，输出编码001，交换44号结点与47号结点：</p>
+<center><img src="11.jpg" alt=""></center>
+
+<p>11、对47、50、51号结点进行加一操作：</p>
+<center><img src="12.jpg" alt=""></center>
+
+<p>12、输入符号b，已经存在，输出编码10，交换47、49号结点：</p>
+<center><img src="13.jpg" alt=""></center>
+
+<p>13、对49、51号结点进行加一操作，至此结束。</p>
+<center><img src="14.jpg" alt=""></center>
+
+<p>至于编码串处理和文件写入操作，同静态Huffman压缩算法一样，也是八位一组，需要在文件头保留补0的个数。<br>最后，在<a href="http://www.stringology.org/DataCompression/fgk/index_en.html" target="_blank" rel="noopener">这里</a>可以看到算法伪代码。</p>
+<h3 id="3、文件解压"><a href="#3、文件解压" class="headerlink" title="3、文件解压"></a>3、文件解压</h3><p>解压文件时，和编码时一样，动态更新Huffman树，遇到未出现过的字符，则直接输出，同时新建NYT结点和符号结点，更新Huffman树，如果符号已经出现，则直接进行更新操作。<br>由上面的算法流程可知，动态Huffman编码压缩时，无需保存Huffman树的信息，只需要保证编码解码时使用相同的规则即可。此外，由于Huffman树是动态更新的，即使同样的字符，其Huffman编码也不一定相同。</p>
+<h2 id="三、Vitter算法"><a href="#三、Vitter算法" class="headerlink" title="三、Vitter算法"></a>三、Vitter算法</h2><h3 id="1、算法概述-1"><a href="#1、算法概述-1" class="headerlink" title="1、算法概述"></a>1、算法概述</h3><p>Vitter算法，又称Algorithm V，是Vitter于1987年发表的（详见J. S. Vitter, “Design and Analysis of Dynamic Huffman Codes,” Journal of the Association for Computing Machinery, Vol. 34, No. 4, October 1987, pp. 825-845.）。尽管Vitter算法并没有提高FGK算法的时间复杂度，但是完全不同的更新方式，使得Huffman编码长度缩短，由上面的介绍可知Vitter算法的下界是优于FGK算法的。同时，为了使该压缩算法在实际压缩过程中能够在线性时间内完成，Vitter提出了一种数据结构，叫做”float tree”，但在附录的源码实现中没有采用此方式。<br>Vitter提出的算法除了满足兄弟性质意外，还必须满足一下两点：</p>
+<blockquote>
+<p>1、Huffman树中的结点编号必须满足从左到右、由下到上是非递减顺序。<br>  2、对于给定权值，叶子节点所在块在内部结点所在块之前，即如果编号由大到小分配，内部结点块编号大于叶子节点编号。</p>
+</blockquote>
+<p>说明：我们很容易知道对于满足性质1的Huffman树，相同权值的结点编号一定是连续的，请读者自行体会。<br>作者Vitter在它的论文中是这样说的:</p>
+<blockquote>
+<p>One of the main features of Algorithm A is its use of implicit numbering in which the nodes in the Huffman tree are numbered in increasing order from bottom to top and at each level in increasing order from left to right. Another main feature is the invariant that all leaves of a given weight precede in the implicit numbering all internal nodes of the same weight. These two features are shown in [3] to guarantee good coding efficiency.</p>
+</blockquote>
+<p>由性质1、2，我们可以想象，Huffman树中的结点一定是这样的序列：LTLTLTLT，其中L代表叶结点块，T代表内部结点块，并且序列的权值满足非递减顺序。注意，在FGK算法中我们提到了块是权值相等的结点集合，而在Vitter算法中，又分为了叶结点块和内部结点块，这是为了满足性质2，请读者注意区分。<br>由此，Vitter完全抛弃了FGK算法中update策略，下面我们直接给出Vitter算法中update操作的伪代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">updateHuffmanTree(accept symbol)</span><br><span class="line">&#123;</span><br><span class="line">	pos = pointer of symbol's node;</span><br><span class="line">	<span class="keyword">if</span>(pos == <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/* a new symbol */</span></span><br><span class="line">		Create <span class="keyword">new</span> NYT node <span class="keyword">and</span> character node, <span class="keyword">and</span> aissgn weight of the character node as <span class="number">1</span>;</span><br><span class="line">		pos = pointer of the old NYT node;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/* already in the tree */</span></span><br><span class="line">		Swap pos in the tree with leader of its block;</span><br><span class="line">		<span class="keyword">if</span>(pos is the sibling of the NYT node)</span><br><span class="line">		&#123;</span><br><span class="line">			Increase weight of pos;</span><br><span class="line">			pos = parent of pos;	</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(pos != root of the tree)</span><br><span class="line">		SlideAndIncrement(pos)</span><br><span class="line">	Increase weight of root node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见，在FGK算法中，更新主要依靠不断的交换操作来实现的，而在Vitter算法中，采用的是SlideAndIncrement操作。<br>接下来给出SlideAndIncrement操作的伪代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SlideAndIncrement(accept node p)</span><br><span class="line">&#123;</span><br><span class="line">	fp = parent of p;</span><br><span class="line">	wt = p's weight;</span><br><span class="line">	<span class="keyword">if</span>(p is an internal node)</span><br><span class="line">		Slide p in the tree higher than the leaf nodes of weight wt+<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		Slide p in the tree higher than the nodes of weight wt;</span><br><span class="line">	p's weight++;</span><br><span class="line">	<span class="keyword">if</span>(p is internal node)</span><br><span class="line">		<span class="keyword">return</span> fp;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> parent of p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由上面的伪代码可知，在FGK算法中，只需要找到块内最大的结点进行交换即可，而在Vitter算法中，需要找到所有满足条件的结点，然后将目标节点滑过指定的结点块。</p>
+<h3 id="2、文件压缩-1"><a href="#2、文件压缩-1" class="headerlink" title="2、文件压缩"></a>2、文件压缩</h3><p>下面同样以字符串abcddbb为例，展示每一步的具体操作：<br>1、初始状态,仅有唯一的NYT结点，NYT结点权重为0：</p>
+<center><img src="v1.jpg" alt=""></center>
+
+<p>2、输入符号a，NYT编码为空，则直接输出a的二进制编码0110 0001，然后新建NYT结点和符号结点，对51号结点进行加一操作：</p>
+<center><img src="v2.jpg" alt=""></center>
+
+<p>3、输入符号b，NYT编码为0，输出编码0 0110 0010，然后新建NYT结点和符号结点:</p>
+<center><img src="v3.jpg" alt=""></center>
+
+<p>4、49号结点为内部结点，滑动到50号结点之前，对50号结点进行加一操作，原49号结点为内部结点，下一步从51号结点即根结点开始，根结点直接进行加一操作：</p>
+<center><img src="v4.jpg" alt=""></center>
+
+<p>5、输入符号c，NYT编码为10，输出编码10 0110 0011，然后新建NYT结点和符号结点：</p>
+<center><img src="v5.jpg" alt=""></center>
+
+<p>6、47号结点为内部结点，滑动到49号结点之前，对49号结点进行加一操作，原47号结点为内部结点，下一步从50号结点开始，无权值为2的叶结点，因此直接对50、51号结点进行加一操作：</p>
+<center><img src="v6.jpg" alt=""></center>
+
+<p>7、输入符号d，NYT编码00，输出编码00 0110 0100，然后新建NYT结点和符号结点：</p>
+<center><img src="v7.jpg" alt=""></center>
+
+<p>8、45号结点为内部结点，滑动到48号结点之前，对48号结点进行加一操作，原45号结点为内部结点，下一步从49号结点开始，无权值为1的叶结点，因此直接对49、51号结点进行加一操作：</p>
+<center><img src="v8.jpg" alt=""></center>
+
+<p>9、输入符号d，已经存在，输出编码111，交换44、47号结点：</p>
+<center><img src="v9.jpg" alt=""></center>
+
+<p>10、47号结点为叶结点，滑动到48号之前，对48进行加一操作，原47号是叶结点，下一步从50号结点开始，无权值为3的叶结点，故直接对50、51号结点进行加一操作：</p>
+<center><img src="v10.jpg" alt=""></center>
+
+<p>11、输入符号b，已经存在，输出编码01，46号结点为叶结点且编号最大，无须交换，将46号结点滑动到47号结点之前，对47号结点进行加一操作，原46号结点为叶结点，下一步从当前结点的父亲即50号结点开始，对50、51号结点进行加一操作：</p>
+<center><img src="v11.jpg" alt=""></center>
+
+<p>12、输入符号b，已经存在，输出编码10，47号结点为叶结点，交换47、48号结点，然后将48号结点滑动到49号结点之前，对49、51号结点进行加一操作，至此结束。</p>
+<center><img src="v12.jpg" alt=""></center>
+
+<p>最后，在<a href="http://www.stringology.org/DataCompression/ahv/index_en.html" target="_blank" rel="noopener">这里</a>可以看到算法伪代码。同时，作者给出一个例子，体现出Vitter算法的确是使Huffman树变得更加平衡，缩短了Huffman编码。（其中有一点错误，输入第20个字符后，两种算法得到Huffman树并不完全相同，只是树的高度相等，请读者自行理解。）</p>
+<h3 id="3、文件解压-1"><a href="#3、文件解压-1" class="headerlink" title="3、文件解压"></a>3、文件解压</h3><p>同Vitter算法，略。</p>
+<h2 id="四、附录"><a href="#四、附录" class="headerlink" title="四、附录"></a>四、附录</h2><h3 id="1、FGK算法源码实现"><a href="#1、FGK算法源码实现" class="headerlink" title="1、FGK算法源码实现"></a>1、<a href="https://github.com/zg-diligence/blog_contents/blob/master/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%8E%8B%E7%BC%A9/Dy_FGK.h" target="_blank" rel="noopener">FGK算法源码实现</a></h3><h3 id="2、Vitter算法源码实现"><a href="#2、Vitter算法源码实现" class="headerlink" title="2、Vitter算法源码实现"></a>2、<a href="https://github.com/zg-diligence/blog_contents/blob/master/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%8E%8B%E7%BC%A9/Dy_Vitter.h" target="_blank" rel="noopener">Vitter算法源码实现</a></h3><h2 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h2><h3 id="1、Quake3-自适应哈夫曼"><a href="#1、Quake3-自适应哈夫曼" class="headerlink" title="1、Quake3 自适应哈夫曼"></a>1、<a href="https://wenku.baidu.com/view/8edaa04cf7ec4afe04a1df1b.html" target="_blank" rel="noopener">Quake3 自适应哈夫曼</a></h3><h3 id="2、Adaptive-Huffman-coding-FGK"><a href="#2、Adaptive-Huffman-coding-FGK" class="headerlink" title="2、Adaptive Huffman coding - FGK"></a>2、<a href="http://www.stringology.org/DataCompression/fgk/index_en.html" target="_blank" rel="noopener">Adaptive Huffman coding - FGK</a></h3><h3 id="3、Adaptive-Huffman-coding-Vitter’s-algorithm-Λ"><a href="#3、Adaptive-Huffman-coding-Vitter’s-algorithm-Λ" class="headerlink" title="3、Adaptive Huffman coding - Vitter’s algorithm (Λ)"></a>3、<a href="http://www.stringology.org/DataCompression/ahv/index_en.html" target="_blank" rel="noopener">Adaptive Huffman coding - Vitter’s algorithm (Λ)</a></h3><h3 id="4、Faller-Gallager-Knuth-Algorithm-FGK"><a href="#4、Faller-Gallager-Knuth-Algorithm-FGK" class="headerlink" title="4、Faller, Gallager, Knuth = Algorithm FGK"></a>4、<a href="https://sites.google.com/site/compgt/fgk" target="_blank" rel="noopener">Faller, Gallager, Knuth = Algorithm FGK</a></h3><h3 id="5、Dynamic-Huffman-Coding-2-Algorithm-Vitter"><a href="#5、Dynamic-Huffman-Coding-2-Algorithm-Vitter" class="headerlink" title="5、Dynamic Huffman Coding 2 - Algorithm Vitter"></a>5、<a href="https://sites.google.com/site/compgt/vitter" target="_blank" rel="noopener">Dynamic Huffman Coding 2 - Algorithm Vitter</a></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文件压缩算法/" rel="tag"># 文件压缩算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/31/哈夫曼编码压缩/" rel="next" title="静态哈夫曼编码压缩">
+                <i class="fa fa-chevron-left"></i> 静态哈夫曼编码压缩
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/14/最短路径算法小结/" rel="prev" title="最短路径算法小结">
+                最短路径算法小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、算法提出"><span class="nav-number">1.</span> <span class="nav-text">一、算法提出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、FGK算法"><span class="nav-number">2.</span> <span class="nav-text">二、FGK算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、算法概述"><span class="nav-number">2.1.</span> <span class="nav-text">1、算法概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、文件压缩"><span class="nav-number">2.2.</span> <span class="nav-text">2、文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、文件解压"><span class="nav-number">2.3.</span> <span class="nav-text">3、文件解压</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Vitter算法"><span class="nav-number">3.</span> <span class="nav-text">三、Vitter算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、算法概述-1"><span class="nav-number">3.1.</span> <span class="nav-text">1、算法概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、文件压缩-1"><span class="nav-number">3.2.</span> <span class="nav-text">2、文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、文件解压-1"><span class="nav-number">3.3.</span> <span class="nav-text">3、文件解压</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、附录"><span class="nav-number">4.</span> <span class="nav-text">四、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、FGK算法源码实现"><span class="nav-number">4.1.</span> <span class="nav-text">1、FGK算法源码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Vitter算法源码实现"><span class="nav-number">4.2.</span> <span class="nav-text">2、Vitter算法源码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、参考"><span class="nav-number">5.</span> <span class="nav-text">五、参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Quake3-自适应哈夫曼"><span class="nav-number">5.1.</span> <span class="nav-text">1、Quake3 自适应哈夫曼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Adaptive-Huffman-coding-FGK"><span class="nav-number">5.2.</span> <span class="nav-text">2、Adaptive Huffman coding - FGK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Adaptive-Huffman-coding-Vitter’s-algorithm-Λ"><span class="nav-number">5.3.</span> <span class="nav-text">3、Adaptive Huffman coding - Vitter’s algorithm (Λ)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Faller-Gallager-Knuth-Algorithm-FGK"><span class="nav-number">5.4.</span> <span class="nav-text">4、Faller, Gallager, Knuth = Algorithm FGK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、Dynamic-Huffman-Coding-2-Algorithm-Vitter"><span class="nav-number">5.5.</span> <span class="nav-text">5、Dynamic Huffman Coding 2 - Algorithm Vitter</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="文件压缩算法," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、基本术语 WPL：树的带权路径长度，规定为所有叶子结点的带权路径长度之和。  哈夫曼树：给定n个权值作为n个叶子结点，构造的一棵具有最小WPL值的二叉树，又称最优二叉树。">
+<meta name="keywords" content="文件压缩算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="静态哈夫曼编码压缩">
+<meta property="og:url" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="一、基本术语 WPL：树的带权路径长度，规定为所有叶子结点的带权路径长度之和。  哈夫曼树：给定n个权值作为n个叶子结点，构造的一棵具有最小WPL值的二叉树，又称最优二叉树。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/1.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/2.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/3.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/4.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/5.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/6.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/7.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/8.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/13.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/14.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/9.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/10.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/11.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/12.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/15.jpg">
+<meta property="og:updated_time" content="2017-12-02T04:01:05.796Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="静态哈夫曼编码压缩">
+<meta name="twitter:description" content="一、基本术语 WPL：树的带权路径长度，规定为所有叶子结点的带权路径长度之和。  哈夫曼树：给定n个权值作为n个叶子结点，构造的一棵具有最小WPL值的二叉树，又称最优二叉树。">
+<meta name="twitter:image" content="http://gzhang.org/2017/03/31/哈夫曼编码压缩/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2017/03/31/哈夫曼编码压缩/"/>
+
+
+
+
+
+  <title>静态哈夫曼编码压缩 | 算云烟</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/03/31/哈夫曼编码压缩/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">静态哈夫曼编码压缩</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-31T00:00:00+08:00">
+                2017-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、基本术语"><a href="#一、基本术语" class="headerlink" title="一、基本术语"></a>一、基本术语</h2><ol>
+<li><p>WPL：树的带权路径长度，规定为所有叶子结点的带权路径长度之和。</p>
+</li>
+<li><p>哈夫曼树：给定n个权值作为n个叶子结点，构造的一棵具有最小WPL值的二叉树，又称最优二叉树。</p>
+<a id="more"></a></li>
+<li><p>编码：将一组对象(如字符集)中的每个对象用唯一的一个二进制位串表示，如ASCII、指令系统。</p>
+</li>
+<li><p>编码前缀性：如果一组编码中任意一个编码都不是其它任何一个码的前缀 ，则称这种编码具有前缀性， 简称前缀码。</p>
+</li>
+<li><p>平均编码长度：设每个字符Ci出现的概率为Pi，其二进制编码长度为Li，则$\Sigma Li*Pi$表示该组字符的平均编码长度。</p>
+</li>
+<li><p>哈夫曼编码：根据字符出现频率构造的具有最小平均编码长度的编码，又称霍夫曼编码，哈夫曼编码是不等长编码，且具有前缀性。</p>
+</li>
+</ol>
+<h2 id="二、二叉哈夫曼编码压缩"><a href="#二、二叉哈夫曼编码压缩" class="headerlink" title="二、二叉哈夫曼编码压缩"></a>二、二叉哈夫曼编码压缩</h2><h3 id="1、哈夫曼树的构造"><a href="#1、哈夫曼树的构造" class="headerlink" title="1、哈夫曼树的构造"></a>1、哈夫曼树的构造</h3><p>举例说明，比如我们要压缩这样一个字符串：</p>
+<center> beep boop beer! </center>
+
+<p>首先建立一个字符到次数的映射表，如下图：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>‘b’</th>
+<th>‘e’</th>
+<th>‘p’</th>
+<th>‘ ‘</th>
+<th>‘o’</th>
+<th>‘r’</th>
+<th>‘!’</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>次数</td>
+<td>3</td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>１</td>
+</tr>
+</tbody>
+</table>
+<p>然后，把这些数据放到一个优先队列中，数据项按照权重排序，得到这样一个初始序列：</p>
+<center><img src="1.jpg" alt=""></center>
+
+<p>接下来，就是把这个优先队列转换成二叉树，我们始终从优先队列中取出头部的两个元素来构造一棵二叉树，第一个元素作为左结点，第二个作为右结点，并把这两个结点权重之和作为根节点的权重，然后把这颗二叉树放回优先队列中，得到如下图表：</p>
+<center><img src="2.jpg" alt=""></center>
+
+<p>同样，再把前两个取出来，形成一个权重为4的结点，然后放回优先队列中：</p>
+<center><img src="3.jpg" alt=""></center>
+
+<p>继续算法，得到下图：</p>
+<center><img src="4.jpg" alt=""></center><br><center><img src="5.jpg" alt=""></center><br><center><img src="6.jpg" alt=""></center>
+
+<p>最终，得到这样一棵二叉树：</p>
+<center><img src="7.jpg" alt=""></center>
+
+<p>此时，把二叉树路径上的左支编码为0，右支编码为1，得到下图：</p>
+<center><img src="8.jpg" alt=""></center>
+
+<p>先序遍历二叉树，我们可以得到每一个字符对应的哈夫曼编码，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>‘b’</th>
+<th>‘e’</th>
+<th>‘p’</th>
+<th>‘ ‘</th>
+<th>‘o’</th>
+<th>‘r’</th>
+<th>‘!’</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编码</td>
+<td>00</td>
+<td>11</td>
+<td>101</td>
+<td>011</td>
+<td>010</td>
+<td>1000</td>
+<td>1001</td>
+</tr>
+</tbody>
+</table>
+<p>由上可见，哈夫曼编码是不等长编码，并且具有前缀性，最后我们可以得到Huffman编码：</p>
+<blockquote>
+<pre><code>0011 1110 1011 0001 0010 1010 1100 1111 1000 1001
+</code></pre></blockquote>
+<h3 id="2、文件压缩"><a href="#2、文件压缩" class="headerlink" title="2、文件压缩"></a>2、文件压缩</h3><p>假设我们现在的文本是从文件中读取出来的，根据上述原理我们已经获得哈夫曼编码，下一步就是进行编码并写入压缩文件。编码很容易，再次读取文件，将每一个字符转换成对应的Huffman编码，我们可以得到一串01编码，当然不可能直接将这串二进制编码写入压缩文件，在这里，我采取的策略是将8位二进制编码转成对应的ASCII编码，然后把对应的字符写入压缩文件。但是这样做可能会遇到一个问题，编码得到的二进制串的大小不一定被8整除，则最后会余下少于8位的二进制编码串。此时，我们考虑在编码串最后补0，凑足8位，从而可以转换为一个字符。<br>这样我们的确是完成了压缩，可是问题又来了，我们如何去解压这个压缩文件呢？<br>首先，我们在编码串最后补0，解码的时候怎么知道压缩时是否补0或者补了多少个0呢？其次，对于不同的文章，字符出现的次数不一样，得到的哈夫曼树就不一样，因此哈夫曼编码也不一样，我们又按照什么规则去解压呢？<br>针对以上问题，我采用了这样的策略，首先在压缩文件头部用一个字节保存压缩时补0的个数，然后将字符及其对应的哈夫曼编码按一定规则写入文件（即一个字符后面紧跟着其哈夫曼编码），写编码同样按照8位一个字节存储对应字符，然后再将压缩后的内容写入文件。<br>值得注意的是，哈夫曼编码不等长，所以在写入编码之前，需要以最长编码所需要的字节数为准，为每一个编码分配相同大小的字节数，对于哈夫曼码位数不足时，首先补1，剩余位补0。这样做的好处是，在解压时我们可以先读取字符，然后读取相应字节大小并转换为二进制编码，并除去每一个编码的补位，则得到字符对应的Huffman码。我们以第一部分内容为例，易知只需一个字节便可保存每一个编码，补位后得到下图：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>‘b’</th>
+<th>‘e’</th>
+<th>‘p’</th>
+<th>‘ ‘</th>
+<th>‘o’</th>
+<th>‘r’</th>
+<th>‘!’</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编码</td>
+<td>00100000</td>
+<td>11100000</td>
+<td>10110000</td>
+<td>01110000</td>
+<td>01010000</td>
+<td>10001000</td>
+<td>10011000</td>
+</tr>
+</tbody>
+</table>
+<p>最后，我们也需要将编码字符的个数以及我们为每一个编码分配的字节数写入压缩文件，即我们需要留下三个字节来保留预处理信息，然后写入Huffman编码表，最后写入压缩文本。<br>考虑上面所有问题，我们得到写入压缩文件字符对应的二进制编码串应该是这样：</p>
+<blockquote>
+<pre><code>00000000 00000111 000000001 01100010 00100000 01100101 11100000 01110000 10110000 00100000 01110000 01101111 01010000 01110010 10001000 00100001 10011000 00111110 10110001 00101010 11001111 10001001
+</code></pre></blockquote>
+<p>虽然这里压缩后得到22个字符，看上去不但没有压缩作用，反而放大了，那是因为我们存入了Huffman编码，而且在实际压缩时，文本中字符数肯定远远不止这些。</p>
+<h3 id="3、文件解压"><a href="#3、文件解压" class="headerlink" title="3、文件解压"></a>3、文件解压</h3><p>根据压缩原理，我们很容易可以得到解压的方法，首先读出预处理信息，包括压缩文本补0个数、Huffman编码个数、储存每一个编码分配的字节数，然后读取字符及其对应的编码，经简单的恢复处理后得到Huffman编码。<br>根据得到的Huffman编码，我们需要重建Huffman树，以便于译码时遍历哈夫曼树。方法很简单，建立一个二叉树，初始有一个根结点，用每一个Huffman编码去遍历二叉树，如果遍历到叶结点，编码仍未结束，根据编码添加结点，编码为0添加左儿子，反之则添加右儿子，遍历结束，将编码对应字符写到叶结点中。用所有的Huffman码去遍历，最后得到的二叉树即压缩时所建的哈夫曼树。<br>得到哈夫曼树之后，就可以读取压缩文本，转换为对应的二进制编码串，进行译码。译码就是一个遍历二叉树的过程，从根节点出发，遇0则转到左子树，反之转到右子树，直到叶结点，将叶结点中字符写入解压文本，然后再从根结点出发，找下一个字符，直到二进制串结束。当然，我们应该事先将二进制串最后补的0去掉。<br>至此，二叉哈夫曼编码压缩及解压介绍完了，可见由于我们是针对二进制进行编码解码，所以哈夫曼压缩原则上是适用于任意格式文件的，但实际应用中我们只用于压缩文本文件，因为对于图片、音乐、视频文件基本没有压缩作用。</p>
+<h2 id="三、K叉哈夫曼编码压缩"><a href="#三、K叉哈夫曼编码压缩" class="headerlink" title="三、K叉哈夫曼编码压缩"></a>三、K叉哈夫曼编码压缩</h2><h3 id="1、哈夫曼树的构造-1"><a href="#1、哈夫曼树的构造-1" class="headerlink" title="1、哈夫曼树的构造"></a>1、哈夫曼树的构造</h3><p>相对于二叉哈夫曼压缩，K叉哈夫曼压缩只是将二进制编码变为K进制，建树时同样采用优先队列，只是每次取出队列前K个结点，建立一棵K叉树，根结点权重为所有子结点之和，然后将根结点放回优先队列中，重复合并，直到队列中只有一个结点，则得到K叉哈夫曼树。<br>可是有一个问题？最后剩下的结点数可能小于K，出现这种情况怎么办呢？<br>首先我们看一看什么情况下能够刚好建成一棵K叉树。假设有n个结点，每次取出K个放回1个，那么易得（K-1）|（n-1)时恰好建成一棵K叉树。也就是说，如果（n-1）%（k-1）！= 0，则需要加入（k-1）-（n-1）%（k-1）个虚结点，等价于第一次只合并（n-1）%（k-1）+ 1个结点。这样问题就得到了解决。<br>举例说明，比如我们要压缩这样一个字符串：</p>
+<center> abeep boop ber! </center><br>同样，统计字符出现次数，得到下图：<br><center><img src="13.jpg" alt=""></center>
+
+<p>然后，把这些数据放到一个优先队列中，数据项按照权重排序，得到这样一个初始序列：</p>
+<center><img src="14.jpg" alt=""></center>
+
+<p>n = 8，取K = 3，则（n-1）%（K-1）== 1 ！= 0，则应添加一个虚节点，即第一次只合并2个结点，如下图：</p>
+<center><img src="9.jpg" alt=""></center>
+
+<p>继续合并：</p>
+<center><img src="10.jpg" alt=""></center>
+
+<p>最终，得到这样一棵3叉树：</p>
+<center><img src="11.jpg" alt=""></center>
+
+<p>此时，把3叉树路径上同一结点出发的路径从左到右依次编号0、1、2，得到下图：</p>
+<center><img src="12.jpg" alt=""></center>
+
+<p>先序遍历3叉树，我们可以得到每一个字符对应的哈夫曼编码，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>‘b’</th>
+<th>‘e’</th>
+<th>‘p’</th>
+<th>‘ ‘</th>
+<th>‘a’</th>
+<th>‘o’</th>
+<th>‘r’</th>
+<th>‘!’</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编码</td>
+<td>22</td>
+<td>0</td>
+<td>12</td>
+<td>21</td>
+<td>110</td>
+<td>20</td>
+<td>111</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>最后容易得到3叉Huffman编码：</p>
+<blockquote>
+<pre><code>110 22 0 0 12 21 22 20 20 12 21 22 0 111 10
+</code></pre></blockquote>
+<h3 id="2、文件压缩-1"><a href="#2、文件压缩-1" class="headerlink" title="2、文件压缩"></a>2、文件压缩</h3><p>与二叉哈夫曼编码压缩不同的是，K叉哈夫曼编码压缩得到的是K进制串，不能直接写入压缩文件，需要先转换为二进制编码，即将每一位编码转换为二进制编码，并且所有转换后编码的位数应以最大编码为准。<br>在上例中，采用的是三进制编码，故最大编码为2，需用2个二进制位表示，即0、1、2都应转换为2位二进制码，然后采用与二叉哈夫曼压缩相同策略写入压缩文件，此外K进制压缩预处理信息还应包括进制K。</p>
+<h3 id="3、文件解压-1"><a href="#3、文件解压-1" class="headerlink" title="3、文件解压"></a>3、文件解压</h3><p>与二叉哈夫曼类似，只是读取每一位K进制码时，都需要读取多位二进制码，然后转换得到。</p>
+<h3 id="4、压缩率"><a href="#4、压缩率" class="headerlink" title="4、压缩率"></a>4、压缩率</h3><p>当K=2时，即二叉哈夫曼压缩，取其余K值均比二叉更差，并且有如下变化规律：</p>
+<p><center><img src="15.jpg" alt=""></center><br>由折线图可知，当K成指数增长时，压缩率最好，并且K = 2,4,8,16…依次减弱。这是因为K进制中编码小的也需要用相同大小的二进制位保存，浪费了空间。</p>
+<h2 id="四、附录"><a href="#四、附录" class="headerlink" title="四、附录"></a>四、附录</h2><h3 id="1、二叉哈夫曼源码"><a href="#1、二叉哈夫曼源码" class="headerlink" title="1、二叉哈夫曼源码"></a>1、<a href="https://github.com/zg-diligence/blog_contents/blob/master/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%8E%8B%E7%BC%A9/Huffman.h" target="_blank" rel="noopener">二叉哈夫曼源码</a></h3><h3 id="2、K叉哈夫曼源码"><a href="#2、K叉哈夫曼源码" class="headerlink" title="2、K叉哈夫曼源码"></a>2、<a href="https://github.com/zg-diligence/blog_contents/blob/master/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%8E%8B%E7%BC%A9/K-Huffman.h" target="_blank" rel="noopener">K叉哈夫曼源码</a></h3><h2 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h2><h3 id="1、HUFFMAN编码压缩算法"><a href="#1、HUFFMAN编码压缩算法" class="headerlink" title="1、HUFFMAN编码压缩算法"></a>1、<a href="http://coolshell.cn/articles/7459.html" target="_blank" rel="noopener">HUFFMAN编码压缩算法</a></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文件压缩算法/" rel="tag"># 文件压缩算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/11/C++标准库容器 —— Deque/" rel="next" title="C++标准库容器deque的简单实现">
+                <i class="fa fa-chevron-left"></i> C++标准库容器deque的简单实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/01/动态哈夫曼编码压缩/" rel="prev" title="动态哈夫曼编码压缩">
+                动态哈夫曼编码压缩 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基本术语"><span class="nav-number">1.</span> <span class="nav-text">一、基本术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、二叉哈夫曼编码压缩"><span class="nav-number">2.</span> <span class="nav-text">二、二叉哈夫曼编码压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、哈夫曼树的构造"><span class="nav-number">2.1.</span> <span class="nav-text">1、哈夫曼树的构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、文件压缩"><span class="nav-number">2.2.</span> <span class="nav-text">2、文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、文件解压"><span class="nav-number">2.3.</span> <span class="nav-text">3、文件解压</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、K叉哈夫曼编码压缩"><span class="nav-number">3.</span> <span class="nav-text">三、K叉哈夫曼编码压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、哈夫曼树的构造-1"><span class="nav-number">3.1.</span> <span class="nav-text">1、哈夫曼树的构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、文件压缩-1"><span class="nav-number">3.2.</span> <span class="nav-text">2、文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、文件解压-1"><span class="nav-number">3.3.</span> <span class="nav-text">3、文件解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、压缩率"><span class="nav-number">3.4.</span> <span class="nav-text">4、压缩率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、附录"><span class="nav-number">4.</span> <span class="nav-text">四、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、二叉哈夫曼源码"><span class="nav-number">4.1.</span> <span class="nav-text">1、二叉哈夫曼源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、K叉哈夫曼源码"><span class="nav-number">4.2.</span> <span class="nav-text">2、K叉哈夫曼源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、参考"><span class="nav-number">5.</span> <span class="nav-text">五、参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、HUFFMAN编码压缩算法"><span class="nav-number">5.1.</span> <span class="nav-text">1、HUFFMAN编码压缩算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

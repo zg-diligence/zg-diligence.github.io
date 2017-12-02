@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sort," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、算法思想快速排序算法是对冒泡排序的改进，在冒泡排序中，元素的比较和移动都是在相邻单元中进行的，因此可通过减少总的比较次数和移动次数，增大记录的比较和移动距离，从而提高算法性能。">
+<meta name="keywords" content="sort">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序及其优化">
+<meta property="og:url" content="http://gzhang.org/2017/05/14/快速排序及其优化/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="一、算法思想快速排序算法是对冒泡排序的改进，在冒泡排序中，元素的比较和移动都是在相邻单元中进行的，因此可通过减少总的比较次数和移动次数，增大记录的比较和移动距离，从而提高算法性能。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2017/05/14/快速排序及其优化/1.png">
+<meta property="og:image" content="http://gzhang.org/2017/05/14/快速排序及其优化/2.png">
+<meta property="og:updated_time" content="2017-12-02T03:33:30.640Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快速排序及其优化">
+<meta name="twitter:description" content="一、算法思想快速排序算法是对冒泡排序的改进，在冒泡排序中，元素的比较和移动都是在相邻单元中进行的，因此可通过减少总的比较次数和移动次数，增大记录的比较和移动距离，从而提高算法性能。">
+<meta name="twitter:image" content="http://gzhang.org/2017/05/14/快速排序及其优化/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2017/05/14/快速排序及其优化/"/>
+
+
+
+
+
+  <title>快速排序及其优化 | 算云烟</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/05/14/快速排序及其优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">快速排序及其优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-14T00:00:00+08:00">
+                2017-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、算法思想"><a href="#一、算法思想" class="headerlink" title="一、算法思想"></a>一、算法思想</h2><p>快速排序算法是对冒泡排序的改进，在冒泡排序中，元素的比较和移动都是在相邻单元中进行的，因此可通过减少总的比较次数和移动次数，增大记录的比较和移动距离，从而提高算法性能。<a id="more"></a>快速排序采用分治策略来减少排序过程中的比较次数，首先将原问题分解为若干个与原问题形似的子问题，然后递归地求解子问题，如果子问题的规模足够小，则直接求解子问题，最后将每一个子问题的解组合成原问题的解。</p>
+<h2 id="二、核心实现"><a href="#二、核心实现" class="headerlink" title="二、核心实现"></a>二、核心实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">qsort</span><span class="params">(arr, stack)</span>:</span></span><br><span class="line">    <span class="string">"""called by main sorting function"""</span></span><br><span class="line">    high, low = stack.pop(<span class="number">-1</span>), stack.pop(<span class="number">-1</span>)</span><br><span class="line">    pivot, less_equal, greater = arr[high], [], []</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> arr[low:high]:</span><br><span class="line">        <span class="keyword">if</span> x &lt;= pivot:less_equal.append(x)</span><br><span class="line">        <span class="keyword">else</span>:greater.append(x)</span><br><span class="line">    arr[low: high + <span class="number">1</span>] = less_equal + [pivot] + greater</span><br><span class="line">    <span class="keyword">if</span> len(less_equal) &gt; <span class="number">1</span>:</span><br><span class="line">        stack.append(low);stack.append(low + len(less_equal) - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> len(greater) &gt; <span class="number">1</span>:</span><br><span class="line">        stack.append(high - len(greater) + <span class="number">1</span>);stack.append(high)</span><br></pre></td></tr></table></figure>
+<p>此函数是所有二路快排核心算法的python实现，供主函数调用，为了防止栈溢出，采用非递归方式实现。参数stack是一个全局变量，保存递归进程中每一个序列的首尾元素下标。此函数默认序列最右端元素为划分点，所以在调用函数之前，必须将划分点交换到序列最右端。</p>
+<h2 id="三、划分点选取"><a href="#三、划分点选取" class="headerlink" title="三、划分点选取"></a>三、划分点选取</h2><h3 id="1-选取最右端"><a href="#1-选取最右端" class="headerlink" title="1.选取最右端"></a>1.选取最右端</h3><p>第一种选取方法最简单，直接选取序列左端或者右端的元素，在本例中初始化栈stack后便可直接调用上述函数。相关代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stack = [<span class="number">0</span>, len(arr)<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">while</span> stack:</span><br><span class="line">  qsort(arr, stack)</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-随机选取"><a href="#2-随机选取" class="headerlink" title="2.随机选取"></a>2.随机选取</h3><p>快排算法中选取划分点的原则是尽可能使划分结果均匀分配，在方法1中我们直接选取序列最右端元素往往会得到一个坏的结果，特别当序列是有序的或者趋近于有序的时候，若采用递归方式实现，则会达到最大递归次数，显然效果是很差的。另外一种方案是随机选取序列中的一个元素作为划分点，这样可以尽可能避免极端情况的出现，实验证明其效果也是可观的。相关代码如果下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stack = [<span class="number">0</span>, len(arr)<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">while</span> stack:</span><br><span class="line">  low, high = stack[<span class="number">-2</span>], stack[<span class="number">-1</span>]</span><br><span class="line">  pos = random.randint(low, high)</span><br><span class="line">  arr[pos], arr[high] = arr[high], arr[pos]</span><br><span class="line">  qsort(arr, stack)</span><br></pre></td></tr></table></figure></p>
+<p>首先调用标准库随机数产生函数，返回一个序列范围内的元素下标，然后将此元素作为划分点交换到序列最右端，调用核心实现函数即可。</p>
+<h3 id="3-两数取异"><a href="#3-两数取异" class="headerlink" title="3.两数取异"></a>3.两数取异</h3><p>另外一种选取划分点的方法是，单向遍历序列元素，选取第一次遇到的两个不同元素中较大或者较小的一个作为划分点，如果序列所有元素均相等，则排序已完成。相关代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">stack = [<span class="number">0</span>, len(arr)<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">while</span> stack:</span><br><span class="line">  low, high = stack[<span class="number">-2</span>], stack[<span class="number">-1</span>]</span><br><span class="line">  pos, k = low, low + <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> k &lt;= high:</span><br><span class="line">    <span class="keyword">if</span> arr[k] &gt; arr[pos]:</span><br><span class="line">      pos = k;<span class="keyword">break</span></span><br><span class="line">    <span class="keyword">elif</span> arr[k] &lt; arr[pos]:</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">     k += <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> k == high + <span class="number">1</span>:</span><br><span class="line">    stack.pop(<span class="number">-1</span>); stack.pop(<span class="number">-1</span>); <span class="keyword">continue</span></span><br><span class="line">arr[pos], arr[high] = arr[high], arr[pos]</span><br><span class="line">qsort(arr, stack)</span><br></pre></td></tr></table></figure></p>
+<p>如图所示，设置指针k遍历序列，如果遇到一个不等元素则找到划分点，本例中选取两个不同元素中较大者，如果遍历完序列，则该序列已经有序。</p>
+<h3 id="4-三数取中"><a href="#4-三数取中" class="headerlink" title="4.三数取中"></a>4.三数取中</h3><p>考虑我们选取划分点的原则，是尽可能使划分结果均匀，那么我们需要尽可能选取序列的中值作为划分点，而三数取中法可以帮助我们以更大的概率选择到序列的中值，具体方法选取序列最左端、最右端、中间位置三个元素的中位数作为划分点。相关代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> mid == <span class="number">-1</span>: mid = (low + high) // <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> arr[mid] &lt;= arr[low] &lt;= arr[high] <span class="keyword">or</span> arr[high] &lt;= arr[low] &lt;= arr[mid]:</span><br><span class="line">	<span class="keyword">return</span> low</span><br><span class="line"><span class="keyword">if</span> arr[low] &lt;= arr[mid] &lt;= arr[high] <span class="keyword">or</span> arr[high] &lt;= arr[mid] &lt;= arr[low]:</span><br><span class="line">	<span class="keyword">return</span> mid</span><br><span class="line"><span class="keyword">if</span> arr[low] &lt;= arr[high] &lt;= arr[mid] <span class="keyword">or</span> arr[mid] &lt;= arr[high] &lt;= arr[low]:</span><br><span class="line">	<span class="keyword">return</span> high</span><br></pre></td></tr></table></figure></p>
+<p>该段代码返回三数中位数的下标给调用者。我们只给出选取划分点的代码，主函数和方法二类似，详细代码见附录。</p>
+<h3 id="5-九数取中"><a href="#5-九数取中" class="headerlink" title="5.九数取中"></a>5.九数取中</h3><p>三数取中的方法在元素个数不是很大的时候效果比较好，实验证明当序列元素个数在7-40之间时效果较好，而当序列长度大于40时，效果下降，由划分点选取原则我们很容易想到扩大选数范围，则可以更大概率的选到中间值，具体方法是将序列分为8个相等部分，则有两个端点和七个中间点，    三个一组，分别选出中位数，然后选出中位数的中位数作为划分点。相关代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">size = high - low + <span class="number">1</span></span><br><span class="line">median_1 = median_of_three(arr, low, low + size // <span class="number">3</span>)</span><br><span class="line">median_2 = median_of_three(arr, low + size // <span class="number">3</span> + <span class="number">1</span>, high - size // <span class="number">3</span>)</span><br><span class="line">median_3 = median_of_three(arr, high - size // <span class="number">3</span> + <span class="number">1</span>, high)</span><br><span class="line"><span class="keyword">return</span> median_of_three(arr, median_1, median_2, median_3)</span><br></pre></td></tr></table></figure></p>
+<p>当元素序列小于7时，可以直接采取简单排序方法，如插入排序。</p>
+<h2 id="四、划分方法"><a href="#四、划分方法" class="headerlink" title="四、划分方法"></a>四、划分方法</h2><h3 id="1-前后指针法"><a href="#1-前后指针法" class="headerlink" title="1.前后指针法"></a>1.前后指针法</h3><p>前后指针法是通过单向遍历序列对序列元素进行划分操作，以从左向右遍历为例，首先设置两个指 针，第一个指向最左端元素的前一个位置，作为目的指针，另一个指向最左端元素，作为遍历指针。用第二个指针遍历序列元素，如果当前元素大于划分点，则递增遍历指针，否则首先递增目的指针，交换二者指向的元素，然后递增遍历指针，继续遍历序列剩余元素，直到划分完成。相关代码实现(C++)如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> pivot = arr[high];</span><br><span class="line">  <span class="keyword">int</span> distionation = low;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i = low; i &lt; high; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(arr[i] &lt; pivot)</span><br><span class="line">    &#123;</span><br><span class="line">      swap(arr, distionation, i);</span><br><span class="line">      distionation++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  swap(arr, distionation, high);</span><br><span class="line">  <span class="keyword">return</span> distionation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-左右指针交换法"><a href="#2-左右指针交换法" class="headerlink" title="2.左右指针交换法"></a>2.左右指针交换法</h3><p>左右指针交换法同样设置两个指针，不过其使用方法不同，用两个指针分别从序列的两端开始遍历， 左指针遇到大于划分点的元素时停下，右指针遇到小于划分点的元素时停下，交换两个指针指向的元素，然后继续进行遍历，直到两个指针相遇，划分结束。相关代码实现(C++)如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> pivot = arr[low];</span><br><span class="line">  <span class="keyword">int</span> p = low + <span class="number">1</span>, q = high;</span><br><span class="line">  <span class="keyword">while</span>(p &lt;= q)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(arr[p] &lt; pivot &amp;&amp; p &lt;= q) p++;</span><br><span class="line">    <span class="keyword">while</span>(arr[q] &gt;= pivot &amp;&amp; p &lt;= q) q--;</span><br><span class="line">    <span class="keyword">if</span>(p &lt; q)</span><br><span class="line">      swap(arr, p, q);</span><br><span class="line">  &#125;</span><br><span class="line">  swap(arr, low, q);</span><br><span class="line">  <span class="keyword">return</span> q;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-左右指针赋值法"><a href="#3-左右指针赋值法" class="headerlink" title="3.左右指针赋值法"></a>3.左右指针赋值法</h3><p>在方法2中，每次都是交换两个指针的内容，交换操作相当于三个赋值操作，效率较低，而左右指针赋值法即对此进行的改进，又称为填坑法。两个指针分别从序列两端交替进行遍历，首先取出最右端元素作为划分点，最右端位置空出，即为右坑。左指针向右遍历遇到大于划分点的元素时停下，将指针指向的元素值赋给右坑，则当前位置空出，即为左坑，然后右端指针向左遍历遇到小于划分点的元素时停下，同样赋值给左坑，交替进行，直到两个指针相遇。相关代码实现(C++)如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> p = arr[low];</span><br><span class="line">  <span class="keyword">while</span>(low &lt; high)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(arr[high] &gt;= p &amp;&amp; low &lt; high) high--;</span><br><span class="line">    arr[low] = arr[high];</span><br><span class="line">    <span class="keyword">while</span>(arr[low] &lt; p &amp;&amp; low &lt; high) low++;</span><br><span class="line">    arr[high] = arr[low];</span><br><span class="line">  &#125;</span><br><span class="line">  arr[low] = p;</span><br><span class="line">  <span class="keyword">return</span> low;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-三路快排"><a href="#4-三路快排" class="headerlink" title="4.三路快排"></a>4.三路快排</h3><p>当序列中有很多相等元素，特别是当这些元素相邻时，可以对上述方法进行改进，即三路快排序，即将元素划分为三个部分，分别小于、等于、大于划分点元素，然后对小于、大于划分点元素的两个序列递归进行排序，而等于部分则已经完成排序。相关代码实现(python)如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">stack = [<span class="number">0</span>, len(arr)<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">while</span> stack:</span><br><span class="line">  high, low = stack.pop(<span class="number">-1</span>), stack.pop(<span class="number">-1</span>)</span><br><span class="line">  pivot, less, equal, greater =arr[random.randint(low, high)], [], [], []</span><br><span class="line">  <span class="keyword">for</span> x <span class="keyword">in</span> arr[low: high + <span class="number">1</span>]:</span><br><span class="line">    <span class="keyword">if</span> x &lt; pivot: less.append(x)</span><br><span class="line">    <span class="keyword">elif</span> x == pivot: equal.append(x)</span><br><span class="line">    <span class="keyword">else</span>:greater.append(x)</span><br><span class="line">  arr[low: high + <span class="number">1</span>] = less + equal + greater</span><br><span class="line">  <span class="keyword">if</span> len(less) &gt; <span class="number">1</span>:</span><br><span class="line">    stack.append(low); stack.append(low + len(less) - <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">if</span> len(greater) &gt; <span class="number">1</span>:</span><br><span class="line">    stack.append(high - len(greater) + <span class="number">1</span>);stack.append(high)</span><br></pre></td></tr></table></figure></p>
+<h2 id="五、性能对比"><a href="#五、性能对比" class="headerlink" title="五、性能对比"></a>五、性能对比</h2><p>首先，通过使用相等序列、正序序列、逆序序列、随机序列、部分重复序列对上述排序函数(不包括C++实现的函数)进行测试，测试集生成方式如下图：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">arrays = [[<span class="number">25</span>] * RecordsNum,</span><br><span class="line">	  list(range(RecordsNum)),</span><br><span class="line">	  list(range(RecordsNum, <span class="number">0</span>, <span class="number">-1</span>)),</span><br><span class="line">	  [random.randint(<span class="number">1</span>, <span class="number">10000000</span>) <span class="keyword">for</span> k <span class="keyword">in</span> range(RecordsNum)],</span><br><span class="line">	  [random.randint(<span class="number">1</span>, <span class="number">100</span>) <span class="keyword">for</span> k <span class="keyword">in</span> range(RecordsNum)]]</span><br><span class="line">names = [<span class="string">'same records'</span>,</span><br><span class="line">	 <span class="string">'positive sequence'</span>,</span><br><span class="line">	 <span class="string">'negative sequence'</span>,</span><br><span class="line">	 <span class="string">'random sequence'</span>,</span><br><span class="line">	 <span class="string">'repetited records'</span>]</span><br></pre></td></tr></table></figure></p>
+<p>对运行结果进行分析，得到如下性能对比图：<center><img src="1.png" alt=""></center><br>图中每个柱状图从左到右依次为选取右端元素、随机选取、两数取异、三数取中、九数取中、三路快排以及标准库排序函数，纵坐标是函数的相对运行时间，容易看出实验结果符合上述原理分析。<br>然后，我们通过对每一个函数使用不同规模的数据集，测试其运行时间变化曲线，每个函数采集30个点进行模拟分析，数据集生成方式如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arrays = [[random.randint(<span class="number">1</span>, <span class="number">10000000</span>) <span class="keyword">for</span> k <span class="keyword">in</span> range(standard * m)] <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">91</span>, <span class="number">3</span>)]</span><br></pre></td></tr></table></figure></p>
+<p>对运行结果进行分析，得到如下性能曲线图：<center><img src="2.png" alt=""></center><br>我们使用的数据集大小从50000到4500000线性增加，容易看出函数运行时间大致呈线性变化。</p>
+<h2 id="六、附录"><a href="#六、附录" class="headerlink" title="六、附录"></a>六、附录</h2><h3 id="1-划分点选取与三路快排-python实现"><a href="#1-划分点选取与三路快排-python实现" class="headerlink" title="1.划分点选取与三路快排 python实现"></a>1.<a href="https://github.com/zg-diligence/blog_contents/blob/master/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E5%8F%8A%E5%85%B6%E4%BC%98%E5%8C%96/QuickSort_NotRecursion.py" target="_blank" rel="noopener">划分点选取与三路快排 python实现</a></h3><h3 id="2-划分方法-C-实现"><a href="#2-划分方法-C-实现" class="headerlink" title="2.划分方法 C++实现"></a>2.<a href="https://github.com/zg-diligence/blog_contents/blob/master/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E5%8F%8A%E5%85%B6%E4%BC%98%E5%8C%96/QuickSort.cpp" target="_blank" rel="noopener">划分方法 C++实现</a></h3><h2 id="七、参考"><a href="#七、参考" class="headerlink" title="七、参考"></a>七、参考</h2><h3 id="1-关于快速排序的四种写法"><a href="#1-关于快速排序的四种写法" class="headerlink" title="1.关于快速排序的四种写法"></a>1.<a href="https://segmentfault.com/a/1190000004410119" target="_blank" rel="noopener">关于快速排序的四种写法</a></h3><h3 id="2-《算法导论》第二版"><a href="#2-《算法导论》第二版" class="headerlink" title="2.《算法导论》第二版"></a>2.《算法导论》第二版</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sort/" rel="tag"># sort</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/14/最短路径算法小结/" rel="next" title="最短路径算法小结">
+                <i class="fa fa-chevron-left"></i> 最短路径算法小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、算法思想"><span class="nav-number">1.</span> <span class="nav-text">一、算法思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、核心实现"><span class="nav-number">2.</span> <span class="nav-text">二、核心实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、划分点选取"><span class="nav-number">3.</span> <span class="nav-text">三、划分点选取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-选取最右端"><span class="nav-number">3.1.</span> <span class="nav-text">1.选取最右端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-随机选取"><span class="nav-number">3.2.</span> <span class="nav-text">2.随机选取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-两数取异"><span class="nav-number">3.3.</span> <span class="nav-text">3.两数取异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-三数取中"><span class="nav-number">3.4.</span> <span class="nav-text">4.三数取中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-九数取中"><span class="nav-number">3.5.</span> <span class="nav-text">5.九数取中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、划分方法"><span class="nav-number">4.</span> <span class="nav-text">四、划分方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-前后指针法"><span class="nav-number">4.1.</span> <span class="nav-text">1.前后指针法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-左右指针交换法"><span class="nav-number">4.2.</span> <span class="nav-text">2.左右指针交换法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-左右指针赋值法"><span class="nav-number">4.3.</span> <span class="nav-text">3.左右指针赋值法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-三路快排"><span class="nav-number">4.4.</span> <span class="nav-text">4.三路快排</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、性能对比"><span class="nav-number">5.</span> <span class="nav-text">五、性能对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、附录"><span class="nav-number">6.</span> <span class="nav-text">六、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-划分点选取与三路快排-python实现"><span class="nav-number">6.1.</span> <span class="nav-text">1.划分点选取与三路快排 python实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-划分方法-C-实现"><span class="nav-number">6.2.</span> <span class="nav-text">2.划分方法 C++实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、参考"><span class="nav-number">7.</span> <span class="nav-text">七、参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-关于快速排序的四种写法"><span class="nav-number">7.1.</span> <span class="nav-text">1.关于快速排序的四种写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-《算法导论》第二版"><span class="nav-number">7.2.</span> <span class="nav-text">2.《算法导论》第二版</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

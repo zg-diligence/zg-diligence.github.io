@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="图论," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、单源最短路径算法1.Bellman-Ford算法算法概述Bellman-Ford算法解决的是一般情况下的的单源最短路径问题，边的权值可以为负，并且该算法可以判断有向图中是否有负环。给定有向图G=(V,E)和相应边的权重，同时指定源点，Bellman-Ford算法返回一个布尔值，以表明有向图中是否含有负环，如果没有，">
+<meta name="keywords" content="图论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路径算法小结">
+<meta property="og:url" content="http://gzhang.org/2017/04/14/最短路径算法小结/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="一、单源最短路径算法1.Bellman-Ford算法算法概述Bellman-Ford算法解决的是一般情况下的的单源最短路径问题，边的权值可以为负，并且该算法可以判断有向图中是否有负环。给定有向图G=(V,E)和相应边的权重，同时指定源点，Bellman-Ford算法返回一个布尔值，以表明有向图中是否含有负环，如果没有，算法将给出最短路径及其权重。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/1.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/2.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/3.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/4.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/5.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/6.jpg">
+<meta property="og:updated_time" content="2017-12-02T03:59:43.201Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最短路径算法小结">
+<meta name="twitter:description" content="一、单源最短路径算法1.Bellman-Ford算法算法概述Bellman-Ford算法解决的是一般情况下的的单源最短路径问题，边的权值可以为负，并且该算法可以判断有向图中是否有负环。给定有向图G=(V,E)和相应边的权重，同时指定源点，Bellman-Ford算法返回一个布尔值，以表明有向图中是否含有负环，如果没有，算法将给出最短路径及其权重。">
+<meta name="twitter:image" content="http://gzhang.org/2017/04/14/最短路径算法小结/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2017/04/14/最短路径算法小结/"/>
+
+
+
+
+
+  <title>最短路径算法小结 | 算云烟</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/04/14/最短路径算法小结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">最短路径算法小结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-14T00:00:00+08:00">
+                2017-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、单源最短路径算法"><a href="#一、单源最短路径算法" class="headerlink" title="一、单源最短路径算法"></a>一、单源最短路径算法</h2><h3 id="1-Bellman-Ford算法"><a href="#1-Bellman-Ford算法" class="headerlink" title="1.Bellman-Ford算法"></a>1.Bellman-Ford算法</h3><h4 id="算法概述"><a href="#算法概述" class="headerlink" title="算法概述"></a>算法概述</h4><p>Bellman-Ford算法解决的是一般情况下的的单源最短路径问题，边的权值可以为负，并且该算法可以判断有向图中是否有负环。给定有向图G=(V,E)和相应边的权重，同时指定源点，Bellman-Ford算法返回一个布尔值，以表明有向图中是否含有负环，如果没有，算法将给出最短路径及其权重。<a id="more"></a></p>
+<h4 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h4><p>假设有向图G有|V|个顶点，那么我们容易知道任意两点之间的最短路径最多有|V|-1边，也就是简单路径，如果大于|V|-1条边，必然有环，如果是正环，去掉后路径变短，如果是负环，最短路不存在，如果是零环，去掉后不变。Bellman-Ford算法的思想很简单，就是对每一条边更新|V|-1次，如果有向图中没有负环，那么总能得到正确结果。<br>那又怎么判断是否有负环呢？在进行|V|-1次松弛操作之后，如果仍然有变化，则再执行一次循环，如果仍然有更新操作发生，则必然含有负环。原因在上一段已经提到，如果有向图中没有负环，得到正确结果至多需要|V|-1次操作。实际上，并不是一定需要|V|-1次松弛操作，如果在某一次操作之后，没有任何更新，则再进行循环也不会有更新了，即当前结果就是最短路径，退出函数即可。<br>补充说明一下什么是松弛操作。假设边(u,v)是图中的一条边，w(u,v)是该边的权重，dist[u]、dist[v]分别代表当前时刻顶点u、v到源点的最短距离，如果dist[u] + w(u,v) &lt; dist[v]，则需要对边(u,v)进行松弛操作，也就是更新顶点v到源点的最短距离。听起来感觉怪怪的。</p>
+<h4 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h4><p>下面给出伪代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Bellman-Ford(G, w, src)</span><br><span class="line">&#123;</span><br><span class="line">  Initialize single source;</span><br><span class="line">  <span class="keyword">for</span> i = <span class="number">1</span> to |V|</span><br><span class="line">     <span class="keyword">for</span> each edge(u,v) ∈ G.E</span><br><span class="line">  	 Relax(u, v, w);</span><br><span class="line">     <span class="keyword">if</span> no change</span><br><span class="line">	 <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">     <span class="keyword">if</span> i == |V| <span class="keyword">and</span> change occurs</span><br><span class="line">	 <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>算法第3行初始化操作所需时间为$O(|V|)$，第4-10行每一次循环需要时间$O(|E|)$，且需要|V|次循环，所以总的运行时间为$O(|V|*|E|)$。</p>
+<h3 id="2-SPFA算法"><a href="#2-SPFA算法" class="headerlink" title="2.SPFA算法"></a>2.SPFA算法</h3><h4 id="算法概述-1"><a href="#算法概述-1" class="headerlink" title="算法概述"></a>算法概述</h4><p>SPFA算法其实是针对Bellman-Ford的队列改进版，应用范围和Bellman-Ford是一样的。</p>
+<h4 id="算法思想-1"><a href="#算法思想-1" class="headerlink" title="算法思想"></a>算法思想</h4><p>容易看出，Bellman-Ford算法中对边的更新并不总是有意义的，对于某一条具体的边，如果它的起始顶点在前一次更新中没有受到影响，那么它在这次循环中也不会更新，所以没有必要对每一条边进行更新。SPFA算法采用一个队列保存受到影响的顶点，初始时刻将源点入队，每一次循环取出队首顶点，找到所有与之相邻的顶点，更新最短路，并将这些受到影响的顶点入队。所谓的受到影响，也就是在某一次更新中，顶点到源点的最短路径发生变化。直到队列为空时，退出循环。<br>接下来的问题是如何判断是否有负环？如果有负环，前面的更新操作将陷入死循环。由于对某一条具体的边我们最多需要进行|V|-1次松弛操作，每一次松弛操作，相应的顶点就会入队，我们可以记录每一个顶点入队的次数，如果存在某一个顶点入队次数达到|V|次，那么有向图中必然有负环，强制退出循环，返回错误信息。</p>
+<h4 id="算法实现-1"><a href="#算法实现-1" class="headerlink" title="算法实现"></a>算法实现</h4><p>下面给出伪代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SPFA(G, w, src)</span><br><span class="line">&#123;</span><br><span class="line">  Enqueued src <span class="keyword">and</span> Initialize info;</span><br><span class="line">  <span class="keyword">while</span> <span class="built_in">queue</span> is <span class="keyword">not</span> empty</span><br><span class="line">    u = dequeue the <span class="built_in">queue</span></span><br><span class="line">    <span class="keyword">for</span> each edge(u,v) ∈ G.E</span><br><span class="line">        Relax(u, v, w);</span><br><span class="line">    <span class="keyword">if</span> change occurs</span><br><span class="line">	enqueued v;</span><br><span class="line">    <span class="keyword">if</span> v enqueued <span class="keyword">for</span> |V| times</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>算法复杂度同Bellman-Ford算法，$O(|V|*|E|)$。</p>
+<h3 id="3-ASP算法"><a href="#3-ASP算法" class="headerlink" title="3.ASP算法"></a>3.ASP算法</h3><h4 id="算法概述-2"><a href="#算法概述-2" class="headerlink" title="算法概述"></a>算法概述</h4><p>ASP算法是针对带权重的有向无环图提出的一种线性算法。在有向无环图中，即使存在负权值的边，但因为没有权重为负值的环，最短路径是存在的。</p>
+<h4 id="算法思想-2"><a href="#算法思想-2" class="headerlink" title="算法思想"></a>算法思想</h4><p>首先，该算法对有向无环图进行一次拓扑排序，以便确定结点之间的一个线性次序。拓扑排序其实和排序算法没有任何关系，那么它为什么又叫做排序呢？在拓扑序列中有这样一个性质，如果一条边有向边(u,v)在有向图G中，那么在有向图顶点的拓扑序列中，顶点u一定在v之前。具体原因，请参考拓扑排序算法原理。这样一来，我们只需要按照拓扑序列对结点进行一遍处理即可，因为一旦更新某一个顶点，则该顶点即被确定，不会再更新。<br>在对有向图顶点进行拓扑排序的同时，也就判断出有向图中是否包含有环，因为拓扑排序是不能对有环图使用的。</p>
+<h4 id="算法实现-2"><a href="#算法实现-2" class="headerlink" title="算法实现"></a>算法实现</h4><p>下面给出伪代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ASP(G, w, r)</span><br><span class="line">&#123;</span><br><span class="line">  topologically sort the vertices of G;</span><br><span class="line">  Initialize single source;</span><br><span class="line">  <span class="keyword">for</span> each vertex u, taken in topologically sorted order</span><br><span class="line">    <span class="keyword">for</span> each vertex v ∈ G.Adj[u]</span><br><span class="line">	  Relax(u, v, w);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>复杂度分析非常容易。算法第3行拓扑排序时间为$O(|V|+|E|)$，第4行为$O(|V|)$，第5-7行恰好对每条边松弛一次，即$O(|E|)$。那么总的算法时间为$O(|V|+|E|)$，是线性时间。</p>
+<h3 id="4-Dijkstra算法"><a href="#4-Dijkstra算法" class="headerlink" title="4.Dijkstra算法"></a>4.Dijkstra算法</h3><h4 id="算法概述-3"><a href="#算法概述-3" class="headerlink" title="算法概述"></a>算法概述</h4><p>Dijkstra算法解决的是带权重的有向图上单源最短路径问题，该算法要求所有边的权重都为非负值。采用合适的方法实现，Dijkstra算法的运行时间要低于Bellman-Ford算法的运行时间。</p>
+<h4 id="算法思想-3"><a href="#算法思想-3" class="headerlink" title="算法思想"></a>算法思想</h4><p>Dijkstra算法其实是一种贪心算法。该算法将有向图的顶点分为两个集合，一个是S，包含所有已经确定到源点最短路径的顶点，另一个是V-S，没有确定的顶点集合。算法重复从结点集V-S中选出最短路径估计最小的顶点u加入集合S，然后对所有从u出发的边进行松弛操作，直到S = V。<br>为什么该算法中不能有负权值的边呢？还要强调的一点是，在Djkstra算法中一旦某个顶点已经加入集合S，则在后续更新中不再考虑该顶点。下面举例说明权值为负会出现什么状况：<center><img src="1.jpg" alt=""></center><br>在上图中，源点为a，根据Dijkstra算法首先会选择顶点b，然后才是顶点c，但此时顶点b已经加入集合S，无法再进行更新，那么对于顶点b我们将得到最短路径为5，显然a-&gt;c-&gt;b才是最短路径，权值和为4。</p>
+<h4 id="算法实现-3"><a href="#算法实现-3" class="headerlink" title="算法实现"></a>算法实现</h4><p>我们可以采用优先队列来维持集合V-S，下面给出算法伪代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dijkstra(G, w, src)</span><br><span class="line">&#123;</span><br><span class="line">  Initialize single source;</span><br><span class="line">  S = ∅;</span><br><span class="line">  Q = G.V;</span><br><span class="line">  <span class="keyword">while</span> Q != ∅</span><br><span class="line">    u = Delete-Min(Q);</span><br><span class="line">    S = S ∪ &#123;u&#125;;</span><br><span class="line">    <span class="keyword">for</span> each vertex v ∈ G.Adj[u]</span><br><span class="line">	  Relax(u, v, w);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="复杂度分析-3"><a href="#复杂度分析-3" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>算法第7行每次Delete-Min操作需要时间$O(1)$，对于每一个顶点只出队一次，算法第9-10隐藏一个Decrease-Key操作，该操作时间为$O(lg|V|)$，一共|E|条边，则总运行时间为$O(|E|*lg|V|)$。</p>
+<h2 id="二、全源最短路径算法"><a href="#二、全源最短路径算法" class="headerlink" title="二、全源最短路径算法"></a>二、全源最短路径算法</h2><h3 id="1-基于矩阵乘法的动态规划算法"><a href="#1-基于矩阵乘法的动态规划算法" class="headerlink" title="1.基于矩阵乘法的动态规划算法"></a>1.基于矩阵乘法的动态规划算法</h3><h4 id="算法概述-4"><a href="#算法概述-4" class="headerlink" title="算法概述"></a>算法概述</h4><p>基于矩阵乘法的动态规划算法是用来解决所有结点对最短路径问题的。首先，我们需要知道这样一条引理：一条最短路径的所有子路径都是最短路径。引理的证明请参考《算法导论》引理24.1。考虑从结点u到结点v的一条最短路径p，假定p至多包含m条边，并且有向图中没有负环。如果 u = v，则p的权重为0且不包含任何边。如果u != v，则将路径分解为u~k-&gt;v，其中路径p’:u~k至多包含m-1边，且p’为结点u到k的一条最短路径。因此dist[u][v] = dist[u][k] + w(k,v)。</p>
+<h4 id="算法思想-4"><a href="#算法思想-4" class="headerlink" title="算法思想"></a>算法思想</h4><p>设L(m)[u][v]为从结点u到结点v的至多包含m条边的任意路径中的最小权重，对于需要计算的L(m)[u][v]是L(m-1)[u][v]的最小值和从u到v的最多由m条边组成的任意路径的最小权重，我们通过检查j的所有可能前驱来获得该值，也就是说:</p>
+<blockquote>
+<p><font size="4"> L(m)[u][v] = min { L(m)[u][v], min { L(m-1)[u][k] + w(k,v) }}， 0 &lt;= k &lt;= |V|-1</font></p>
+</blockquote>
+<p>那么又怎样判断图中是否有负环呢？简单分析可以得出，有向图中有负环当前仅当存在顶点 i，使得 L(m)[i][i] &lt; 0，证明略。此方法介绍比较简略，详细请参考《算法导论》25.1。</p>
+<h4 id="算法实现-4"><a href="#算法实现-4" class="headerlink" title="算法实现"></a>算法实现</h4><p>边拓展：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">EXTEND_SHORTEST_PATHS(L, W)  </span><br><span class="line">&#123;</span><br><span class="line">  n = L.rows;</span><br><span class="line">  let L' = l'(i,j) be a <span class="keyword">new</span> n*n matrix;</span><br><span class="line">  <span class="keyword">for</span> i = <span class="number">1</span> to n  </span><br><span class="line">    <span class="keyword">for</span> j = <span class="number">1</span> to n  </span><br><span class="line">      l'(i,j) = ∞</span><br><span class="line">      <span class="keyword">for</span> k = <span class="number">1</span> to n</span><br><span class="line">      l(i,j) = min &#123;l(i,j)', l(i,k) + w(k,j)&#125;</span><br><span class="line">  <span class="keyword">return</span> L';</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主程序：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SLOW-ALL-PATHS-SHORTEST-PATHS(W)  </span><br><span class="line">&#123;</span><br><span class="line">  n = W.rows;</span><br><span class="line">  L[<span class="number">1</span>] = W;</span><br><span class="line">  <span class="keyword">for</span> m = <span class="number">2</span> to n<span class="number">-1</span>  </span><br><span class="line">      let L[m] be a <span class="keyword">new</span> n*n matrix;</span><br><span class="line">      L[m] = EXTEND_SHORTEST_PATHS(L(m<span class="number">-1</span>), W);</span><br><span class="line">  <span class="keyword">return</span> L[n<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果采用重复平方技巧:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SLOW-ALL-PATHS-SHORTEST-PATHS(W)  </span><br><span class="line">&#123;</span><br><span class="line">  n = W.rows;</span><br><span class="line">  L[<span class="number">1</span>] = W;</span><br><span class="line">  m = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span> m &lt; n - <span class="number">1</span>  </span><br><span class="line">      let L[<span class="number">2</span>m] be a <span class="keyword">new</span> n*n matrix;</span><br><span class="line">      L[<span class="number">2</span>*m] = EXTEND_SHORTEST_PATHS(L(m), L(m));</span><br><span class="line">      let m = <span class="number">2</span>*m;</span><br><span class="line">  <span class="keyword">return</span> L[n<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="复杂度分析-4"><a href="#复杂度分析-4" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>显然边拓展需要的时间为$O(|V|^3)$，主程序的循环总共|V|次，则总运行时间为$O(|V|^4)$。如果采用重复平方技巧，主程序循环次数为lg|V|，则总运行时间降为$O(|V|^3 * lg|V|)$。</p>
+<h3 id="2-Floyd-Washall算法"><a href="#2-Floyd-Washall算法" class="headerlink" title="2.Floyd-Washall算法"></a>2.Floyd-Washall算法</h3><h4 id="算法概述-5"><a href="#算法概述-5" class="headerlink" title="算法概述"></a>算法概述</h4><p>Floyd-Washall算法也是一种动态规划算法，是用来解决全源最短路径问题的。假设顶点u和v是有向图G中的任意两个顶点，如果u和v之前有有向边，则u和v之间有路径，但不一定是最短的，也许经过某些中间点之后会使路径长度更短。我们可以考虑系统地在原路径中间加入每个顶点，然后不断调整当前路径即可。</p>
+<h4 id="算法思想-5"><a href="#算法思想-5" class="headerlink" title="算法思想"></a>算法思想</h4><p>假设求顶点vi到顶点vj的最短路径。如果从 vi 到 vj 存在一条长度为L[i][j]的路径，该路径不一定是最短路径，尚需进行 n 次试探。首先考虑路径 (vi, v0, vj) 是否存在。如果存在，则比较 (vi, vj) 和(vi, v0, vj) 的路径长度，取长度较短者为从 vi 到 vj 的中间顶点的序号不大于0的最短路径。<br>假设在路径上再增加一个顶点 v1，也就是说，如果 (vi ,…, v1)和(v1,…, vj) 分别是当前找到的中间顶点的序号不大于0的最短路径，那么(vi,…, v1 ,…, vj)就是有可能是从vi到vj的中间顶点的序号不大于1的最短路径。将它与已经得到的从 vi 到 vj 中间顶点序号不大于0的最短路径相比较，从中选出中间顶点的序号不大于1的最短路径，再增加一个顶点v2，继续进行试探。<br>一般情况下，若 (vi ,…, vk) 和 (vk, …, vj) 分别是从 vi 到 vk 和从 vk 到 vj 的中间顶点序号不大于 k-1 的最短路径，则将 (vi ,…, vk ,…, vj)和已经得到的从 vi到 vj 且中间顶点序号不大于k-1的最短路径相比较，其长度较短者便是从 vi 到 vj 的中间顶点的序号不大于 k 的最短路径。<br>下面是路径长路的迭代公式，且L(0)[i][j] = w(i,j):</p>
+<blockquote>
+<p><font size="4">L(m)[i][j] = min { L(m-1)[i][j], L(m-1)[i][k] + L(k-1)[k][j] }，0 ≤ k ≤ |V|-1</font></p>
+</blockquote>
+<p>同样，有向图中有负环当前仅当存在顶点 i，使得 L(m)[i][i] &lt; 0。<br>下面举例说明，有这样一个有向图：<center><img src="2.jpg" alt=""></center><br>初始矩阵：<center><img src="3.jpg" alt=""></center><br>加入结点0后：<center><img src="4.jpg" alt=""></center><br>加入结点1后：<center><img src="5.jpg" alt=""></center><br>加入结点2后：<center><img src="6.jpg" alt=""></center></p>
+<h4 id="算法实现-5"><a href="#算法实现-5" class="headerlink" title="算法实现"></a>算法实现</h4><p>下面直接给出主要实现并做出相关分析：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k != size; ++k)</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i != size; ++i)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j != size; ++j)</span><br><span class="line">      <span class="keyword">if</span> (dist[i][k] + dist[k][j] &lt; dist[i][j])</span><br><span class="line">      &#123;</span><br><span class="line">	     <span class="keyword">if</span> (dist[i][k] == infinity || dist[k][j] == infinity) <span class="comment">//negative weight edge.</span></span><br><span class="line">	        <span class="keyword">continue</span>;</span><br><span class="line">	     dist[i][j] = dist[i][k] + dist[k][j];</span><br><span class="line">	     nextV[i][j] = nextV[i][k];</span><br><span class="line">	     <span class="keyword">if</span> (i == j &amp;&amp; dist[i][j] &lt; <span class="number">0</span>)</span><br><span class="line">	        <span class="keyword">return</span> <span class="literal">false</span>;  <span class="comment">//there is a negative weighted circuit.</span></span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码中，dist[i][j]代表当前时刻结点i到结点j的路径距离，size是图的顶点个数，nextV是记录路径的数组，请读者自行分析其如何工作的。在程序第10行，对有向图中是否有负环进行了判断。</p>
+<h4 id="复杂度分析-5"><a href="#复杂度分析-5" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>显然，Floyd-Washall算法的运行时间为$O(|V|^3)$。</p>
+<h3 id="3-Johnson算法"><a href="#3-Johnson算法" class="headerlink" title="3.Johnson算法"></a>3.Johnson算法</h3><h4 id="算法概述-6"><a href="#算法概述-6" class="headerlink" title="算法概述"></a>算法概述</h4><p>Johnson算法是用于解决稀疏图全源最短路径问题的方法。Johnson算法的渐进表现要优于重复平方法和Floyd-Washall算法。Johnson实质上是对有向图每一个顶点调用Dijkstra算法，但是由于Dijkstra算法不能对负权重的边进行操作，调用Dijkstra算法之前需要将有向图转换为符合要求的新的有向图，这需要借助于Bellman-Ford算法。</p>
+<h4 id="算法思想-6"><a href="#算法思想-6" class="headerlink" title="算法思想"></a>算法思想</h4><p>具体的算法介绍<a href="http://blog.csdn.net/chenhanzhun/article/details/39084905" target="_blank" rel="noopener">这篇博客</a>已经讲得非常清楚了，所以我就不再介绍了。</p>
+<h4 id="算法实现-6"><a href="#算法实现-6" class="headerlink" title="算法实现"></a>算法实现</h4><p>下面给出伪代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">JOHNSON(G, w)  </span><br><span class="line">&#123;</span><br><span class="line">  compute G', where G'.V = G.V∪&#123;s&#125;,  </span><br><span class="line">      G'.E = G.V∪&#123;(s,v):v∈G.V&#125;, and  </span><br><span class="line">      w(s,v)=<span class="number">0</span> <span class="keyword">for</span> all v ∈ G.V  </span><br><span class="line">  <span class="keyword">if</span> BELLMAN-FORD(G', w, s) == FALSE  </span><br><span class="line">      print <span class="string">"the input graph contain a negative-weigh cycle"</span>  </span><br><span class="line">  else  for each vertex v ∈ G'.V  </span><br><span class="line">          set h(v) to the value if δ(s,v)  </span><br><span class="line">              computed by the Bellman-Ford algorithm  </span><br><span class="line">        for each edge(u,v)∈G'.E  </span><br><span class="line">            w'(u,v) = w(u,v) + h(u) + h(v); </span><br><span class="line">        let D=&#123;d(u,v)&#125; be a <span class="keyword">new</span> n*n matrix;</span><br><span class="line">        for each vertex u∈G'.V  </span><br><span class="line">            run DIJKSTRA(G,w',u) to compute δ'(u,v) for all δ∈G.V;</span><br><span class="line">            <span class="keyword">for</span> each vertex v∈G.V  </span><br><span class="line">                d(u,v) = δ'(u,v) + h(v) - h(u);</span><br><span class="line">  <span class="keyword">return</span> D;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="复杂度分析-6"><a href="#复杂度分析-6" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p>如果采用二叉堆实现Dijkstra算法，总运行时间为 O(|V||E|lg|V|)，如果采用斐波那契堆来实现Dijkstra算法，则总运行时间为 $O(|V|^2*lg|V| + |V||E|)$。</p>
+<h2 id="三、附录"><a href="#三、附录" class="headerlink" title="三、附录"></a>三、附录</h2><h3 id="1-源代码实现"><a href="#1-源代码实现" class="headerlink" title="1.源代码实现"></a>1.<a href="https://github.com/zg-diligence/blog_contents/blob/master/ShortestPath.cpp" target="_blank" rel="noopener">源代码实现</a></h3><h2 id="四、参考"><a href="#四、参考" class="headerlink" title="四、参考"></a>四、参考</h2><h3 id="1-带权最短路算法分析"><a href="#1-带权最短路算法分析" class="headerlink" title="1.带权最短路算法分析"></a>1.<a href="https://www.renfei.org/blog/weighted-shortest-path.html" target="_blank" rel="noopener">带权最短路算法分析</a></h3><h3 id="2-所有结点对的最短路径"><a href="#2-所有结点对的最短路径" class="headerlink" title="2.所有结点对的最短路径"></a>2.<a href="http://blog.csdn.net/chenhanzhun/article/details/39084905" target="_blank" rel="noopener">所有结点对的最短路径</a></h3><h3 id="3-算法导论-第二版"><a href="#3-算法导论-第二版" class="headerlink" title="3.算法导论 第二版"></a>3.算法导论 第二版</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图论/" rel="tag"># 图论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/01/动态哈夫曼编码压缩/" rel="next" title="动态哈夫曼编码压缩">
+                <i class="fa fa-chevron-left"></i> 动态哈夫曼编码压缩
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/14/快速排序及其优化/" rel="prev" title="快速排序及其优化">
+                快速排序及其优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、单源最短路径算法"><span class="nav-number">1.</span> <span class="nav-text">一、单源最短路径算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Bellman-Ford算法"><span class="nav-number">1.1.</span> <span class="nav-text">1.Bellman-Ford算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述"><span class="nav-number">1.1.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想"><span class="nav-number">1.1.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现"><span class="nav-number">1.1.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析"><span class="nav-number">1.1.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SPFA算法"><span class="nav-number">1.2.</span> <span class="nav-text">2.SPFA算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析-1"><span class="nav-number">1.2.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ASP算法"><span class="nav-number">1.3.</span> <span class="nav-text">3.ASP算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现-2"><span class="nav-number">1.3.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析-2"><span class="nav-number">1.3.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Dijkstra算法"><span class="nav-number">1.4.</span> <span class="nav-text">4.Dijkstra算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想-3"><span class="nav-number">1.4.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现-3"><span class="nav-number">1.4.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析-3"><span class="nav-number">1.4.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、全源最短路径算法"><span class="nav-number">2.</span> <span class="nav-text">二、全源最短路径算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基于矩阵乘法的动态规划算法"><span class="nav-number">2.1.</span> <span class="nav-text">1.基于矩阵乘法的动态规划算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述-4"><span class="nav-number">2.1.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想-4"><span class="nav-number">2.1.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现-4"><span class="nav-number">2.1.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析-4"><span class="nav-number">2.1.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Floyd-Washall算法"><span class="nav-number">2.2.</span> <span class="nav-text">2.Floyd-Washall算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述-5"><span class="nav-number">2.2.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想-5"><span class="nav-number">2.2.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现-5"><span class="nav-number">2.2.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析-5"><span class="nav-number">2.2.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Johnson算法"><span class="nav-number">2.3.</span> <span class="nav-text">3.Johnson算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法概述-6"><span class="nav-number">2.3.1.</span> <span class="nav-text">算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法思想-6"><span class="nav-number">2.3.2.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现-6"><span class="nav-number">2.3.3.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度分析-6"><span class="nav-number">2.3.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、附录"><span class="nav-number">3.</span> <span class="nav-text">三、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-源代码实现"><span class="nav-number">3.1.</span> <span class="nav-text">1.源代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、参考"><span class="nav-number">4.</span> <span class="nav-text">四、参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-带权最短路算法分析"><span class="nav-number">4.1.</span> <span class="nav-text">1.带权最短路算法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-所有结点对的最短路径"><span class="nav-number">4.2.</span> <span class="nav-text">2.所有结点对的最短路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-算法导论-第二版"><span class="nav-number">4.3.</span> <span class="nav-text">3.算法导论 第二版</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
