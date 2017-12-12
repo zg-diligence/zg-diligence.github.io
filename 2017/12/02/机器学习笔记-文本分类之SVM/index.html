@@ -134,7 +134,7 @@
 <meta property="og:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/2.jpg">
 <meta property="og:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/3.jpg">
 <meta property="og:image" content="http://gzhang.org/2017/12/02/机器学习笔记-文本分类之SVM/1.jpg">
-<meta property="og:updated_time" content="2017-12-02T11:02:21.762Z">
+<meta property="og:updated_time" content="2017-12-12T12:17:46.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习笔记 -- 基于libsvm的中文文本分类">
 <meta name="twitter:description" content="一、简介SVM 是 Cortes 和 Vapnik 于1995年首先提出的，它在解决小样本 、非线性及高维模式识别问题中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。支持向量机方法是建立在统计学习理论的 VC 维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性和学习能力之间寻求最佳折衷，以期获得最好的泛化能力。">
@@ -562,15 +562,9 @@
 <p><strong>注意</strong>，如果你无法编译64位动态链接文件，<strong><a href="https://github.com/zg-diligence/Small_Python/blob/master/code_of_ML/SVM/libsvm/libsvm.dll" target="_blank" rel="noopener">这里</a></strong> 我已经编译好了，亲自验证 python3.4 和 python3.5 均可以使用，虽然 python3.4 对应的编译环境是 Visual C++ 10。</p>
 <h2 id="四、libsvm-使用示例"><a href="#四、libsvm-使用示例" class="headerlink" title="四、libsvm 使用示例"></a>四、libsvm 使用示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(data_path, model_path, param_str=<span class="string">''</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    function: train model and save it into file</span></span><br><span class="line"><span class="string">    data_path: path of training data</span></span><br><span class="line"><span class="string">    model_path: file path to save the model</span></span><br><span class="line"><span class="string">    param_str: parameter string for training model</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> param_str:</span><br><span class="line">        param_str = <span class="string">'-c 200 -g 9.0e-6 -q'</span></span><br><span class="line"></span><br><span class="line">    y, x = svm_read_problem(data_path)</span><br><span class="line">    svm_prob = svm_problem(y, x)</span><br><span class="line">    svm_param = svm_parameter(param_str)</span><br><span class="line">    model = svm_train(svm_prob, svm_param)</span><br><span class="line">    svm_save_model(model_path, model)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(data_path, modal_path)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    predict label for unlabel data</span></span><br><span class="line"><span class="string">    data_path: path of testing data</span></span><br><span class="line"><span class="string">    model_path: file_path of the model</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    y, x = svm_read_problem(data_path)</span><br><span class="line">    svm_model = svm_load_model(modal_path)</span><br><span class="line">    p_label, p_acc, p_val = svm_predict(y, x, svm_model)</span><br><span class="line">    <span class="keyword">return</span> p_label, p_acc, p_val</span><br></pre></td></tr></table></figure>
 <p>上面仅仅是一个代码示例，详细用法请参考文档说明，根目录和 python 目录下都有 README 文件。</p>
-<p>此外，对 tools 目录下的 grid.py 文件用法进行简单说明，这个文件依赖于 svm-train.exe 文件，帮助我们更加快捷的找到最佳训练参数，python 环境下运行:</p>
-<blockquote>
-<p>python grid.py training_file</p>
-</blockquote>
+<p>此外，对 tools 目录下的 grid.py 文件用法进行简单说明，这个文件依赖于 svm-train.exe 文件，帮助我们更加快捷的找到最佳训练参数，python 环境下运行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python grid.py training_file</span><br></pre></td></tr></table></figure></p>
 <p>输出结果中最后一行即为最佳参数，当然你可以根据实际情况对 grid.py 代码进行修改。</p>
-<p>另外，windows目录下有一个 svm-scale.exe 可执行文件，用于规范化特征值到指定范围，如：</p>
-<blockquote>
-<p>svm-scale -l 0 -u 10 -s range_file training_file &gt; training_scale<br>svm-scale -r range_file testing_file &gt; testing_scale</p>
-</blockquote>
+<p>另外，windows目录下有一个 svm-scale.exe 可执行文件，用于规范化特征值到指定范围，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svm-scale -l 0 -u 10 -s range_file training_file &gt; training_scale</span><br><span class="line">svm-scale -r range_file testing_file &gt; testing_scale</span><br></pre></td></tr></table></figure></p>
 <p>上述两条命令将数据的特征值规范到 0-10 之间，-l、-u 参数是特征值上下界，-s range_file 是将范围存到文件中，便于规范测试数据时使用，-r range_file 即读取范围文件。更详细的用法请查看 libsvm 根目录下 README 文件。 </p>
 <h2 id="五、附录"><a href="#五、附录" class="headerlink" title="五、附录"></a>五、附录</h2><h3 id="1-相关代码实现"><a href="#1-相关代码实现" class="headerlink" title="1. 相关代码实现 "></a>1.<strong> <a href="https://github.com/zg-diligence/Small_Python/blob/master/code_of_ML/SVM/svm.py" target="_blank" rel="noopener">相关代码实现</a> </strong></h3><h3 id="2-卡方分布临界值表"><a href="#2-卡方分布临界值表" class="headerlink" title="2. 卡方分布临界值表"></a>2.<strong> 卡方分布临界值表</strong></h3><p><img src="1.jpg" alt="卡方分布临界值表"></p>
 <h2 id="六、参考链接"><a href="#六、参考链接" class="headerlink" title="六、参考链接"></a>六、参考链接</h2><h3 id="1-卡方检验原理及应用"><a href="#1-卡方检验原理及应用" class="headerlink" title="1.卡方检验原理及应用"></a>1.<strong><a href="http://guoze.me/2015/09/07/chi-square/" target="_blank" rel="noopener">卡方检验原理及应用</a></strong></h3><h3 id="2-x2检验（chi-square-test）或称卡方检验"><a href="#2-x2检验（chi-square-test）或称卡方检验" class="headerlink" title="2.x2检验（chi-square test）或称卡方检验"></a>2.<strong><a href="http://www.cnblogs.com/emanlee/archive/2008/10/25/1319569.html" target="_blank" rel="noopener">x2检验（chi-square test）或称卡方检验</a></strong></h3><h3 id="3-基于libsvm的中文文本分类原型"><a href="#3-基于libsvm的中文文本分类原型" class="headerlink" title="3.基于libsvm的中文文本分类原型"></a>3.<strong><a href="http://blog.csdn.net/marising/article/details/5844063" target="_blank" rel="noopener">基于libsvm的中文文本分类原型</a></strong></h3><h3 id="4-TF-IDF与余弦相似性的应用"><a href="#4-TF-IDF与余弦相似性的应用" class="headerlink" title="4.TF-IDF与余弦相似性的应用"></a>4.<strong><a href="http://www.ruanyifeng.com/blog/2013/03/tf-idf.html" target="_blank" rel="noopener">TF-IDF与余弦相似性的应用</a></strong></h3>
@@ -612,6 +606,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/12/Django学习笔记-Celery的简单使用/" rel="prev" title="Django学习笔记 -- Celery的简单使用">
+                Django学习笔记 -- Celery的简单使用 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -692,7 +690,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -703,7 +701,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -714,7 +712,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

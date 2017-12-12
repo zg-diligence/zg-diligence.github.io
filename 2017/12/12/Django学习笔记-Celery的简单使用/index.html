@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Web," />
 
 
 
@@ -123,16 +123,21 @@
 
 
 
-<meta name="description" content="我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="算云烟">
-<meta property="og:url" content="http://gzhang.org/archives/2017/02/index.html">
+<meta name="description" content="一、简介Celery 是 Python 开发的分布式队列处理器，可以异步、分布式地处理任务，也可以执行定时任务。我们可能在 Django 中执行一些比较耗时的任务，如发邮件，我们总不能等待邮件发送完毕了再响应页面吧，同时有一些任务是需要在后台执行的，如爬虫和服务器缓存更新，这时候 Celery 就是一个不错的选择。">
+<meta name="keywords" content="Web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django学习笔记 -- Celery的简单使用">
+<meta property="og:url" content="http://gzhang.org/2017/12/12/Django学习笔记-Celery的简单使用/index.html">
 <meta property="og:site_name" content="算云烟">
-<meta property="og:description" content="我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。">
+<meta property="og:description" content="一、简介Celery 是 Python 开发的分布式队列处理器，可以异步、分布式地处理任务，也可以执行定时任务。我们可能在 Django 中执行一些比较耗时的任务，如发邮件，我们总不能等待邮件发送完毕了再响应页面吧，同时有一些任务是需要在后台执行的，如爬虫和服务器缓存更新，这时候 Celery 就是一个不错的选择。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2017/12/12/Django学习笔记-Celery的简单使用/1.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/12/Django学习笔记-Celery的简单使用/2.jpg">
+<meta property="og:updated_time" content="2017-12-12T12:26:41.438Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算云烟">
-<meta name="twitter:description" content="我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。">
+<meta name="twitter:title" content="Django学习笔记 -- Celery的简单使用">
+<meta name="twitter:description" content="一、简介Celery 是 Python 开发的分布式队列处理器，可以异步、分布式地处理任务，也可以执行定时任务。我们可能在 Django 中执行一些比较耗时的任务，如发邮件，我们总不能等待邮件发送完毕了再响应页面吧，同时有一些任务是需要在后台执行的，如爬虫和服务器缓存更新，这时候 Celery 就是一个不错的选择。">
+<meta name="twitter:image" content="http://gzhang.org/2017/12/12/Django学习笔记-Celery的简单使用/1.jpg">
 
 
 
@@ -162,13 +167,13 @@
 
 
 
-  <link rel="canonical" href="http://gzhang.org/archives/2017/02/"/>
+  <link rel="canonical" href="http://gzhang.org/2017/12/12/Django学习笔记-Celery的简单使用/"/>
 
 
 
 
 
-  <title>归档 | 算云烟</title>
+  <title>Django学习笔记 -- Celery的简单使用 | 算云烟</title>
   
 
 
@@ -187,7 +192,7 @@
     
   
 
-  <div class="container sidebar-position-right page-archive">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -335,74 +340,185 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 8 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/12/12/Django学习笔记-Celery的简单使用/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/02/25/10种常见的排序方法总结/" itemprop="url">
-              
-                <span itemprop="name">10种常见的排序方法总结</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Django学习笔记 -- Celery的简单使用</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-25T00:00:00+08:00"
-              content="2017-02-25" >
-          02-25
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T18:17:28+08:00">
+                2017-12-12
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>Celery 是 Python 开发的分布式队列处理器，可以异步、分布式地处理任务，也可以执行定时任务。我们可能在 Django 中执行一些比较耗时的任务，如发邮件，我们总不能等待邮件发送完毕了再响应页面吧，同时有一些任务是需要在后台执行的，如爬虫和服务器缓存更新，这时候 Celery 就是一个不错的选择。<a id="more"></a></p>
+<h2 id="二、配置"><a href="#二、配置" class="headerlink" title="二、配置"></a>二、配置</h2><p>在使用 Celery 的时候我们还需要选择一个中间件，用来保存队列记录、执行记录，作为对 Celery 执行过程的数据支持，可以选择 Django 本身、mongodb 等，这里我们使用的是 <strong><a href="https://redis.io/" target="_blank" rel="noopener">Redis</a></strong>。</p>
+<h3 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h3><p>首先在<strong><a href="https://github.com/MicrosoftArchive/redis" target="_blank" rel="noopener">这里</a></strong>下载编译好的 Windows 环境下的 Redis ，然后安装并配置环境变量。<br>启动 Redis 服务器，在终端输入以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server</span><br></pre></td></tr></table></figure></p>
+<h3 id="Python-库安装"><a href="#Python-库安装" class="headerlink" title="Python 库安装"></a>Python 库安装</h3><p>在 python 环境下安装 celery、redis，命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install celery</span><br><span class="line">pip install redis</span><br></pre></td></tr></table></figure></p>
+<p>以上命令会自动安装相关的依赖包，我用的 celery 版本是 3.1.23，在 python34 和 python35 下运行良好。 </p>
+<h3 id="Django-配置"><a href="#Django-配置" class="headerlink" title="Django 配置"></a>Django 配置</h3><p>在 settings.py 所在目录下新建 celery.py 文件，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import, unicode_literals <span class="comment"># 必须在最上面</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置环境变量</span></span><br><span class="line">project_name = os.path.split(os.path.abspath(<span class="string">'.'</span>))[<span class="number">-1</span>]</span><br><span class="line">project_settings = <span class="string">'%s.settings'</span> % project_name</span><br><span class="line">os.environ.setdefault(<span class="string">'DJANGO_SETTINGS_MODULE'</span>, project_settings)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化 Celery</span></span><br><span class="line">app = Celery(project_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 Django 的 settings 文件配置 Celery</span></span><br><span class="line">app.config_from_object(<span class="string">'django.conf:settings'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Celery 加载所有注册的应用</span></span><br><span class="line">app.autodiscover_tasks(<span class="keyword">lambda</span>: settings.INSTALLED_APPS)</span><br></pre></td></tr></table></figure></p>
+<p>为了让项目能够加载这个文件，我们还需要在该目录下的 __init__.py 文件中添加如下代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import, unicode_literals</span><br><span class="line"><span class="keyword">from</span> .celery <span class="keyword">import</span> app <span class="keyword">as</span> celery_app <span class="comment">#引入celery实例对象</span></span><br></pre></td></tr></table></figure></p>
+<p>最后在 settings.py 文件中配置 Celery，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Celery 中间件 redis://redis 服务所在的 ip 地址:端口/数据库号</span></span><br><span class="line">BROKER_URL = <span class="string">'redis://localhost:6379'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Celery 结果返回，可用于跟踪结果</span></span><br><span class="line">CELERY_RESULT_BACKEND = <span class="string">'redis://localhost:6379'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Celery 内容等消息的格式设置</span></span><br><span class="line">CELERY_ACCEPT_CONTENT = [<span class="string">'application/json'</span>]</span><br><span class="line">CELERY_TASK_SERIALIZER = <span class="string">'json'</span></span><br><span class="line">CELERY_RESULT_SERIALIZER = <span class="string">'json'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Celery 时区设置，与 settings.py 文件的时区设置保持一致</span></span><br><span class="line">CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="三、使用"><a href="#三、使用" class="headerlink" title="三、使用"></a>三、使用</h2><h3 id="耗时任务"><a href="#耗时任务" class="headerlink" title="耗时任务"></a>耗时任务</h3><p>在 Django 项目 app 下 models.py 文件所在目录下建立 tasks.py 文件，你可以将所有需要异步执行、后台执行的代码放在这里。这里摘取我 Django 项目中部分代码片段：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery.task <span class="keyword">import</span> task</span><br><span class="line"></span><br><span class="line"><span class="meta">@task(name="weibo_spider_friend")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weibo_spider_friend</span><span class="params">(username, friend)</span>:</span></span><br><span class="line">    <span class="comment"># some spider operations</span></span><br></pre></td></tr></table></figure></p>
+<p>函数名上面是 celery 的装饰器 task，name参数是任务的名字，当然还有其他方法，请自行查阅。需要注意的是，<strong>这个函数的参数必须是可 JSON 序列化的数据</strong>，这是因为之前我们在 settings.py 文件中指定了消息内容的类型。<br>然后我们在 views.py 或者 views 文件夹下的视图函数中调用准备好的函数，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ..tasks <span class="keyword">import</span> weibo_spider_friend</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_found_friend_weibo</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># some code</span></span><br><span class="line">    args = &#123;<span class="string">'id'</span>: friend.id, <span class="string">'weibo_ID'</span>: friend.weibo_ID&#125;</span><br><span class="line">    weibo_spider_friend.delay(request.user.username, args)</span><br><span class="line">    <span class="comment"># some code</span></span><br></pre></td></tr></table></figure>
+<p>当我们调用这个视图函数的时候就会执行这个任务，在此之前，还有最后一个操作，在确保 Redis 已经启动并且可用的前提下，打开终端输入以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A django_project_name worker -l info</span><br></pre></td></tr></table></figure></p>
+<p>注意是在项目根目录下输入这条指令。运行效果如下，其中 tasks 下是我项目的所有任务集：<br><img src="1.jpg" alt=""></p>
+<h3 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h3><p>同样，和前面一样我们需要在 tasks.py 下准备好需要定时执行的函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery.task <span class="keyword">import</span> periodic_task</span><br><span class="line"><span class="keyword">from</span> celery.schedules <span class="keyword">import</span> crontab</span><br><span class="line"></span><br><span class="line"><span class="meta">@periodic_task(run_every=(crontab(minute='*/5')), name="weibo_spider")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weibo_spider</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># some code</span></span><br></pre></td></tr></table></figure></p>
+<p>异步任务装饰器参数，name 是任务名字，run_every 定义任务执行时间间隔，具体用法请参考 <strong><a href="http://yshblog.com/blog/164" target="_blank" rel="noopener">这篇博客</a></strong>。<br>分别在两个终端窗口执行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">celery -A django_project_name worker -l info</span><br><span class="line">celery -A django_project_name beat -l info</span><br></pre></td></tr></table></figure></p>
+<p>第二条命令的执行效果如下，下面发出的三条命令是我项目中三个定时任务：<img src="2.jpg" alt=""></p>
+<h2 id="四、Supervisor-amp-amp-Celery"><a href="#四、Supervisor-amp-amp-Celery" class="headerlink" title="四、Supervisor &amp;&amp; Celery"></a>四、Supervisor &amp;&amp; Celery</h2><p>详细请参考 <strong><a href="http://yshblog.com/blog/165" target="_blank" rel="noopener">这篇博客</a></strong>，这是 Linux 下的使用姿势，Windows 下我实在不知呀，感受到了 Windows 对于程序员深深的恶意，正在弃坑中。</p>
+<h2 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h2><h3 id="1-Django-初步使用-Celery"><a href="#1-Django-初步使用-Celery" class="headerlink" title="1.Django 初步使用 Celery"></a>1.<a href="http://yshblog.com/blog/163" target="_blank" rel="noopener">Django 初步使用 Celery</a></h3><h3 id="2-Django-Celery-定时任务和时间设置"><a href="#2-Django-Celery-定时任务和时间设置" class="headerlink" title="2.Django Celery 定时任务和时间设置"></a>2.<a href="http://yshblog.com/blog/164" target="_blank" rel="noopener">Django Celery 定时任务和时间设置</a></h3><h3 id="3-服务器使用-Supervisor-后台运行-Celery"><a href="#3-服务器使用-Supervisor-后台运行-Celery" class="headerlink" title="3.服务器使用 Supervisor 后台运行 Celery"></a>3.<a href="http://yshblog.com/blog/165" target="_blank" rel="noopener">服务器使用 Supervisor 后台运行 Celery</a></h3>
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/02/机器学习笔记-文本分类之SVM/" rel="next" title="机器学习笔记 -- 基于libsvm的中文文本分类">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记 -- 基于libsvm的中文文本分类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -410,6 +526,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -430,8 +550,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -561,6 +690,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、配置"><span class="nav-number">2.</span> <span class="nav-text">二、配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-安装"><span class="nav-number">2.1.</span> <span class="nav-text">Redis 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-库安装"><span class="nav-number">2.2.</span> <span class="nav-text">Python 库安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Django-配置"><span class="nav-number">2.3.</span> <span class="nav-text">Django 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、使用"><span class="nav-number">3.</span> <span class="nav-text">三、使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#耗时任务"><span class="nav-number">3.1.</span> <span class="nav-text">耗时任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定时任务"><span class="nav-number">3.2.</span> <span class="nav-text">定时任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Supervisor-amp-amp-Celery"><span class="nav-number">4.</span> <span class="nav-text">四、Supervisor && Celery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、参考"><span class="nav-number">5.</span> <span class="nav-text">五、参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Django-初步使用-Celery"><span class="nav-number">5.1.</span> <span class="nav-text">1.Django 初步使用 Celery</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Django-Celery-定时任务和时间设置"><span class="nav-number">5.2.</span> <span class="nav-text">2.Django Celery 定时任务和时间设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-服务器使用-Supervisor-后台运行-Celery"><span class="nav-number">5.3.</span> <span class="nav-text">3.服务器使用 Supervisor 后台运行 Celery</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -694,6 +839,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
