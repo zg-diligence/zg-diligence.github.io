@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="逻辑回归," />
 
 
 
@@ -123,17 +123,26 @@
 
 
 
-<meta name="description" content="2017年书单《像我这样轻松地生活》松浦弥太郎 2017.2 &amp;emsp;&amp;emsp;你是否为了让自己心安，在包包里塞进过多的东西，变得寸步难行。人生本应轻装上阵，丢弃不必要的情绪和欲望，留下真正需要的宝物，才能换得饱满而轻盈的人生。这本书，就是与大家分享如何卸下物质与心灵包袱，帮你盘点人生仓库，锻炼身">
-<meta property="og:type" content="website">
-<meta property="og:title" content="算云烟">
-<meta property="og:url" content="http://gzhang.org/reading/index.html">
+<meta name="description" content="一、简介这篇博客是针对 Kaggle 竞赛中 Leaf Classification 而写的，简单说就是一个叶子分类问题。主要涉及方法选择、特征工程、二次分类三个问题，记录下来或许对于类似的分类问题有借鉴作用，仅供参考。">
+<meta name="keywords" content="逻辑回归">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记 -- 基于逻辑回归的叶子分类">
+<meta property="og:url" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/index.html">
 <meta property="og:site_name" content="算云烟">
-<meta property="og:description" content="2017年书单《像我这样轻松地生活》松浦弥太郎 2017.2 &amp;emsp;&amp;emsp;你是否为了让自己心安，在包包里塞进过多的东西，变得寸步难行。人生本应轻装上阵，丢弃不必要的情绪和欲望，留下真正需要的宝物，才能换得饱满而轻盈的人生。这本书，就是与大家分享如何卸下物质与心灵包袱，帮你盘点人生仓库，锻炼身心思绪，重获轻快、简单、优质的新生活方式。&amp;emsp;&amp;emsp;这是松浦唯一一本小、薄、脆且相">
+<meta property="og:description" content="一、简介这篇博客是针对 Kaggle 竞赛中 Leaf Classification 而写的，简单说就是一个叶子分类问题。主要涉及方法选择、特征工程、二次分类三个问题，记录下来或许对于类似的分类问题有借鉴作用，仅供参考。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-02-28T04:50:58.644Z">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/1.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/2.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/3.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/4.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/5.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/6.jpg">
+<meta property="og:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/7.jpg">
+<meta property="og:updated_time" content="2017-12-22T16:22:20.589Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算云烟">
-<meta name="twitter:description" content="2017年书单《像我这样轻松地生活》松浦弥太郎 2017.2 &amp;emsp;&amp;emsp;你是否为了让自己心安，在包包里塞进过多的东西，变得寸步难行。人生本应轻装上阵，丢弃不必要的情绪和欲望，留下真正需要的宝物，才能换得饱满而轻盈的人生。这本书，就是与大家分享如何卸下物质与心灵包袱，帮你盘点人生仓库，锻炼身心思绪，重获轻快、简单、优质的新生活方式。&amp;emsp;&amp;emsp;这是松浦唯一一本小、薄、脆且相">
+<meta name="twitter:title" content="机器学习笔记 -- 基于逻辑回归的叶子分类">
+<meta name="twitter:description" content="一、简介这篇博客是针对 Kaggle 竞赛中 Leaf Classification 而写的，简单说就是一个叶子分类问题。主要涉及方法选择、特征工程、二次分类三个问题，记录下来或许对于类似的分类问题有借鉴作用，仅供参考。">
+<meta name="twitter:image" content="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/1.jpg">
 
 
 
@@ -163,13 +172,13 @@
 
 
 
-  <link rel="canonical" href="http://gzhang.org/reading/"/>
+  <link rel="canonical" href="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/"/>
 
 
 
 
 
-  <title> | 算云烟</title>
+  <title>机器学习笔记 -- 基于逻辑回归的叶子分类 | 算云烟</title>
   
 
 
@@ -338,39 +347,207 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2017/12/22/机器学习笔记-基于逻辑回归的叶子分类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h2 id="2017年书单"><a href="#2017年书单" class="headerlink" title="2017年书单"></a><strong>2017年书单</strong></h2><h3 id="《像我这样轻松地生活》松浦弥太郎-2017-2"><a href="#《像我这样轻松地生活》松浦弥太郎-2017-2" class="headerlink" title="《像我这样轻松地生活》松浦弥太郎 2017.2"></a>《<a href="https://book.douban.com/subject/26666735/" target="_blank" rel="noopener">像我这样轻松地生活</a>》松浦弥太郎 2017.2</h3><blockquote>
-<p>&emsp;&emsp;你是否为了让自己心安，在包包里塞进过多的东西，变得寸步难行。人生本应轻装上阵，丢弃不必要的情绪和欲望，留下真正需要的宝物，才能换得饱满而轻盈的人生。这本书，就是与大家分享如何卸下物质与心灵包袱，帮你盘点人生仓库，锻炼身心思绪，重获轻快、简单、优质的新生活方式。<br>&emsp;&emsp;这是松浦唯一一本小、薄、脆且相当轻巧的生活美学小书，你甚至可以放进自己的手拿包里。排队时、等位时、独处时、飞机误点不给力时，你都可以拿出来读上两篇。谁不喜欢过上一种时髦、简约、富质感的生活方式。</p>
-</blockquote>
-<h3 id="《做王子也做乞丐》松浦弥太郎-2017-1"><a href="#《做王子也做乞丐》松浦弥太郎-2017-1" class="headerlink" title="《做王子也做乞丐》松浦弥太郎 2017.1"></a>《<a href="https://book.douban.com/subject/26890961/?from=tag" target="_blank" rel="noopener">做王子也做乞丐</a>》松浦弥太郎 2017.1</h3><blockquote>
-<p>&emsp;&emsp;日本生活美学大师松浦弥太郎的自传性随笔。近50篇故事讲述了他18岁从高中辍学后，在不会半句英文的情况下，只身前往欧美等地闯荡的经历。卖过二手衣、贩过二手书、和黑道大哥过招、遇到各种奇妙的男女、经历难忘的暧昧恋情、体验不同的人生况味，汇集成独特的人生哲学——“最糟也最棒，然后过着乞丐王子的生活。我想这就是我的生活哲学。”<br>&emsp;&emsp;要理解松浦自由豁达的人生态度，就要从这本书开始。从年少轻狂到找到自我，松浦教给我们的从来不是考卷上的“正确答案”，而是在于启发我们，随时从零开始，不被体质现实束缚，去走和别人不一样的路。他独特的人生选择影响了亚洲数百万年轻人，这是献给人生路途上的旅者们，缀满珍贵语句的一部作品。<br>&emsp;&emsp;风格独特的随笔文字，弥漫着松浦式的自在、随性与自由。从读书、旅行到恋情、人生的私分享，旧书店、咖啡馆、小商店都在他的笔下熠熠生辉，处处透出开朗豁达、文艺治愈的气息。</p>
-</blockquote>
-
+          <h1 class="post-title" itemprop="name headline">机器学习笔记 -- 基于逻辑回归的叶子分类</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T22:40:16+08:00">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>这篇博客是针对 Kaggle 竞赛中 <strong><a href="https://www.kaggle.com/c/leaf-classification" target="_blank" rel="noopener">Leaf Classification</a></strong> 而写的，简单说就是一个叶子分类问题。主要涉及方法选择、特征工程、二次分类三个问题，记录下来或许对于类似的分类问题有借鉴作用，仅供参考。<a id="more"></a></p>
+<h2 id="二、方法选择"><a href="#二、方法选择" class="headerlink" title="二、方法选择"></a>二、方法选择</h2><p>首先需要选择一种恰当的方法进行分类，考虑到目前我的PC性能以及训练所需要的时间，我决定从常用的统计学习方法选择一种效果较好的。利用题目已经给出的训练集，通过初步筛选，简单调参，除去明显不适合的方法，初步选择以下8种方法作为候选方法，分别为：</p>
+<ul>
+<li>逻辑回归 LR</li>
+<li>线性判别分析 LDA</li>
+<li>支持向量机 SVM</li>
+<li>朴素贝叶斯 Bayes</li>
+<li>K近邻 KNN</li>
+<li>随机森林 RF</li>
+<li>决策树 DT</li>
+<li>梯度提升 GB</li>
+</ul>
+<p>下面基于已有的训练集对这8种方法进一步分析筛选。题目中给出的训练集总共990份，我将其中600份作为训练集，390份作为测试集，分别用这8种方法进行训练并预测，得到以下结果：<br><img src="1.jpg" width="400px" height="400px"><br><img src="2.jpg" width="400px" height="400px"><br>由上面两张对比图可以看到，LR、LDA、SVM 三种方法准确率最高，LR、Bayes、KNN 三种方法对数损失最小，并且 LR 与其余方法之间有数量级的差距，综合考虑准确率和对数损失，我最终选择了 LR 方法，也就是逻辑回归。值得一提的是，对数损失可以一定程度上反应模型预测的置信程度，尽管 LR、LDA、SVM 三者准确率相当，但是 LR 预测结果的置信度比另外两个高很多。</p>
+<h2 id="三、特征工程"><a href="#三、特征工程" class="headerlink" title="三、特征工程"></a>三、特征工程</h2><p>采用逻辑回归方法在现有特征上可以得到的对数损失为 <strong>0.02987</strong>，这是 Kaggle 评测的成绩，显然还需要进一步提取特征。特征工程应该是叶子分类中最重要的过程，我主要从以下三个方面进行。</p>
+<h3 id="基本特征"><a href="#基本特征" class="headerlink" title="基本特征"></a>基本特征</h3><p>这是7个类别的叶子形状，如下图：<img src="3.jpg" alt=""><br>由图可见，不同类别的叶子在除去形状不同外，宽度和高度也有明显区别，据此我提取了以下五个特征：</p>
+<ul>
+<li>宽度 width</li>
+<li>高度 height</li>
+<li>宽高比 width / height</li>
+<li>宽高积 width * height</li>
+<li>横纵方向 int(width &gt; height)</li>
+</ul>
+<h3 id="轮廓特征"><a href="#轮廓特征" class="headerlink" title="轮廓特征"></a>轮廓特征</h3><p>进一步，还可以利用 opencv 提取叶子的轮廓特征，关于 opencv 的具体用法看 <strong><a href="https://docs.opencv.org/3.1.0/dd/d49/tutorial_py_contour_features.html" target="_blank" rel="noopener">这里</a></strong> 。我主要提取了以下特征：</p>
+<ul>
+<li>image moments</li>
+<li>area and perimeter</li>
+<li>centroid point</li>
+<li>convexity</li>
+<li>convex hull</li>
+<li>contour approximation</li>
+</ul>
+<p>Image moment 用<strong><a href="https://en.wikipedia.org/wiki/Image_moment" target="_blank" rel="noopener">维基百科的解释</a></strong>就是图片像素灰度的加权平均或者多个moment的函数值，Image moments 可以描述图片的一些特殊属性，如面积、中心点等。</p>
+<p>Convexity 就是图像的凸边性，通俗的说就是图像的形状是凹的还是凸的。</p>
+<p>Contour approximation 就是用一个多边形去近似图像轮廓，显然如果近似得越好，多边形的顶点数通常就越多，见下图：<br><img src="4.jpg" width="600px" height="200px"></p>
+<p>Convex hull 类似于 Contour approximation，不过是用凸包来包围图像轮廓，见下图：<br><img src="5.jpg" width="300px" height="300px"><br>Convex hull 可以提供的特征信息有两个，凸包顶点，轮廓的最低点到凸包的距离，由于不同叶子其凸包具有不同的顶点数，无法直接利用其顶点坐标信息，我这里从 Convex hull 提取了两个特征，凸包顶点个数以及轮廓最低点到凸包的距离之和。<br>图像中心点直接利用坐标即可，moments共24个值，因此从轮廓特征总共提取32个特征。</p>
+<h3 id="像素特征"><a href="#像素特征" class="headerlink" title="像素特征"></a>像素特征</h3><p>最后一步，图片的像素信息也是可以提取特征的，这里需要利用 PCA 对图片的像素信息进行降维。最终我保留了15维的信息，也就是提取了15个特征。</p>
+<p>通过以上3步，我总共提取了52个新的特征，加上题目原本给出的192个特征，总计244个。然后，利用逻辑回归方法重新训练模型并预测，Kaggle 评测给出的对数损失为 <strong>0.00581</strong>，这个效果在实际应用中已经足够好了。</p>
+<h2 id="四、二次分类"><a href="#四、二次分类" class="headerlink" title="四、二次分类"></a>四、二次分类</h2><p>为了进一步提高成绩，我对预测结果进行了更详细地分析，发现以下信息：<br><img src="6.jpg" width="400px" height="400px"><br>这是分类器对id为1304的测试用例做出的预测结果，可以发现最大预测概率也不超过0.5，如果将最大概率对应的类别作为最终的类别，其置信程度显然是不够的，实际上在这里就是错误的。造成这个结果的原因可能是某些类别的叶子相似度太高，以致于分类器难以准确划分。因此，可以考虑对这些“不好”的结果进行二次分类，这里有三个问题，如何衡量预测结果是不好的？用哪些数据作为二次分类的训练数据？二次分类用什么方法训练模型呢？</p>
+<p>针对问题一，我是这样考虑的。如果分类器对某一个测试用例的预测结果中，最大预测概率高于0.9或者预测概率高于0.05的类别数少于2，那么将最大预测概率对应的类别作为最终结果是可信的，反之则需要进行二次分类。通过筛选，在所有594个测试用例中，有4个用例是需要进行二次分类的，也就是说其余用例的最大预测概率均在0.9以上。</p>
+<p>针对问题二，前一步我们已经得到了需要进行二次分类的测试用例，进一步，针对每一个测试用例找到预测概率大于0.05的类别，将这些类别对应的训练集数据作为二次分类的训练数据。统计之后，一共10个类别，总计100条训练数据。</p>
+<p>针对问题三，用什么模型，我尝试过了上面提到的 Bayes、LDA、SVM、RF 等方法，得到的结果均不理想，最后我发现还是逻辑回归效果最好，不仅能够正确进行分类，还大大提高了最大预测概率。</p>
+<p>下面是这10个类别对应叶子，汇总如下：<img src="7.jpg" alt=""><br>通过二次分类，得到最终的结果，测试用例总计594个，其中585个测试用例最大预测概率高于0.99，593个高于0.94，只有id为1304的用例最大预测概率为0.81。为了提高竞赛成绩，我这里使用了一个小tricky，将所有预测结果中，最大预测概率对应的类别概率置为1，其余置为0。Kaggle 评测给出最后的对数损失值为<strong>0.0000</strong>，也就是说分类器的准确率为100%。</p>
+<h2 id="五、附录"><a href="#五、附录" class="headerlink" title="五、附录"></a>五、附录</h2><h3 id="1-代码实现"><a href="#1-代码实现" class="headerlink" title="1.代码实现"></a>1.<a href="https://github.com/zg-diligence/Small_Python/blob/master/leaf_classification/leaf_classification.py" target="_blank" rel="noopener">代码实现</a></h3><h2 id="六、参考"><a href="#六、参考" class="headerlink" title="六、参考"></a>六、参考</h2><h3 id="1-Leaf-Classification-第一名方案"><a href="#1-Leaf-Classification-第一名方案" class="headerlink" title="1.Leaf Classification 第一名方案"></a>1.<a href="http://blog.kaggle.com/2017/03/24/leaf-classification-competition-1st-place-winners-interview-ivan-sosnovik/" target="_blank" rel="noopener">Leaf Classification 第一名方案</a></h3>
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逻辑回归/" rel="tag"># 逻辑回归</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/12/Django学习笔记-Celery的简单使用/" rel="next" title="Django学习笔记 -- Celery的简单使用">
+                <i class="fa fa-chevron-left"></i> Django学习笔记 -- Celery的简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -553,7 +730,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2017年书单"><span class="nav-number">1.</span> <span class="nav-text">2017年书单</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#《像我这样轻松地生活》松浦弥太郎-2017-2"><span class="nav-number">1.1.</span> <span class="nav-text">《像我这样轻松地生活》松浦弥太郎 2017.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#《做王子也做乞丐》松浦弥太郎-2017-1"><span class="nav-number">1.2.</span> <span class="nav-text">《做王子也做乞丐》松浦弥太郎 2017.1</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、方法选择"><span class="nav-number">2.</span> <span class="nav-text">二、方法选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、特征工程"><span class="nav-number">3.</span> <span class="nav-text">三、特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本特征"><span class="nav-number">3.1.</span> <span class="nav-text">基本特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轮廓特征"><span class="nav-number">3.2.</span> <span class="nav-text">轮廓特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#像素特征"><span class="nav-number">3.3.</span> <span class="nav-text">像素特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、二次分类"><span class="nav-number">4.</span> <span class="nav-text">四、二次分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、附录"><span class="nav-number">5.</span> <span class="nav-text">五、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-代码实现"><span class="nav-number">5.1.</span> <span class="nav-text">1.代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、参考"><span class="nav-number">6.</span> <span class="nav-text">六、参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Leaf-Classification-第一名方案"><span class="nav-number">6.1.</span> <span class="nav-text">1.Leaf Classification 第一名方案</span></a></li></ol></li></ol></div>
             
 
           </div>
