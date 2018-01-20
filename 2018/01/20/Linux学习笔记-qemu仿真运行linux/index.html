@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、背景知识qemu仿真器qemu是一套由Fabrice Bellard所编写的模拟处理器的自由软件，它与Bochs，PearPC近似，但其具有某些后两者所不具备的特性，如高速度及跨平台的特性。经由KVM（早期为kqemu加速器，现在kqemu已被KVM替换）这个开源的加速器，QEMU能模拟至接近真实电脑的速度。qem">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习笔记 -- qemu仿真运行linux">
+<meta property="og:url" content="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="一、背景知识qemu仿真器qemu是一套由Fabrice Bellard所编写的模拟处理器的自由软件，它与Bochs，PearPC近似，但其具有某些后两者所不具备的特性，如高速度及跨平台的特性。经由KVM（早期为kqemu加速器，现在kqemu已被KVM替换）这个开源的加速器，QEMU能模拟至接近真实电脑的速度。qemu有两种主要运作模式：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/ifconfig.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/linux_1.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/linux_2.png">
+<meta property="og:updated_time" content="2018-01-20T21:35:31.923Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux学习笔记 -- qemu仿真运行linux">
+<meta name="twitter:description" content="一、背景知识qemu仿真器qemu是一套由Fabrice Bellard所编写的模拟处理器的自由软件，它与Bochs，PearPC近似，但其具有某些后两者所不具备的特性，如高速度及跨平台的特性。经由KVM（早期为kqemu加速器，现在kqemu已被KVM替换）这个开源的加速器，QEMU能模拟至接近真实电脑的速度。qemu有两种主要运作模式：">
+<meta name="twitter:image" content="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/ifconfig.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/"/>
+
+
+
+
+
+  <title>Linux学习笔记 -- qemu仿真运行linux | 算云烟</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2018/01/20/Linux学习笔记-qemu仿真运行linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux学习笔记 -- qemu仿真运行linux</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-20T23:22:08+08:00">
+                2018-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、背景知识"><a href="#一、背景知识" class="headerlink" title="一、背景知识"></a>一、背景知识</h2><h3 id="qemu仿真器"><a href="#qemu仿真器" class="headerlink" title="qemu仿真器"></a>qemu仿真器</h3><p>qemu是一套由Fabrice Bellard所编写的模拟处理器的自由软件，它与Bochs，PearPC近似，但其具有某些后两者所不具备的特性，如高速度及跨平台的特性。经由KVM（早期为kqemu加速器，现在kqemu已被KVM替换）这个开源的加速器，QEMU能模拟至接近真实电脑的速度。qemu有两种主要运作模式：<a id="more"></a></p>
+<ul>
+<li>user mode，亦即是用户模式。QEMU能引导那些为不同中央处理器编译的Linux程序。而Wine及Dosemu是其主要目标；</li>
+<li>System mode，亦即是系统模式。QEMU能模拟整个电脑系统，包括中央处理器及其他周边设备。它使得为系统源代码进行测试及除错工作变得容易。其亦能用来在一部主机上虚拟数部不同虚拟电脑。</li>
+</ul>
+<h3 id="交叉编译工具链"><a href="#交叉编译工具链" class="headerlink" title="交叉编译工具链"></a>交叉编译工具链</h3><p>与gcc编译器不同的地方是，gcc编译器依赖于硬件平台类型，gcc编译的二进制文件只能在相应的硬件平台上运行，而交叉编译工具链的跨平台特性，使得其可以为不同的硬件平台生成二进制文件。</p>
+<h2 id="二、工具准备"><a href="#二、工具准备" class="headerlink" title="二、工具准备"></a>二、工具准备</h2><h3 id="下载并解压linux、busybox、u-boot源码"><a href="#下载并解压linux、busybox、u-boot源码" class="headerlink" title="下载并解压linux、busybox、u-boot源码"></a>下载并解压linux、busybox、u-boot源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.4.1.tar.xz</span><br><span class="line">wget http://www.busybox.net/downloads/busybox-1.25.1.tar.bz2</span><br><span class="line">wget https://github.com/u-boot/u-boot/archive/v2017.11.tar.gz</span><br><span class="line">mv v2017.11.tar.gz u-boot-2017.11.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xvf packages/linux-4.4.1.tar.xz</span><br><span class="line">tar -jxvf packages/busybox-1.25.1.tar.bz2</span><br><span class="line">tar -xzvf packages/u-boot-2017.11.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="安装qemu、32位运行环境"><a href="#安装qemu、32位运行环境" class="headerlink" title="安装qemu、32位运行环境"></a>安装qemu、32位运行环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y qemu libncurses5-dev zip bc texinfo</span><br></pre></td></tr></table></figure>
+<h3 id="安装交叉编译工具链"><a href="#安装交叉编译工具链" class="headerlink" title="安装交叉编译工具链"></a>安装交叉编译工具链</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y gcc-arm-linux-gnueabi</span><br></pre></td></tr></table></figure>
+<h2 id="三、编译源码"><a href="#三、编译源码" class="headerlink" title="三、编译源码"></a>三、编译源码</h2><h3 id="编译linux内核"><a href="#编译linux内核" class="headerlink" title="编译linux内核"></a>编译linux内核</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export ARCH=arm                         # 指定核心类型</span><br><span class="line">export CROSS_COMPILE=arm-linux-gnueabi- # 指定交叉编译前缀</span><br><span class="line">make vexpress_defconfig                 # 使用预配置文件</span><br><span class="line">make zImage dtbs modules -j8            # 编译</span><br></pre></td></tr></table></figure>
+<h3 id="拷贝生成文件到指定文件夹中"><a href="#拷贝生成文件到指定文件夹中" class="headerlink" title="拷贝生成文件到指定文件夹中"></a>拷贝生成文件到指定文件夹中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp arch/arm/boot/zImage ../extra_folder/</span><br><span class="line">cp arch/arm/boot/dts/*ca9.dtb ../extra_folder/</span><br></pre></td></tr></table></figure>
+<h2 id="四、制作根文件系统"><a href="#四、制作根文件系统" class="headerlink" title="四、制作根文件系统"></a>四、制作根文件系统</h2><h3 id="根文件系统的目录结构"><a href="#根文件系统的目录结构" class="headerlink" title="根文件系统的目录结构"></a>根文件系统的目录结构</h3><ul>
+<li>/bin 存放二进制可执行命令的目录　　</li>
+<li>/dev 存放设备文件的目录　　</li>
+<li>/etc 存放系统管理和配置文件的目录　　</li>
+<li>/home 用户主目录，比如用户user的主目录就是</li>
+<li>/home/user，可以用~user表示　　</li>
+<li>/lib 存放动态链接共享库的目录　　</li>
+<li>/sbin存放系统管理员使用的管理程序的目录　　</li>
+<li>/tmp 公用的临时文件存储点　　</li>
+<li>/root 系统管理员的主目录　　</li>
+<li>/mnt 系统提供这个目录是让用户临时挂载其他的文件系统。　　</li>
+<li>/proc 虚拟文件系统，可直接访问这个目录来获取系统信息。　　</li>
+<li>/var 某些大文件的溢出区　　</li>
+<li>/usr 最庞大的目录，要用到的应用程序和文件几乎都在这个目录。　　</li>
+</ul>
+<p>对于经常使用Linux系统的读者来说，这些目录大部分应该很熟悉了。不过有几个目录对初学者来说容易混淆，如/bin，/sbin，/usr/bin和/usr/sbin。这里简单介绍一下它们的区别：/bin目录一般存放对于用户和系统来说都是必须的二进制文件，而/sbin目录要存放的是只针对系统管理的二进制文件，该目录的文件将不会被普通用户使用。相反，那些不是必要的用户二进制文件存放在/usr/bin下面，那些不是非常必要的系统管理工具放在/usr/sbin下。此外，对于一些本地的库也非常类似，对于那些要求启动系统和运行的必须命令要存放在/lib目录下，而对于其他不是必须的库存放在/usr/lib目录就可以。</p>
+<h3 id="生成busybox运行指令"><a href="#生成busybox运行指令" class="headerlink" title="生成busybox运行指令"></a>生成busybox运行指令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export ARCH=ARM</span><br><span class="line">export CROSS_COMPILE=arm-linux-gnueabi-</span><br><span class="line">make defconfig</span><br><span class="line">make install -j8</span><br></pre></td></tr></table></figure>
+<h3 id="创建文件系统目录"><a href="#创建文件系统目录" class="headerlink" title="创建文件系统目录"></a>创建文件系统目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd _install</span><br><span class="line">mkdir -p dev etc lib proc sys mnt tmp var</span><br><span class="line">mkdir -p etc/init.d</span><br><span class="line">cd ..</span><br></pre></td></tr></table></figure>
+<h3 id="添加-etc-配置文件"><a href="#添加-etc-配置文件" class="headerlink" title="添加/etc/配置文件"></a>添加/etc/配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/mahadevvinay/Embedded_Linux_Files.git ../Embedded_Linux_Files</span><br><span class="line">sudo cp ../Embedded_Linux_Files/fstab _install/etc/</span><br><span class="line">sudo cp ../Embedded_Linux_Files/inittab _install/etc/</span><br><span class="line">sudo cp ../Embedded_Linux_Files/rcS _install/etc/init.d/</span><br><span class="line">sudo rm -rf ../Embedded_Linux_Files/</span><br></pre></td></tr></table></figure>
+<h3 id="修改可执行文件权限"><a href="#修改可执行文件权限" class="headerlink" title="修改可执行文件权限"></a>修改可执行文件权限</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x _install/etc/init.d/rcS</span><br><span class="line">sudo chmod 777 _install/etc/init.d/rcS</span><br></pre></td></tr></table></figure>
+<h3 id="安装modules"><a href="#安装modules" class="headerlink" title="安装modules"></a>安装modules</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ../linux-4.4.1/</span><br><span class="line">make modules_install ARCH=arm INSTALL_MOD_PATH=../busybox-1.25.1/_install</span><br><span class="line">cd ../busybox-1.25.1/</span><br></pre></td></tr></table></figure>
+<h3 id="拷贝交叉编译工具链运行库"><a href="#拷贝交叉编译工具链运行库" class="headerlink" title="拷贝交叉编译工具链运行库"></a>拷贝交叉编译工具链运行库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp -P /usr/arm-linux-gnueabi/lib/* _install/lib/</span><br></pre></td></tr></table></figure>
+<h3 id="创建4个tty终端设备"><a href="#创建4个tty终端设备" class="headerlink" title="创建4个tty终端设备"></a>创建4个tty终端设备</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mknod _install/dev/tty1 c 4 1</span><br><span class="line">sudo mknod _install/dev/tty2 c 4 2</span><br><span class="line">sudo mknod _install/dev/tty3 c 4 3</span><br><span class="line">sudo mknod _install/dev/tty4 c 4 4</span><br></pre></td></tr></table></figure>
+<h3 id="制作根文件系统镜像"><a href="#制作根文件系统镜像" class="headerlink" title="制作根文件系统镜像"></a>制作根文件系统镜像</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=a9rootfs.ext3 bs=1M count=32</span><br><span class="line">mkfs.ext3 a9rootfs.ext3</span><br><span class="line">sudo mkdir -p tmpfs</span><br><span class="line">sudo mount -t ext3 a9rootfs.ext3 tmpfs/ -o loop</span><br><span class="line">sudo cp -r _install/*  tmpfs/</span><br><span class="line">sudo umount tmpfs</span><br></pre></td></tr></table></figure>
+<h3 id="拷贝生成的文件系统到目标文件夹中"><a href="#拷贝生成的文件系统到目标文件夹中" class="headerlink" title="拷贝生成的文件系统到目标文件夹中"></a>拷贝生成的文件系统到目标文件夹中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp a9rootfs.ext3 ../extra_folder/</span><br></pre></td></tr></table></figure>
+<h2 id="五、启动网络支持"><a href="#五、启动网络支持" class="headerlink" title="五、启动网络支持"></a>五、启动网络支持</h2><h3 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install uml-utilities</span><br><span class="line">sudo apt-get install bridge-utils</span><br></pre></td></tr></table></figure>
+<h3 id="查看本地网络链接"><a href="#查看本地网络链接" class="headerlink" title="查看本地网络链接"></a>查看本地网络链接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p>博主的网络连接状况如下:<img src="ifconfig.png" width="800px" height="600px">其中第一个是有线网连接，目前尚未联网，第三个是无线网连接，后面将使用这个网络。</p>
+<h3 id="建立桥接"><a href="#建立桥接" class="headerlink" title="建立桥接"></a>建立桥接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo atom /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<p>添加以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto br0</span><br><span class="line">iface br0 inet dhcp</span><br><span class="line">  bridge_ports wlp4s0</span><br></pre></td></tr></table></figure></p>
+<p>其中 wlp4s0 换成你自己的网络连接名字即可。</p>
+<h3 id="使修改立即生效"><a href="#使修改立即生效" class="headerlink" title="使修改立即生效"></a>使修改立即生效</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
+<h2 id="六、启动tftp服务"><a href="#六、启动tftp服务" class="headerlink" title="六、启动tftp服务"></a>六、启动tftp服务</h2><h3 id="工具准备-1"><a href="#工具准备-1" class="headerlink" title="工具准备"></a>工具准备</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install tftp-hpa     # 客户端软件</span><br><span class="line">sudo apt-get install tftpd-hpa    # 服务程序</span><br></pre></td></tr></table></figure>
+<h3 id="建立tftp服务器工作目录"><a href="#建立tftp服务器工作目录" class="headerlink" title="建立tftp服务器工作目录"></a>建立tftp服务器工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /path/to/tftpboot</span><br><span class="line">chmod 777 /path/to/tftpboot       # 允许其它主机上传或者下载文件</span><br></pre></td></tr></table></figure>
+<h3 id="设置tftp服务器工作目录"><a href="#设置tftp服务器工作目录" class="headerlink" title="设置tftp服务器工作目录"></a>设置tftp服务器工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo atom /etc/default/tftpd-hpa</span><br><span class="line">修改 TFTP_DIRECTORY=&quot;/path/to/tftpboot&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="开启tftp服务"><a href="#开启tftp服务" class="headerlink" title="开启tftp服务"></a>开启tftp服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service tftpd-hpa restart</span><br></pre></td></tr></table></figure>
+<h3 id="测试tftp服务"><a href="#测试tftp服务" class="headerlink" title="测试tftp服务"></a>测试tftp服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /path/to/tftpboot/test</span><br><span class="line">tftp 172.20.94.226</span><br><span class="line">&gt; get test</span><br></pre></td></tr></table></figure>
+<p>其中ip地址换成你自己的即可，如果当前目录下能够得到test文件，说明成功了。</p>
+<h2 id="七、编译u-boot"><a href="#七、编译u-boot" class="headerlink" title="七、编译u-boot"></a>七、编译u-boot</h2><h3 id="修改参数配置文件"><a href="#修改参数配置文件" class="headerlink" title="修改参数配置文件"></a>修改参数配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo atom /include/configs/vexpress_common.h</span><br></pre></td></tr></table></figure>
+<p>修改相应部分代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define CONFIG_BOOTCOMMAND \</span><br><span class="line">    &quot;run distro_bootcmd; &quot; \</span><br><span class="line">    &quot;run bootflash; &quot; \</span><br><span class="line">    &quot;setenv serverip 172.20.94.226; &quot; \</span><br><span class="line">    &quot;tftp 0x60003000 uImage; &quot; \</span><br><span class="line">    &quot;tftp 0x60500000 vexpress-v2p-ca9.dtb; &quot; \</span><br><span class="line">    &quot;setenv bootargs &apos;init=/linuxrc root=/dev/mmcblk0 rw console=ttyAMA0&apos;; &quot; \</span><br><span class="line">    &quot;bootm 0x60003000 - 0x60500000; &quot;</span><br></pre></td></tr></table></figure></p>
+<p>其中ip地址换成你自己的即可。</p>
+<h3 id="编译源码"><a href="#编译源码" class="headerlink" title="编译源码"></a>编译源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export ARCH=arm</span><br><span class="line">export CROSS_COMPILE=arm-linux-gnueabi-</span><br><span class="line">make vexpress_ca9x4_defconfig</span><br><span class="line">make -j8</span><br></pre></td></tr></table></figure>
+<h3 id="转换linux系统镜像格式"><a href="#转换linux系统镜像格式" class="headerlink" title="转换linux系统镜像格式"></a>转换linux系统镜像格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd tools</span><br><span class="line">./mkimage -n &apos;Cortex-A9&apos; -A arm -O linux -T kernel -C none -a 0x60003000 -e 0x60003000 -d /path/to/zImage /path/to/uImage</span><br></pre></td></tr></table></figure>
+<h2 id="八、测试运行"><a href="#八、测试运行" class="headerlink" title="八、测试运行"></a>八、测试运行</h2><h3 id="qemu直接启动"><a href="#qemu直接启动" class="headerlink" title="qemu直接启动"></a>qemu直接启动</h3><p>命令行界面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-arm \</span><br><span class="line">    -M vexpress-a9 \                        # 指定硬件平台</span><br><span class="line">    -m 256M \                               # 指定内存大小</span><br><span class="line">    -kernel /path/to/zImage \               # 指定内核镜像路径</span><br><span class="line">    -dtb /path/to/vexpress-v2p-ca9.dtb \    # 指定设备树路径</span><br><span class="line">    -sd /path/to/a9rootfs.ext3 \            # 指定文件系统镜像路径</span><br><span class="line">    -append &quot;root=/dev/mmcblk0 rw console=ttyAMA0&quot; \#设置启动参数</span><br><span class="line">    -nographic \                            # 无图形化界面</span><br><span class="line">    -smp 4                                  # 指定4个启动核心数</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<img src="linux_1.png" alt=""></p>
+<p>图形化界面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-arm \</span><br><span class="line">    -M vexpress-a9 \</span><br><span class="line">    -m 256M \</span><br><span class="line">    -kernel /path/to/zImage \</span><br><span class="line">    -dtb /path/to/vexpress-v2p-ca9.dtb \</span><br><span class="line">    -sd /path/to/a9rootfs.ext3 \</span><br><span class="line">    -append &quot;root=/dev/mmcblk0 rw&quot; \</span><br><span class="line">    -serial stdio \</span><br><span class="line">    -smp 4</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<img src="linux_2.png" alt=""></p>
+<h3 id="通过u-boot启动"><a href="#通过u-boot启动" class="headerlink" title="通过u-boot启动"></a>通过u-boot启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-arm \</span><br><span class="line">    -M vexpress-a9 \</span><br><span class="line">    -m 256M \</span><br><span class="line">    -kernel /path/to/u-boot \</span><br><span class="line">    -sd /path/to/a9rootfs.ext3 \</span><br><span class="line">    -nographic</span><br></pre></td></tr></table></figure>
+<h2 id="九、附录"><a href="#九、附录" class="headerlink" title="九、附录"></a>九、附录</h2><h3 id="1-源代码实现"><a href="#1-源代码实现" class="headerlink" title="1. 源代码实现"></a>1. <strong><a href="https://github.com/zg-diligence/dual_core/tree/master/linux_rtt" target="_blank" rel="noopener">源代码实现</a></strong></h3><h2 id="十、参考链接"><a href="#十、参考链接" class="headerlink" title="十、参考链接"></a>十、参考链接</h2><h3 id="1-用QEMU搭建arm嵌入式开发环境"><a href="#1-用QEMU搭建arm嵌入式开发环境" class="headerlink" title="1. 用QEMU搭建arm嵌入式开发环境"></a>1. <strong><a href="http://www.afterimage.top/2016/09/%E7%94%A8qemu%E6%90%AD%E5%BB%BAarm%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" target="_blank" rel="noopener">用QEMU搭建arm嵌入式开发环境</a></strong></h3><h3 id="2-添加Qemu网络支持并用u-boot-tftp引导内核启动"><a href="#2-添加Qemu网络支持并用u-boot-tftp引导内核启动" class="headerlink" title="2. 添加Qemu网络支持并用u-boot+tftp引导内核启动"></a>2. <strong><a href="http://www.afterimage.top/2016/09/%E6%B7%BB%E5%8A%A0qemu%E7%BD%91%E7%BB%9C%E6%94%AF%E6%8C%81%E5%B9%B6%E7%94%A8u-boottftp%E5%BC%95%E5%AF%BC%E5%86%85%E6%A0%B8%E5%90%AF%E5%8A%A8/" target="_blank" rel="noopener">添加Qemu网络支持并用u-boot+tftp引导内核启动</a></strong></h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/20/Linux学习笔记-qemu仿真运行RT-Thread/" rel="next" title="Linux学习笔记 -- qemu仿真运行RT-Thread">
+                <i class="fa fa-chevron-left"></i> Linux学习笔记 -- qemu仿真运行RT-Thread
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/21/Linux学习笔记-gemini双核双系统/" rel="prev" title="Linux学习笔记 -- gemini双核双系统">
+                Linux学习笔记 -- gemini双核双系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、背景知识"><span class="nav-number">1.</span> <span class="nav-text">一、背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#qemu仿真器"><span class="nav-number">1.1.</span> <span class="nav-text">qemu仿真器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉编译工具链"><span class="nav-number">1.2.</span> <span class="nav-text">交叉编译工具链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、工具准备"><span class="nav-number">2.</span> <span class="nav-text">二、工具准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载并解压linux、busybox、u-boot源码"><span class="nav-number">2.1.</span> <span class="nav-text">下载并解压linux、busybox、u-boot源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装qemu、32位运行环境"><span class="nav-number">2.2.</span> <span class="nav-text">安装qemu、32位运行环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装交叉编译工具链"><span class="nav-number">2.3.</span> <span class="nav-text">安装交叉编译工具链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、编译源码"><span class="nav-number">3.</span> <span class="nav-text">三、编译源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译linux内核"><span class="nav-number">3.1.</span> <span class="nav-text">编译linux内核</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拷贝生成文件到指定文件夹中"><span class="nav-number">3.2.</span> <span class="nav-text">拷贝生成文件到指定文件夹中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、制作根文件系统"><span class="nav-number">4.</span> <span class="nav-text">四、制作根文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#根文件系统的目录结构"><span class="nav-number">4.1.</span> <span class="nav-text">根文件系统的目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成busybox运行指令"><span class="nav-number">4.2.</span> <span class="nav-text">生成busybox运行指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建文件系统目录"><span class="nav-number">4.3.</span> <span class="nav-text">创建文件系统目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加-etc-配置文件"><span class="nav-number">4.4.</span> <span class="nav-text">添加/etc/配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改可执行文件权限"><span class="nav-number">4.5.</span> <span class="nav-text">修改可执行文件权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装modules"><span class="nav-number">4.6.</span> <span class="nav-text">安装modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拷贝交叉编译工具链运行库"><span class="nav-number">4.7.</span> <span class="nav-text">拷贝交叉编译工具链运行库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建4个tty终端设备"><span class="nav-number">4.8.</span> <span class="nav-text">创建4个tty终端设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制作根文件系统镜像"><span class="nav-number">4.9.</span> <span class="nav-text">制作根文件系统镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拷贝生成的文件系统到目标文件夹中"><span class="nav-number">4.10.</span> <span class="nav-text">拷贝生成的文件系统到目标文件夹中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、启动网络支持"><span class="nav-number">5.</span> <span class="nav-text">五、启动网络支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工具准备"><span class="nav-number">5.1.</span> <span class="nav-text">工具准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看本地网络链接"><span class="nav-number">5.2.</span> <span class="nav-text">查看本地网络链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立桥接"><span class="nav-number">5.3.</span> <span class="nav-text">建立桥接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使修改立即生效"><span class="nav-number">5.4.</span> <span class="nav-text">使修改立即生效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、启动tftp服务"><span class="nav-number">6.</span> <span class="nav-text">六、启动tftp服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工具准备-1"><span class="nav-number">6.1.</span> <span class="nav-text">工具准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立tftp服务器工作目录"><span class="nav-number">6.2.</span> <span class="nav-text">建立tftp服务器工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置tftp服务器工作目录"><span class="nav-number">6.3.</span> <span class="nav-text">设置tftp服务器工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启tftp服务"><span class="nav-number">6.4.</span> <span class="nav-text">开启tftp服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试tftp服务"><span class="nav-number">6.5.</span> <span class="nav-text">测试tftp服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、编译u-boot"><span class="nav-number">7.</span> <span class="nav-text">七、编译u-boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改参数配置文件"><span class="nav-number">7.1.</span> <span class="nav-text">修改参数配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译源码"><span class="nav-number">7.2.</span> <span class="nav-text">编译源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转换linux系统镜像格式"><span class="nav-number">7.3.</span> <span class="nav-text">转换linux系统镜像格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、测试运行"><span class="nav-number">8.</span> <span class="nav-text">八、测试运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#qemu直接启动"><span class="nav-number">8.1.</span> <span class="nav-text">qemu直接启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过u-boot启动"><span class="nav-number">8.2.</span> <span class="nav-text">通过u-boot启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、附录"><span class="nav-number">9.</span> <span class="nav-text">九、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-源代码实现"><span class="nav-number">9.1.</span> <span class="nav-text">1. 源代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十、参考链接"><span class="nav-number">10.</span> <span class="nav-text">十、参考链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-用QEMU搭建arm嵌入式开发环境"><span class="nav-number">10.1.</span> <span class="nav-text">1. 用QEMU搭建arm嵌入式开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-添加Qemu网络支持并用u-boot-tftp引导内核启动"><span class="nav-number">10.2.</span> <span class="nav-text">2. 添加Qemu网络支持并用u-boot+tftp引导内核启动</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

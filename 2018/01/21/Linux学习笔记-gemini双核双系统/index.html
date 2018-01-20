@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="RT-Thread,gemini,Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、背景知识IPI中断机制多核多线程处理器的中断由 PIC(Programmable Interrupt Controller）统一控制，PIC 允许一个硬件线程中断其他的硬件线程，这种方式被称为核间中断(Inter-Processor Interrupts，IPI）。">
+<meta name="keywords" content="RT-Thread,gemini,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习笔记 -- gemini双核双系统">
+<meta property="og:url" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="一、背景知识IPI中断机制多核多线程处理器的中断由 PIC(Programmable Interrupt Controller）统一控制，PIC 允许一个硬件线程中断其他的硬件线程，这种方式被称为核间中断(Inter-Processor Interrupts，IPI）。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_1.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_3.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_2.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_6.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_4.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_5.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/run_1.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/run_2.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/run_3.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/run_5.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/run_4.png">
+<meta property="og:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/run_6.png">
+<meta property="og:updated_time" content="2018-01-20T21:34:39.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux学习笔记 -- gemini双核双系统">
+<meta name="twitter:description" content="一、背景知识IPI中断机制多核多线程处理器的中断由 PIC(Programmable Interrupt Controller）统一控制，PIC 允许一个硬件线程中断其他的硬件线程，这种方式被称为核间中断(Inter-Processor Interrupts，IPI）。">
+<meta name="twitter:image" content="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/gemini_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/"/>
+
+
+
+
+
+  <title>Linux学习笔记 -- gemini双核双系统 | 算云烟</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2018/01/21/Linux学习笔记-gemini双核双系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux学习笔记 -- gemini双核双系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T02:59:22+08:00">
+                2018-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、背景知识"><a href="#一、背景知识" class="headerlink" title="一、背景知识"></a>一、背景知识</h2><h3 id="IPI中断机制"><a href="#IPI中断机制" class="headerlink" title="IPI中断机制"></a>IPI中断机制</h3><p>多核多线程处理器的中断由 PIC(Programmable Interrupt Controller）统一控制，PIC 允许一个硬件线程中断其他的硬件线程，这种方式被称为核间中断(Inter-Processor Interrupts，IPI）。<a id="more"></a></p>
+<p>PIC 拥有一个宽度为 32 位的核间中断寄存器IPIBase，该寄存器包含目的线程的编号、中断向量及中断类型(是否中断多个硬件线程）等内容。核间中断可以通过向这个寄存器写入需要的值来产生。若硬件线程A想要发送一个核间中断给硬件线程B，它只需要向寄存器IPIBase中写入B的Thread ID、中断向量、中断类型等值就可以了，PIC会通知B所在的核挂起它当前的执行序列，并根据中断向量跳转到中断服务例程ISR的入口。</p>
+<p>使用IPI进行核间通信的关键在于要利用中断服务例程ISR去读取一个事先约好的共享内存区域。发起方首先将消息写到一块共享内存中，然后发起核间中断。被中断的硬件线程在中断服务例程中读取该内存，以获得发起方通知的消息。为防止多核间的竞争导致消息被改写，使用这种方式必须利用锁机制来确保消息的完整性。</p>
+<h3 id="WFI和WFE模式"><a href="#WFI和WFE模式" class="headerlink" title="WFI和WFE模式"></a>WFI和WFE模式</h3><p>WFI 表示 Wait for Interrupt（等待中断） ， WFE 表示 Wait for Event（等待事件）， 这两个指令允许处理器进入低功耗模式和停止执行代码。</p>
+<h3 id="Buildroot开发环境"><a href="#Buildroot开发环境" class="headerlink" title="Buildroot开发环境"></a>Buildroot开发环境</h3><p>Buildroot 是嵌入式开发领域中一个成套的嵌入式开发环境， 通过交叉编译，Buildroot 大大简化了制作一个完整的嵌入式 linux 开发系统的流程。Buildroot 可以生成交叉编译工具链、 根文件系统、 linux 内核镜像以及buildloader 等，当然也可以独立生成其中某些组合项， 比如你可以利用现有的交叉编译工具制作你自己的根文件系统。 此外， buildroot 支持 Power PC、 MIPS、ARM 等硬件平台， 在嵌入式领域应用非常广泛。</p>
+<h2 id="二、系统架构"><a href="#二、系统架构" class="headerlink" title="二、系统架构"></a>二、系统架构</h2><p><img src="gemini_1.png" width="600px" height="400px">如上图所示，Linux启动时占用两个处理器，然后采用hotplug技术拔掉CPU#1，重新配置CPU#1启动地址，加载并启动RT-Thread，两个系统独立运行在自己的处理器上，通过VBus进行通信。</p>
+<h2 id="三、内存分配"><a href="#三、内存分配" class="headerlink" title="三、内存分配"></a>三、内存分配</h2><p><img src="gemini_3.png" width="600px" height="400px">双核双系统内存分配如上图，基于qemu仿真器模拟运行。总共分配256M内存空间，其中248M分配给Linux，顶端4M作为RT-Thread的可执行空间，也是RT-Thread的加载位置。与RT-Thread相邻的1M空间用于加载boot.bin，这个文件用于启动RT-Thread，类似于bootloader，临近Linux的2M空间作为VBus通信的共享内存空间。此外，图中还给出了物理地址和虚拟地址之间的1:1映射关系。</p>
+<h2 id="四、基本流程"><a href="#四、基本流程" class="headerlink" title="四、基本流程"></a>四、基本流程</h2><p><img src="gemini_2.png" width="600px" height="400px"><br>双系统基本操作流程如上图，详细介绍如下：</p>
+<ul>
+<li><p>启动Linux<br>采用SMP方式，启动Linux，并占用两个处理器</p>
+</li>
+<li><p>加载RT-Thread<br>将boot.bin和rtthread.bin分别加载到预先指定指定位置0x6fb0 0000、0x6fc 0000，实际上是加载到对应的虚拟地址空间0x8fb0 0000、0x8fc 0000</p>
+</li>
+<li><p>拔出CPU#1进入WFI模式<br>通过hotplug技术，调用API 唤醒cpu_down，拔除CPU#1，使其进入低功耗模式</p>
+</li>
+<li><p>配置CPU#1启动地址<br>设置CPU#1的启动地址为0x6fb0 0000</p>
+</li>
+<li><p>发送IPI中断，唤醒CPU#1<br>从CPU#0发送一个IPI中断到CPU#1，唤醒CPU#1，启动RT-Thread</p>
+</li>
+<li><p>双系统之间通信<br>双系统之间通过VBus进行通信</p>
+</li>
+</ul>
+<h2 id="五、Linux拔核"><a href="#五、Linux拔核" class="headerlink" title="五、Linux拔核"></a>五、Linux拔核</h2><p><img src="gemini_6.png" width="600px" height="400px">cpu_down的基本流程如上图，下面详细介绍cpu_down的基本流程:</p>
+<blockquote>
+<p>“cpu_down” (in kernel/cpu.c)</p>
+</blockquote>
+<ol>
+<li>调用cpu_maps_update_begin，设定 Mutex Lock “cpu_add_remove_lock”；</li>
+<li>确认cpu_hotplug_disabled是否有被设定；</li>
+<li>调用 _cpu_down(cpu, 0)；</li>
+<li>调用cpu_maps_update_done，释放 Mutex Lock “cpu_add_remove_lock”。</li>
+</ol>
+<blockquote>
+<p>“_cpu_down” (in kernel/cpu.c)</p>
+</blockquote>
+<ol>
+<li>调用num_online_cpus，确认如果目前Online的处理器只有一个，直接返回错误；</li>
+<li>调用cpu_online，如果该CPU并非Online状态，直接返回错误；</li>
+<li>调用cpu_hotplug_begin，取得 Mutex Lock “cpu_hotplug.lock”；</li>
+<li>调用<strong>cpu_notify，通过</strong>raw_notifier_call_chain，通知CPU Chain中的处理器，目前正在进行Online动作的处理器状态为”CPU_DOWN_PREPARE”；</li>
+<li>调用函数__stop_machine；</li>
+<li>通过BUG_ON(cpu_online(cpu))，确认要停止的处理器，是否已经处于Offline的状态，若还是在Online状态就会导致Kernel Panic；</li>
+<li>调用函数idle_cpu (in kernel/shced.c)，确认要Offline处理器是否正在执行idle task.若该处理器不是正在执行Idle Task，就会调用cpu_relax，直到确认要Offline的处理器是处于Idle Task中；</li>
+<li>调用__cpu_die(cpu)；</li>
+<li>调用cpu_notify_nofail，通知完成Offline动作的处理器状态为”CPU_DEAD”；</li>
+<li>调用check_for_tasks，确认目前是否还有Tasks在被停止的处理器上，若有就会Printk出警告讯息；</li>
+<li>调用cpu_hotplug_done，设定Active Write为NULL，释放 Mutex Lock “cpu_hotplug.lock”。</li>
+</ol>
+<blockquote>
+<p>“__cpu_die” (in arch/arm/kernel/smp.c)</p>
+</blockquote>
+<ol>
+<li>执行函数wait_for_completion_timeout，等待函数cpu_die 通过函数complete设定”Completion”给 cpu_died物件，如果cpu_died物件有设定完成或是TimeOut就会继续往后执行；</li>
+<li>调用platform_cpu_kill。</li>
+</ol>
+<blockquote>
+<p>”vexprss_cpu_die”(in arch/arm/mach-vexpress/hotplug.c)</p>
+</blockquote>
+<ol>
+<li>CPU Idle Task在执行cpu_die后，就会进入函数platform_cpu_die，并通过platform_do_lowpower，让处理器处于WFI Low Power的状态，等待下一次的唤醒。若处理器重新被唤醒，就会执行函数secondary_start_kernel (in arch/arm/kernel/smp.c)，重新执行初始化流程。</li>
+</ol>
+<p>下面简单介绍一下拔核的一种实现方式，添加Linux内核驱动模块：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/cpu.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">unplug_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line"></span><br><span class="line">    ret = cpu_down(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (ret &amp;&amp; (ret != -EBUSY)) &#123;</span><br><span class="line">        pr_err(<span class="string">"Can't release cpu1: %d\n"</span>, ret);</span><br><span class="line">        <span class="keyword">return</span> -ENOMEM;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">unplug_exit</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">module_init(unplug_init);</span><br><span class="line">module_exit(unplug_exit);</span><br></pre></td></tr></table></figure></p>
+<p>上面代码即为Linux添加一个简单的内核驱动模块，实现拔核功能。类似于C++面向对象编程中类的实现，编写内核驱动模块代码也需要编写”构造函数”、”析构函数”，cpu_down的调用即在”构造函数”中完成，当加载unplug模块的同时，也完成了拔核。<br>编译命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -C $KDIR M=$PWD ARCH=arm</span><br></pre></td></tr></table></figure></p>
+<p>其中 \$KDIR 为Linux源码根目录，\$PWD为驱动模块根目录，在驱动模块根目录下执行这条命令即可，参数的含义请自行google。</p>
+<h2 id="六、VBus通信"><a href="#六、VBus通信" class="headerlink" title="六、VBus通信"></a>六、VBus通信</h2><p><img src="gemini_4.png" width="600px" height="400px">双核双系统的VBus通信组件如上图所示，VBus是建立在环形缓冲区上的一个组件，用于高效的进行系统间通讯，具有如下特点:</p>
+<ul>
+<li>支持QoS机制，保证关键数据及时送达</li>
+<li>支持多路复用，可以在一条VBus上实现多种功能</li>
+<li>直接使用设备接口和文件接口，方便易用</li>
+<li>Linux侧支持用户态驱动程序，可靠性高</li>
+</ul>
+<p>根据VBus的特点可知，Linux用户态程序可以像操作普通文件一样来通过VBus来进行通讯，支持常规的open/read/write/close等基本操作，RT-Thread程序可以像操作普通设备一样通过VBus来通讯，包括rt_device{open/read/write/close}等操作。</p>
+<p><img src="gemini_5.png" width="600px" height="400px">最后，给出VBus的基本实现原理，如上图，感兴趣的话可以进一步学习。</p>
+<h2 id="七、测试运行"><a href="#七、测试运行" class="headerlink" title="七、测试运行"></a>七、测试运行</h2><h3 id="运行Linux"><a href="#运行Linux" class="headerlink" title="运行Linux"></a>运行Linux</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-arm \</span><br><span class="line">    -M vexpress-a9 \</span><br><span class="line">    -cpu cortex-a9 \</span><br><span class="line">    -smp cpus=2 \</span><br><span class="line">    -m 256M \</span><br><span class="line">    -kernel zImage \</span><br><span class="line">    -drive file=rootfs.ext2,if=sd \</span><br><span class="line">    -append &quot;mem=248M console=ttyAMA0 root=/dev/mmcblk0&quot; \</span><br><span class="line">    -dtb vexpress-v2p-ca9.dtb \</span><br><span class="line">    -serial stdio \</span><br><span class="line">    -serial telnet:127.0.0.1:1200,server</span><br></pre></td></tr></table></figure>
+<p>基本参数和Linux方针运行类似，注意最后两项，分别将Linux和RT-Thread重定向到标准输入输出、telnet服务器。</p>
+<h3 id="运行RT-Thread"><a href="#运行RT-Thread" class="headerlink" title="运行RT-Thread"></a>运行RT-Thread</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 127.0.0.1 1200</span><br></pre></td></tr></table></figure>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><p><strong>启动Linux</strong> <img src="run_1.png" alt=""><br><strong>查看CPU运行情况</strong> <img src="run_2.png" alt=""><br><strong>加载rtloader模块</strong> <img src="run_3.png" alt=""><br><strong>查看CPU运行情况</strong> <img src="run_5.png" alt=""><br><strong>加载过程</strong> <img src="run_4.png" alt=""> 由上图可见双核上系统的基本启动流程，首先分别加载boot.bin和rtthread.bin到指定物理位置，然后调用cpu_down拔除CPU#1，配置好启动地址后，发送IPI中断唤醒CPU#1，同时为Linux加载VBus driver，最终成功启动双核双系统。<br><strong>通信测试</strong> <img src="run_6.png" alt=""> 核间通信功能：Linux发送一个字符串，可有空格分隔符，RT-Thread收到后反序回写，Linux端收到处理结果并打印。</p>
+<h2 id="八、附录"><a href="#八、附录" class="headerlink" title="八、附录"></a>八、附录</h2><h3 id="1-gemini-双核双系统调整版"><a href="#1-gemini-双核双系统调整版" class="headerlink" title="1. gemini 双核双系统调整版 "></a>1.<strong> <a href="https://github.com/zg-diligence/dual_core/tree/master/gemini" target="_blank" rel="noopener">gemini 双核双系统调整版</a> </strong></h3><h2 id="九、参考链接"><a href="#九、参考链接" class="headerlink" title="九、参考链接"></a>九、参考链接</h2><h3 id="1-gemini-双核双系统原版"><a href="#1-gemini-双核双系统原版" class="headerlink" title="1. gemini 双核双系统原版 "></a>1.<strong> <a href="https://github.com/RT-Thread/gemini" target="_blank" rel="noopener">gemini 双核双系统原版</a> </strong></h3><h3 id="声明：gemini双核双系统主体代码均由RT-Thread作者实现，博主仅在其基础上做出些许改变，关键实现代码添加了相关注释，本文即对gemini双核双系统基本原理的介绍，也仅仅基于我个人的理解，其中必然由不准确甚至错误的地方，仅作参考！"><a href="#声明：gemini双核双系统主体代码均由RT-Thread作者实现，博主仅在其基础上做出些许改变，关键实现代码添加了相关注释，本文即对gemini双核双系统基本原理的介绍，也仅仅基于我个人的理解，其中必然由不准确甚至错误的地方，仅作参考！" class="headerlink" title="声明：gemini双核双系统主体代码均由RT-Thread作者实现，博主仅在其基础上做出些许改变，关键实现代码添加了相关注释，本文即对gemini双核双系统基本原理的介绍，也仅仅基于我个人的理解，其中必然由不准确甚至错误的地方，仅作参考！"></a>声明：gemini双核双系统主体代码均由RT-Thread作者实现，博主仅在其基础上做出些许改变，关键实现代码添加了相关注释，本文即对gemini双核双系统基本原理的介绍，也仅仅基于我个人的理解，其中必然由不准确甚至错误的地方，仅作参考！</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RT-Thread/" rel="tag"># RT-Thread</a>
+          
+            <a href="/tags/gemini/" rel="tag"># gemini</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/20/Linux学习笔记-qemu仿真运行linux/" rel="next" title="Linux学习笔记 -- qemu仿真运行linux">
+                <i class="fa fa-chevron-left"></i> Linux学习笔记 -- qemu仿真运行linux
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、背景知识"><span class="nav-number">1.</span> <span class="nav-text">一、背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPI中断机制"><span class="nav-number">1.1.</span> <span class="nav-text">IPI中断机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WFI和WFE模式"><span class="nav-number">1.2.</span> <span class="nav-text">WFI和WFE模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buildroot开发环境"><span class="nav-number">1.3.</span> <span class="nav-text">Buildroot开发环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、系统架构"><span class="nav-number">2.</span> <span class="nav-text">二、系统架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、内存分配"><span class="nav-number">3.</span> <span class="nav-text">三、内存分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、基本流程"><span class="nav-number">4.</span> <span class="nav-text">四、基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、Linux拔核"><span class="nav-number">5.</span> <span class="nav-text">五、Linux拔核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、VBus通信"><span class="nav-number">6.</span> <span class="nav-text">六、VBus通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、测试运行"><span class="nav-number">7.</span> <span class="nav-text">七、测试运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行Linux"><span class="nav-number">7.1.</span> <span class="nav-text">运行Linux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行RT-Thread"><span class="nav-number">7.2.</span> <span class="nav-text">运行RT-Thread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行结果"><span class="nav-number">7.3.</span> <span class="nav-text">运行结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、附录"><span class="nav-number">8.</span> <span class="nav-text">八、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-gemini-双核双系统调整版"><span class="nav-number">8.1.</span> <span class="nav-text">1. gemini 双核双系统调整版 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、参考链接"><span class="nav-number">9.</span> <span class="nav-text">九、参考链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-gemini-双核双系统原版"><span class="nav-number">9.1.</span> <span class="nav-text">1. gemini 双核双系统原版 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#声明：gemini双核双系统主体代码均由RT-Thread作者实现，博主仅在其基础上做出些许改变，关键实现代码添加了相关注释，本文即对gemini双核双系统基本原理的介绍，也仅仅基于我个人的理解，其中必然由不准确甚至错误的地方，仅作参考！"><span class="nav-number">9.2.</span> <span class="nav-text">声明：gemini双核双系统主体代码均由RT-Thread作者实现，博主仅在其基础上做出些许改变，关键实现代码添加了相关注释，本文即对gemini双核双系统基本原理的介绍，也仅仅基于我个人的理解，其中必然由不准确甚至错误的地方，仅作参考！</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
