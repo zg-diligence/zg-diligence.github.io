@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|新宋体:300,300italic,400,400italic,700,700italic|宋体:300,300italic,400,400italic,700,700italic|Consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python_module," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="下面是Python的一些常用内置模块简单使用示例, 主要包括:  文件操作模块 os, glob, shutil 时间模块 time 和 datetime 序列化模块 pickle 和 json 哈希算法模块 hashlib 和 hmac">
+<meta name="keywords" content="python_module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python常用内置模块总结">
+<meta property="og:url" content="http://gzhang.org/2018/03/03/python常用内置模块总结/index.html">
+<meta property="og:site_name" content="算云烟">
+<meta property="og:description" content="下面是Python的一些常用内置模块简单使用示例, 主要包括:  文件操作模块 os, glob, shutil 时间模块 time 和 datetime 序列化模块 pickle 和 json 哈希算法模块 hashlib 和 hmac">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gzhang.org/2018/03/03/python常用内置模块总结/2.jpg">
+<meta property="og:updated_time" content="2018-03-03T12:32:25.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python常用内置模块总结">
+<meta name="twitter:description" content="下面是Python的一些常用内置模块简单使用示例, 主要包括:  文件操作模块 os, glob, shutil 时间模块 time 和 datetime 序列化模块 pickle 和 json 哈希算法模块 hashlib 和 hmac">
+<meta name="twitter:image" content="http://gzhang.org/2018/03/03/python常用内置模块总结/2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://gzhang.org/2018/03/03/python常用内置模块总结/"/>
+
+
+
+
+
+  <title>python常用内置模块总结 | 算云烟</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">算云烟</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">朝九晚五,浪迹天涯</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/reading/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            书单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gzhang.org/2018/03/03/python常用内置模块总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gang Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/yeah.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="算云烟">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python常用内置模块总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-03T19:23:20+08:00">
+                2018-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下面是Python的一些常用内置模块简单使用示例, 主要包括:</p>
+<ul>
+<li>文件操作模块 os, glob, shutil</li>
+<li>时间模块 time 和 datetime</li>
+<li>序列化模块 pickle 和 json</li>
+<li>哈希算法模块 hashlib 和 hmac<a id="more"></a></li>
+<li>数据结构模块 collections</li>
+<li>随机数模块 random</li>
+<li>字节流转换模块 struct</li>
+<li>系统信息模块 psutil</li>
+</ul>
+<h2 id="1-os-glob-shutil"><a href="#1-os-glob-shutil" class="headerlink" title="1. os, glob, shutil"></a>1. os, glob, shutil</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"></span><br><span class="line">os.uname()                  <span class="comment"># 查看操作系统详细信息</span></span><br><span class="line">os.getcwd()                 <span class="comment"># 获取当前工作目录</span></span><br><span class="line">os.system(<span class="string">'command'</span>)        <span class="comment"># 运行shell命令</span></span><br><span class="line">os.listdir(dirname)         <span class="comment"># 列出目录下所有的目录和文件</span></span><br><span class="line">os.chdir(<span class="string">'path'</span>)            <span class="comment"># 切换当前工作目录</span></span><br><span class="line">os.mkdir(<span class="string">'path'</span>)            <span class="comment"># 新建目录</span></span><br><span class="line">os.rmdir(<span class="string">'path'</span>)            <span class="comment"># 删除目录</span></span><br><span class="line">os.remove(<span class="string">'file_path'</span>)      <span class="comment"># 删除文件</span></span><br><span class="line">os.rename(<span class="string">'old_filename'</span>, <span class="string">'new_filename'</span>)   <span class="comment"># 重命名文件</span></span><br><span class="line">shutil.copyfile(src_file, des_file)         <span class="comment"># 拷贝文件</span></span><br><span class="line">shutil.move(src_file, des_path)             <span class="comment"># 移动文件</span></span><br><span class="line"></span><br><span class="line">os.getpid()                 <span class="comment"># 查看当前进程id</span></span><br><span class="line">os.getppid()                <span class="comment"># 查看父进程id</span></span><br><span class="line"></span><br><span class="line">glob.glob(<span class="string">'*.py'</span>)           <span class="comment"># 筛选当前目录特定文件</span></span><br><span class="line">os.path.isdir(<span class="string">'path'</span>)       <span class="comment"># 判断是否为目录</span></span><br><span class="line">os.path.isfile(<span class="string">'path'</span>)      <span class="comment"># 判断是否为文件</span></span><br><span class="line">os.path.exists(<span class="string">'path'</span>)      <span class="comment"># 判断路径是否存在</span></span><br><span class="line">os.path.abspath()           <span class="comment"># 获取绝对路径</span></span><br><span class="line">os.path.normpath(<span class="string">'path'</span>)    <span class="comment"># 规范路径名</span></span><br><span class="line">os.path.join(<span class="string">'path1'</span>,<span class="string">'path2'</span>) <span class="comment"># 连接目录与文件名</span></span><br><span class="line">os.path.split(<span class="string">'path'</span>)       <span class="comment"># 目录名 + 文件名</span></span><br><span class="line">os.path.splitext(<span class="string">'path'</span>)    <span class="comment"># 前缀 + 拓展名</span></span><br><span class="line">os.path.dirname(<span class="string">'path'</span>)     <span class="comment"># 上级路径名</span></span><br><span class="line">os.path.basename(<span class="string">'path'</span>)    <span class="comment"># 当前目录名或文件名</span></span><br><span class="line">os.path.getsize(<span class="string">'path'</span>)     <span class="comment"># 获取文件大小</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-time-datetime"><a href="#2-time-datetime" class="headerlink" title="2. time, datetime"></a>2. time, datetime</h2><h3 id="time-module"><a href="#time-module" class="headerlink" title="time module"></a>time module</h3><h4 id="转换图示"><a href="#转换图示" class="headerlink" title="转换图示"></a>转换图示</h4><p><img src="2.jpg" width="400px" height="200px"></p>
+<h4 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a>代码实例</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># timestamp, struct_time, format_time</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.time()                                         <span class="comment"># 生成timestamp</span></span><br><span class="line">time.localtime()                                    <span class="comment"># 生成struct_time</span></span><br><span class="line">time.mktime(time.localtime())                       <span class="comment"># struct_time to timestamp</span></span><br><span class="line">time.localtime(time.time())                         <span class="comment"># timestamp to struct_time</span></span><br><span class="line">time.strptime(<span class="string">'2011-05-05 16:37:06'</span>, <span class="string">'%Y-%m-%d %X'</span>) <span class="comment"># format_time to struct_time</span></span><br><span class="line">time.strftime(<span class="string">"%Y-%m-%d %X"</span>)                        <span class="comment"># struct_time to format_time</span></span><br><span class="line">time.strftime(<span class="string">"%Y-%m-%d %X"</span>, time.localtime())      <span class="comment"># struct_time to format_time</span></span><br></pre></td></tr></table></figure>
+<h3 id="datetime-module"><a href="#datetime-module" class="headerlink" title="datetime module"></a>datetime module</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time <span class="keyword">as</span> ttime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> date, time, datetime, timedelta</span><br><span class="line"></span><br><span class="line">d = date.fromtimestamp(ttime.time())</span><br><span class="line">d = date.today()                    <span class="comment"># date</span></span><br><span class="line">d.year, d.month, d.day              <span class="comment"># attrs</span></span><br><span class="line">d.isoformat()                       <span class="comment"># YYYY-MM-DD</span></span><br><span class="line">d.strftime(<span class="string">'%Y-%m-%d'</span>)              <span class="comment"># date to format_date</span></span><br><span class="line"></span><br><span class="line">t = time(<span class="number">23</span>, <span class="number">46</span>, <span class="number">10</span>)                <span class="comment"># construct time</span></span><br><span class="line">t.hour, t.minute, t.second          <span class="comment"># attrs</span></span><br><span class="line">t.isoformat()                       <span class="comment"># HH:MM:SS</span></span><br><span class="line">t.strftime(<span class="string">'%X'</span>)                    <span class="comment"># date to format_time</span></span><br><span class="line"></span><br><span class="line">dt = datetime.now()                 <span class="comment"># get datetime</span></span><br><span class="line">dt.ctime()                          <span class="comment"># datetime to ctime</span></span><br><span class="line">dt.isoformat()                      <span class="comment"># datetime to format_time</span></span><br><span class="line">dt.strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>)    <span class="comment"># datetime to format_time</span></span><br><span class="line">dt + timedelta(days=<span class="number">2</span>, hours=<span class="number">-8</span>)</span><br><span class="line">ts = dt.timestamp()                 <span class="comment"># datetime to timestamp</span></span><br><span class="line">datetime.fromtimestamp(ts)          <span class="comment"># timestamp to datetime</span></span><br><span class="line">datetime.combine(date, time)        <span class="comment"># combine date and time</span></span><br><span class="line">datetime.strptime(<span class="string">'2018-03-01 18:19:59'</span>, <span class="string">'%Y-%m-%d %H:%M:%S'</span>)   <span class="comment"># format_time to datetime</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-pickle-json"><a href="#3-pickle-json" class="headerlink" title="3. pickle, json"></a>3. pickle, json</h2><h3 id="pickle-module"><a href="#pickle-module" class="headerlink" title="pickle module"></a>pickle module</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用pickle模块将数据对象保存到文件</span></span><br><span class="line">data1 = &#123;<span class="string">'a'</span>: [<span class="number">1</span>, <span class="number">2.0</span>, <span class="number">3</span>, <span class="number">4</span>+<span class="number">6j</span>], <span class="string">'b'</span>: (<span class="string">'string'</span>, <span class="string">u'Unicode string'</span>), <span class="string">'c'</span>: <span class="keyword">None</span>&#125;</span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">lst.append(lst)</span><br><span class="line">output = open(<span class="string">'data.pkl'</span>, <span class="string">'wb'</span>)</span><br><span class="line">pickle.dump(data1, output)              <span class="comment"># Pickle dictionary using protocol 0.</span></span><br><span class="line">pickle.dump(lst, output, <span class="number">-1</span>)            <span class="comment"># Pickle the list using the highest protocol available.</span></span><br><span class="line">output.close()</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用pickle模块从文件中重构python对象</span></span><br><span class="line">pkl_file = open(<span class="string">'data.pkl'</span>, <span class="string">'rb'</span>)</span><br><span class="line">data1 = pickle.load(pkl_file)</span><br><span class="line">data2 = pickle.load(pkl_file)</span><br><span class="line">pkl_file.close()</span><br></pre></td></tr></table></figure>
+<h3 id="json-module"><a href="#json-module" class="headerlink" title="json module"></a>json module</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age, score)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.score = score</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">student2dict</span><span class="params">(std)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'name'</span>: std.name,</span><br><span class="line">        <span class="string">'age'</span>: std.age,</span><br><span class="line">        <span class="string">'score'</span>: std.score</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dict2student</span><span class="params">(d)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> Student(d[<span class="string">'name'</span>], d[<span class="string">'age'</span>], d[<span class="string">'score'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># json字符串</span></span><br><span class="line">s = Student(<span class="string">'Bob'</span>, <span class="number">20</span>, <span class="number">88</span>)</span><br><span class="line">json_str = json.dumps(s, default=student2dict)</span><br><span class="line">json.loads(json_str, object_hook=dict2student)</span><br><span class="line"></span><br><span class="line"><span class="comment"># json文件</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.json'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    json.dump(data, f)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.json'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = json.load(f)</span><br></pre></td></tr></table></figure>
+<p><strong> Note:&nbsp;json支持的数据类型为None, bool, int, float, str以及这些类型数据的list, tuple and dict </strong></p>
+<h2 id="4-hashlib-hmac"><a href="#4-hashlib-hmac" class="headerlink" title="4. hashlib, hmac"></a>4. hashlib, hmac</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line">md5 = hashlib.md5()  <span class="comment"># 128个字节,用32位的16进制表示</span></span><br><span class="line">md5.update(<span class="string">'how to use md5 in '</span>.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">md5.update(<span class="string">'python hashlib?'</span>.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">print(md5.hexdigest())</span><br><span class="line"></span><br><span class="line">sha1 = hashlib.sha1()<span class="comment"># 160个字节,用40位的16进制表示</span></span><br><span class="line">sha1.update(<span class="string">'how to use sha1 in '</span>.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">sha1.update(<span class="string">'python hashlib?'</span>.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">print(sha1.hexdigest())</span><br><span class="line"></span><br><span class="line">message = <span class="string">b'Hello, world!'</span></span><br><span class="line">key = <span class="string">b'secret'</span> <span class="comment"># key必须为二进制</span></span><br><span class="line">h = hmac.new(key, message, digestmod=<span class="string">'MD5'</span>)</span><br><span class="line">print(h.hexdigest())</span><br></pre></td></tr></table></figure>
+<h2 id="5-collections"><a href="#5-collections" class="headerlink" title="5.collections"></a>5.collections</h2><h3 id="namedtuple"><a href="#namedtuple" class="headerlink" title="namedtuple"></a>namedtuple</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line">Point = namedtuple(<span class="string">'Point'</span>, [<span class="string">'x'</span>, <span class="string">'y'</span>])</span><br><span class="line">Circle = namedtuple(<span class="string">'Circle'</span>, [<span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'r'</span>])</span><br><span class="line">p = Point(<span class="number">1</span>,<span class="number">2</span>) <span class="comment"># or Point._make((1,2))</span></span><br><span class="line">print(p.x, p.y)</span><br><span class="line"><span class="keyword">True</span> == isinstance(p, Point)</span><br><span class="line"><span class="keyword">True</span> == isinstance(p, tuple)</span><br></pre></td></tr></table></figure>
+<h3 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line">deque.appendleft()/append()/popleft()/pop()</span><br></pre></td></tr></table></figure>
+<h3 id="defaultdict"><a href="#defaultdict" class="headerlink" title="defaultdict"></a>defaultdict</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">dd = defaultdict(<span class="keyword">lambda</span>: <span class="string">'N/A'</span>) <span class="comment"># key不存在时访问返回默认值</span></span><br></pre></td></tr></table></figure>
+<h3 id="OrderedDict"><a href="#OrderedDict" class="headerlink" title="OrderedDict"></a>OrderedDict</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line">d = dict([(<span class="string">'a'</span>, <span class="number">1</span>), (<span class="string">'b'</span>, <span class="number">2</span>), (<span class="string">'c'</span>, <span class="number">3</span>)])</span><br><span class="line">od = OrderedDict([(<span class="string">'a'</span>, <span class="number">1</span>), (<span class="string">'b'</span>, <span class="number">2</span>), (<span class="string">'c'</span>, <span class="number">3</span>)])</span><br><span class="line">print(d, <span class="string">'\n'</span>, od)</span><br></pre></td></tr></table></figure>
+<h3 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter <span class="comment"># dict的子类</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建</span></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">3</span>]</span><br><span class="line">con = Counter(lst)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问</span></span><br><span class="line">con[1] =&gt; 2</span><br><span class="line">con[5] =&gt; 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">c.update(lst)</span><br><span class="line">con[1] =&gt; 4</span><br><span class="line">c.subtract(lst)</span><br><span class="line">con[1] =&gt; 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除</span></span><br><span class="line"><span class="keyword">del</span> con[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># elements()</span></span><br><span class="line">con.elements() =&gt; [2, 3, 3, 4]</span><br><span class="line"></span><br><span class="line"><span class="comment"># most_common</span></span><br><span class="line">con.most_common(1) =&gt; [(3, 2)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 算数和集合操作</span></span><br><span class="line">c = Counter(a=<span class="number">3</span>, b=<span class="number">1</span>)</span><br><span class="line">d = Counter(a=<span class="number">1</span>, b=<span class="number">2</span>)</span><br><span class="line">c + d</span><br><span class="line">c - d</span><br><span class="line">c &amp; d</span><br><span class="line">c | d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其它</span></span><br><span class="line">con = Counter(<span class="string">'a'</span>=<span class="number">2</span>, <span class="string">'b'</span>=<span class="number">0</span>, <span class="string">'c'</span>=<span class="number">-1</span>, <span class="string">'d'</span>=<span class="number">4</span>)</span><br><span class="line">con += Counter()</span><br><span class="line">con =&gt; &#123;'a': 2, 'd': 4&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-random"><a href="#6-random" class="headerlink" title="6. random"></a>6. random</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">random.random()               <span class="comment"># 生成[0, 1)浮点数</span></span><br><span class="line">random.uniform(a, b)          <span class="comment"># 生成[a, b]之间的随机浮点数</span></span><br><span class="line">random.randint(a, b)          <span class="comment"># 生成[a, b]之间的随机整数</span></span><br><span class="line">random.randrange(a, b, step)  <span class="comment"># 从[a, b)范围内, 返回按指定基数递增的集合中的一个随机数</span></span><br><span class="line">random.choice(sequence)       <span class="comment"># 从指定序列中返回一个随机元素</span></span><br><span class="line">random.sample(sequence, num)  <span class="comment"># 从指定序列中随机获取指定长度的片段</span></span><br><span class="line">random.shuffle(lst)           <span class="comment"># 将指定列表中的元素打乱</span></span><br></pre></td></tr></table></figure>
+<h2 id="7-struct"><a href="#7-struct" class="headerlink" title="7. struct"></a>7. struct</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="comment"># 完成bytes和其它任意二进制数据类型的转换</span></span><br><span class="line">struct.pack(<span class="string">'&gt;IH'</span>, <span class="string">b'\xf0\xf0\xf0\xf0\x80\x80'</span>)</span><br><span class="line">res: (<span class="number">4042322160</span>, <span class="number">32896</span>)</span><br><span class="line">struct.unpack(<span class="string">'&lt;ccIIIIIIHH'</span>, <span class="string">b'\x42\x4d\x38\x8c\x0a\x00\x00\x00\x00\x00\x36\x00\x00\x00\x28\x00\x00\x00\x80\x02\x00\x00\x68\x01\x00\x00\x01\x00\x18\x00'</span>)</span><br><span class="line">res: (<span class="string">b'B'</span>, <span class="string">b'M'</span>, <span class="number">691256</span>, <span class="number">0</span>, <span class="number">54</span>, <span class="number">40</span>, <span class="number">640</span>, <span class="number">360</span>, <span class="number">1</span>, <span class="number">24</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="8-psutil"><a href="#8-psutil" class="headerlink" title="8. psutil"></a>8. psutil</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CPU信息</span></span><br><span class="line">psutil.cpu_count()</span><br><span class="line">psutil.cpu_count(logical=<span class="keyword">False</span>)</span><br><span class="line">psutil.cpu_times()</span><br><span class="line">psutil.cpu_percent(interval=<span class="number">1</span>, percpu=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内存信息</span></span><br><span class="line">psutil.virtual_memory()</span><br><span class="line">psutil.swap_memory()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 磁盘信息</span></span><br><span class="line">psutil.disk_partitions()</span><br><span class="line">psutil.disk_usage(<span class="string">'/'</span>)</span><br><span class="line">psutil.disk_io_counters()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 网络信息</span></span><br><span class="line">psutil.net_io_counters()</span><br><span class="line">psutil.net_if_addrs()</span><br><span class="line">psutil.net_if_stats()</span><br><span class="line">psutil.net_connections()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进程信息</span></span><br><span class="line">psutil.pids()</span><br><span class="line">p = psutil.Process(<span class="number">3776</span>)</span><br><span class="line">p.name() <span class="keyword">and</span> etc</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python-module/" rel="tag"># python_module</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/21/Linux学习笔记-gemini双核双系统/" rel="next" title="Linux学习笔记 -- gemini双核双系统">
+                <i class="fa fa-chevron-left"></i> Linux学习笔记 -- gemini双核双系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/yeah.jpg"
+                alt="Gang Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Gang Zhang</p>
+              <p class="site-description motion-element" itemprop="description">我们生来就是一无所有，又怕什么失去，只要你想做，不要在乎得失，尽管去做就好。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zg-diligence" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zg_hit2015@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3087483957/home?topnav=1&wvr=6" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/gang.zhang.165" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://laod.cn/ <br></br>" title="老D" target="_blank">老D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.dandyweng.com/" title="翁天信" target="_blank">翁天信</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.barretlee.com/" title="小胡子哥" target="_blank">小胡子哥</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮一峰" target="_blank">阮一峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://coolshell.cn/" title="CoolShell" target="_blank">CoolShell</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.raychase.net/" title="四火的唠叨" target="_blank">四火的唠叨</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-os-glob-shutil"><span class="nav-number">1.</span> <span class="nav-text">1. os, glob, shutil</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-time-datetime"><span class="nav-number">2.</span> <span class="nav-text">2. time, datetime</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#time-module"><span class="nav-number">2.1.</span> <span class="nav-text">time module</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#转换图示"><span class="nav-number">2.1.1.</span> <span class="nav-text">转换图示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码实例"><span class="nav-number">2.1.2.</span> <span class="nav-text">代码实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#datetime-module"><span class="nav-number">2.2.</span> <span class="nav-text">datetime module</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-pickle-json"><span class="nav-number">3.</span> <span class="nav-text">3. pickle, json</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pickle-module"><span class="nav-number">3.1.</span> <span class="nav-text">pickle module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#json-module"><span class="nav-number">3.2.</span> <span class="nav-text">json module</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-hashlib-hmac"><span class="nav-number">4.</span> <span class="nav-text">4. hashlib, hmac</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-collections"><span class="nav-number">5.</span> <span class="nav-text">5.collections</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#namedtuple"><span class="nav-number">5.1.</span> <span class="nav-text">namedtuple</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deque"><span class="nav-number">5.2.</span> <span class="nav-text">deque</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defaultdict"><span class="nav-number">5.3.</span> <span class="nav-text">defaultdict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OrderedDict"><span class="nav-number">5.4.</span> <span class="nav-text">OrderedDict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Counter"><span class="nav-number">5.5.</span> <span class="nav-text">Counter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-random"><span class="nav-number">6.</span> <span class="nav-text">6. random</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-struct"><span class="nav-number">7.</span> <span class="nav-text">7. struct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-psutil"><span class="nav-number">8.</span> <span class="nav-text">8. psutil</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gang Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
